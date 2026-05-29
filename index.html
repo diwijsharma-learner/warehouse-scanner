@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>KD Warehouse Scanner</title>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<style>
+
+body{
+  font-family:Arial;
+  background:#111;
+  color:white;
+  text-align:center;
+  padding:20px;
+}
+
+#reader{
+  width:350px;
+  margin:auto;
+}
+
+input{
+  width:300px;
+  padding:12px;
+  margin:10px;
+}
+
+button{
+  padding:12px 20px;
+  cursor:pointer;
+}
+
+</style>
+
+</head>
+<body>
+
+<h2>KD Warehouse Scanner</h2>
+
+<div id="reader"></div>
+
+<br>
+
+<input id="result" placeholder="Scan Result">
+
+<script>
+
+function onScanSuccess(decodedText){
+
+  document.getElementById("result").value = decodedText;
+
+}
+
+const scanner = new Html5QrcodeScanner(
+  "reader",
+  {
+    fps:10,
+    qrbox:250
+  }
+);
+
+scanner.render(onScanSuccess);
+
+</script>
+
+</body>
+</html>
