@@ -173,6 +173,28 @@
 
   <!-- START BUTTON (shown before camera starts) -->
   <button id="startBtn" onclick="startCamera()">📷 Start Camera Scanner</button>
+ <button id="galleryBtn"
+onclick="document.getElementById('imagePicker').click()"
+style="
+width:100%;
+padding:13px;
+margin-bottom:14px;
+background:#6c63ff;
+border:none;
+border-radius:12px;
+color:white;
+font-size:13px;
+font-weight:700;
+cursor:pointer;">
+🖼 Scan From Gallery
+</button>
+
+<input
+type="file"
+id="imagePicker"
+accept="image/*"
+style="display:none"
+onchange="scanImage(event)">
 
   <!-- CAMERA -->
   <div class="cam-box">
