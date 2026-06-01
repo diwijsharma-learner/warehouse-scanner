@@ -11,152 +11,205 @@
     font-family:Arial,sans-serif;
     min-height:100vh;
     display:flex;flex-direction:column;align-items:center;
-    padding:0 0 40px;
+    padding:0 0 60px;
   }
 
-  /* HEADER */
   header{
-    width:100%;background:#1a1d2e;
-    border-bottom:1px solid #2a2e3d;
-    padding:16px 20px;
-    display:flex;align-items:center;gap:12px;
+    width:100%;background:#1a1d2e;border-bottom:1px solid #2a2e3d;
+    padding:14px 18px;display:flex;align-items:center;gap:12px;
+    position:sticky;top:0;z-index:100;
   }
-  .logo{
-    width:38px;height:38px;
-    background:linear-gradient(135deg,#00e676,#6c63ff);
-    border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;
-  }
-  header h1{font-size:16px;letter-spacing:.03em;font-weight:700;}
-  header p{font-size:11px;color:#8890a4;margin-top:2px;}
+  .logo{width:38px;height:38px;background:linear-gradient(135deg,#00e676,#6c63ff);
+    border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+  header h1{font-size:15px;letter-spacing:.03em;font-weight:700;}
+  header p{font-size:11px;color:#8890a4;margin-top:1px;}
 
-  .container{width:100%;max-width:420px;padding:20px 16px 0;}
+  .container{width:100%;max-width:440px;padding:16px 14px 0;}
 
-  /* CAMERA BOX */
-  .cam-box{
-    background:#1a1d27;border:1px solid #2a2e3d;
-    border-radius:16px;overflow:hidden;margin-bottom:18px;
+  /* ── CONFIG BANNER ── */
+  .config-banner{
+    background:rgba(255,193,7,.08);border:1px solid rgba(255,193,7,.35);
+    border-radius:12px;padding:12px 14px;margin-bottom:14px;
+    font-size:12px;color:#ffc107;line-height:1.5;display:none;
   }
-  .cam-box-title{
-    padding:10px 14px;font-size:11px;font-weight:700;
-    text-transform:uppercase;letter-spacing:.08em;color:#8890a4;
-    border-bottom:1px solid #2a2e3d;
+  .config-banner.show{display:block;}
+  .config-banner input{
+    width:100%;background:#20242f;border:1px solid rgba(255,193,7,.4);
+    border-radius:8px;color:#e8eaf0;font-size:12px;padding:9px 11px;
+    outline:none;margin-top:8px;font-family:monospace;
   }
+  .config-banner input:focus{border-color:#ffc107;}
+  .config-save{
+    margin-top:8px;padding:8px 16px;background:#ffc107;border:none;
+    border-radius:8px;color:#111;font-weight:700;font-size:12px;cursor:pointer;
+  }
+
+  /* ── STATS ── */
+  .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+  .stat{background:#1a1d27;border:1px solid #2a2e3d;border-radius:12px;padding:10px 8px;text-align:center;}
+  .stat .val{font-size:20px;font-weight:700;font-family:monospace;line-height:1;}
+  .stat .lbl{font-size:10px;color:#8890a4;margin-top:3px;text-transform:uppercase;letter-spacing:.04em;}
+  .stat.s-in .val{color:#00e676;}
+  .stat.s-out .val{color:#ff5252;}
+  .stat.s-net .val{color:#6c63ff;}
+
+  /* ── TOGGLE ── */
+  .toggle-row{display:flex;gap:8px;margin-bottom:14px;}
+  .tog{flex:1;padding:13px;border-radius:12px;border:2px solid #2a2e3d;
+    background:#1a1d27;color:#8890a4;font-size:13px;font-weight:700;
+    cursor:pointer;transition:all .2s;letter-spacing:.03em;}
+  .tog.in-on{border-color:#00e676;background:rgba(0,230,118,.08);color:#00e676;}
+  .tog.out-on{border-color:#ff5252;background:rgba(255,82,82,.08);color:#ff5252;}
+
+  /* ── CAMERA BOX ── */
+  .cam-card{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;overflow:hidden;margin-bottom:14px;}
+  .cam-title{padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;border-bottom:1px solid #2a2e3d;}
   .cam-viewport{position:relative;width:100%;background:#000;}
-  #camVideo{width:100%;display:block;max-height:280px;object-fit:cover;}
+  #camVideo{width:100%;display:block;max-height:240px;object-fit:cover;}
 
-  /* Target overlay */
   .target-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
-  .target-box{width:72%;max-width:260px;height:130px;position:relative;}
-  .target-box::before,.target-box::after,.tc-bl,.tc-tr{
-    content:'';position:absolute;width:20px;height:20px;
-    border-color:#00e676;border-style:solid;
-  }
+  .target-box{width:72%;max-width:240px;height:120px;position:relative;}
+  .target-box::before,.target-box::after,.tc-bl,.tc-tr{content:'';position:absolute;width:18px;height:18px;border-color:#00e676;border-style:solid;}
   .target-box::before{top:0;left:0;border-width:3px 0 0 3px;border-radius:4px 0 0 0;}
-  .target-box::after {top:0;right:0;border-width:3px 3px 0 0;border-radius:0 4px 0 0;}
+  .target-box::after{top:0;right:0;border-width:3px 3px 0 0;border-radius:0 4px 0 0;}
   .tc-bl{bottom:0;left:0;border-width:0 0 3px 3px;border-radius:0 0 0 4px;}
   .tc-tr{bottom:0;right:0;border-width:0 3px 3px 0;border-radius:0 0 4px 0;}
-  .scan-line{
-    position:absolute;left:0;right:0;height:2px;
-    background:linear-gradient(90deg,transparent,#00e676,transparent);
-    animation:sl 2s ease-in-out infinite;
-  }
+  .scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00e676,transparent);animation:sl 2s ease-in-out infinite;}
   @keyframes sl{0%{top:0}50%{top:calc(100% - 2px)}100%{top:0}}
-
-  /* Dark shade outside target */
   .sh{position:absolute;background:rgba(0,0,0,.5);}
-  .sh-t{top:0;left:0;right:0;height:calc(50% - 65px);}
-  .sh-b{bottom:0;left:0;right:0;height:calc(50% - 65px);}
-  .sh-l{top:calc(50% - 65px);left:0;width:14%;height:130px;}
-  .sh-r{top:calc(50% - 65px);right:0;width:14%;height:130px;}
+  .sh-t{top:0;left:0;right:0;height:calc(50% - 60px);}
+  .sh-b{bottom:0;left:0;right:0;height:calc(50% - 60px);}
+  .sh-l{top:calc(50% - 60px);left:0;width:14%;height:120px;}
+  .sh-r{top:calc(50% - 60px);right:0;width:14%;height:120px;}
 
-  /* Status bar */
-  .cam-status{
-    padding:10px 14px;display:flex;align-items:center;gap:8px;
-    border-top:1px solid #2a2e3d;font-size:12px;min-height:40px;
-  }
-  .status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:#8890a4;}
-  .status-dot.searching{background:#ffc107;animation:blink .8s infinite;}
-  .status-dot.found{background:#00e676;}
-  .status-dot.error{background:#ff5252;}
+  .cam-status{padding:9px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid #2a2e3d;font-size:12px;min-height:38px;}
+  .sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:#8890a4;}
+  .sdot.s{background:#ffc107;animation:blink .8s infinite;}
+  .sdot.ok{background:#00e676;}
+  .sdot.er{background:#ff5252;}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-  .status-text{flex:1;color:#8890a4;}
-  .status-text.found{color:#00e676;font-weight:700;}
-  .status-text.error{color:#ff5252;}
+  .stxt{flex:1;color:#8890a4;font-size:12px;}
+  .stxt.ok{color:#00e676;font-weight:700;}
+  .stxt.er{color:#ff5252;}
 
-  /* Controls */
-  .cam-controls{display:flex;gap:8px;padding:10px 14px;border-top:1px solid #2a2e3d;}
-  .ctrl-btn{
-    flex:1;padding:9px;background:#20242f;border:1px solid #2a2e3d;
-    border-radius:9px;color:#e8eaf0;font-size:13px;cursor:pointer;transition:all .2s;
-  }
-  .ctrl-btn:hover{border-color:#6c63ff;}
-  .ctrl-btn.on{border-color:#00e676;color:#00e676;}
+  .cam-ctrls{display:flex;gap:7px;padding:8px 12px;border-top:1px solid #2a2e3d;}
+  .cc{flex:1;padding:8px;background:#20242f;border:1px solid #2a2e3d;border-radius:8px;color:#e8eaf0;font-size:12px;cursor:pointer;transition:all .2s;}
+  .cc:hover{border-color:#6c63ff;}
+  .cc.on{border-color:#00e676;color:#00e676;}
   #torchBtn{display:none;}
 
-  /* START button */
+  /* ── START BUTTONS ── */
+  .start-row{display:flex;gap:8px;margin-bottom:14px;}
   #startBtn{
-    width:100%;padding:14px;background:linear-gradient(135deg,#00e676,#00c85a);
-    border:none;border-radius:12px;color:#071a0e;font-size:14px;font-weight:700;
-    cursor:pointer;margin-bottom:8px;letter-spacing:.04em;
+    flex:1;padding:13px;background:linear-gradient(135deg,#00e676,#00c85a);
+    border:none;border-radius:12px;color:#071a0e;font-size:13px;font-weight:700;
+    cursor:pointer;letter-spacing:.04em;
   }
   #startBtn:active{transform:scale(.98);}
+  #galleryBtn{
+    flex:0 0 auto;padding:13px 16px;background:#1a1d27;
+    border:1.5px solid #2a2e3d;border-radius:12px;color:#e8eaf0;
+    font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;
+    white-space:nowrap;
+  }
+  #galleryBtn:hover{border-color:#6c63ff;background:#20242f;}
+  #galleryBtn:active{transform:scale(.98);}
+  /* Hidden file input */
+  #galleryInput{display:none;}
 
-  /* Result box */
-  .result-box{
-    background:#1a1d27;border:1px solid #2a2e3d;
-    border-radius:16px;padding:16px;margin-bottom:18px;
+  /* Gallery preview */
+  .gallery-preview{
+    display:none;background:#1a1d27;border:1px solid #2a2e3d;
+    border-radius:14px;overflow:hidden;margin-bottom:14px;
   }
-  .result-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;margin-bottom:8px;}
-  .result-value{
-    font-family:'Courier New',monospace;font-size:15px;font-weight:700;
-    color:#00e676;word-break:break-all;min-height:24px;
-    padding:10px 12px;background:#20242f;border-radius:8px;
-    border:1px solid #2a2e3d;
-  }
-  .result-value.empty{color:#8890a4;font-size:12px;font-weight:400;}
+  .gallery-preview.show{display:block;}
+  .gallery-preview-title{padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;border-bottom:1px solid #2a2e3d;}
+  .gallery-img-wrap{position:relative;width:100%;background:#000;display:flex;align-items:center;justify-content:center;min-height:160px;}
+  #galleryCanvas{max-width:100%;max-height:260px;display:block;}
+  .gallery-scan-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);display:none;}
+  .gallery-scan-overlay.show{display:flex;}
+  .gallery-scan-overlay span{background:rgba(0,0,0,.8);border:1px solid #6c63ff;border-radius:10px;padding:10px 18px;font-size:13px;color:#6c63ff;font-weight:700;}
+  .gallery-status{padding:9px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid #2a2e3d;font-size:12px;}
+  .gallery-status .sdot{flex-shrink:0;}
+  .gallery-status .stxt{flex:1;}
 
-  /* Copy & Clear buttons */
-  .result-actions{display:flex;gap:8px;margin-top:10px;}
-  .action-btn{
-    flex:1;padding:9px;border:1px solid #2a2e3d;background:#20242f;
-    border-radius:9px;color:#e8eaf0;font-size:12px;font-weight:600;
-    cursor:pointer;transition:all .2s;
+  /* ── FORM ── */
+  .form-card{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;padding:14px;margin-bottom:14px;}
+  .field{margin-bottom:11px;}
+  .field:last-child{margin-bottom:0;}
+  .field label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#8890a4;margin-bottom:5px;}
+  .field input{
+    width:100%;background:#20242f;border:1.5px solid #2a2e3d;
+    border-radius:9px;color:#e8eaf0;font-size:13px;
+    padding:11px 12px;outline:none;font-family:monospace;transition:border-color .2s;
   }
-  .action-btn:hover{border-color:#6c63ff;}
-  .action-btn.copy-btn:hover{border-color:#00e676;color:#00e676;}
-  .action-btn.clear-btn:hover{border-color:#ff5252;color:#ff5252;}
+  .field input:focus{border-color:#6c63ff;}
+  .field input.filled{border-color:#00e676;background:rgba(0,230,118,.04);}
+  .field input::placeholder{color:#8890a4;font-size:12px;font-family:Arial;}
+  .field .hint{font-size:10px;color:#8890a4;margin-top:4px;}
+  .field .hint.ok{color:#00e676;}
 
-  /* History */
-  .history-box{background:#1a1d27;border:1px solid #2a2e3d;border-radius:16px;padding:16px;}
-  .history-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;margin-bottom:10px;}
-  .history-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;}
-  .history-item{
-    background:#20242f;border:1px solid #2a2e3d;border-radius:8px;
-    padding:9px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;
-    transition:border-color .2s;
+  /* ── SCAN TARGET INDICATOR ── */
+  .scan-target-bar{
+    background:#20242f;border:1px solid #2a2e3d;border-radius:10px;
+    padding:10px 12px;margin-bottom:14px;
+    display:flex;align-items:center;gap:10px;font-size:12px;
   }
-  .history-item:hover{border-color:#6c63ff;}
-  .history-num{
-    font-size:10px;font-weight:700;background:#2a2e3d;
-    border-radius:4px;padding:2px 6px;color:#8890a4;flex-shrink:0;
-  }
-  .history-code{font-family:'Courier New',monospace;font-size:12px;font-weight:700;color:#e8eaf0;flex:1;word-break:break-all;}
-  .history-time{font-size:10px;color:#8890a4;flex-shrink:0;}
-  .history-empty{font-size:12px;color:#8890a4;text-align:center;padding:12px 0;}
+  .scan-target-dot{width:8px;height:8px;border-radius:50%;background:#ffc107;animation:blink .8s infinite;flex-shrink:0;}
+  .scan-target-txt{color:#ffc107;font-weight:700;flex:1;}
+  .scan-target-bar.idle .scan-target-dot{background:#8890a4;animation:none;}
+  .scan-target-bar.idle .scan-target-txt{color:#8890a4;}
+  .scan-target-bar.done .scan-target-dot{background:#00e676;animation:none;}
+  .scan-target-bar.done .scan-target-txt{color:#00e676;}
 
-  /* Toast */
-  #toast{
-    position:fixed;bottom:16px;left:50%;
-    transform:translateX(-50%) translateY(100px);
-    background:#1a1d27;border:1px solid #2a2e3d;border-radius:50px;
-    padding:10px 20px;font-size:12px;font-weight:600;
-    box-shadow:0 8px 24px rgba(0,0,0,.6);
-    transition:transform .3s cubic-bezier(.34,1.56,.64,1);
-    z-index:999;white-space:nowrap;
+  /* ── SUBMIT ── */
+  #submitBtn{
+    width:100%;padding:14px;border:none;border-radius:12px;
+    font-size:13px;font-weight:700;letter-spacing:.05em;cursor:pointer;transition:all .2s;
   }
+  #submitBtn.in{background:linear-gradient(135deg,#00e676,#00c85a);color:#071a0e;}
+  #submitBtn.out{background:linear-gradient(135deg,#ff5252,#e04040);color:#1a0505;}
+  #submitBtn:disabled{opacity:.5;cursor:not-allowed;}
+  #submitBtn:active{transform:scale(.98);}
+
+  /* ── ALERT ── */
+  .alert{display:none;padding:10px 13px;border-radius:10px;margin-bottom:12px;font-size:12px;font-weight:600;line-height:1.5;}
+  .alert.warn{display:block;background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.35);color:#ffc107;}
+  .alert.err{display:block;background:rgba(255,82,82,.1);border:1px solid rgba(255,82,82,.35);color:#ff5252;}
+  .alert.ok{display:block;background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.3);color:#00e676;}
+
+  /* ── LOG ── */
+  .log-card{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;padding:14px;margin-top:14px;}
+  .log-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;margin-bottom:10px;}
+  .log-list{display:flex;flex-direction:column;gap:7px;max-height:260px;overflow-y:auto;}
+  .log-item{background:#20242f;border:1px solid #2a2e3d;border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:10px;}
+  .log-item.warn-row{border-color:rgba(255,193,7,.3);}
+  .log-dot{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  .log-dot.in{background:rgba(0,230,118,.12);}
+  .log-dot.out{background:rgba(255,82,82,.12);}
+  .log-dot.warn{background:rgba(255,193,7,.12);}
+  .log-body{flex:1;min-width:0;}
+  .log-name{font-family:monospace;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .log-sub{font-size:10px;color:#8890a4;margin-top:2px;}
+  .log-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;flex-shrink:0;}
+  .log-badge.in{background:rgba(0,230,118,.12);color:#00e676;}
+  .log-badge.out{background:rgba(255,82,82,.12);color:#ff5252;}
+  .log-badge.warn{background:rgba(255,193,7,.12);color:#ffc107;}
+  .log-empty{font-size:12px;color:#8890a4;text-align:center;padding:14px 0;}
+
+  /* ── TOAST ── */
+  #toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(100px);
+    background:#1a1d27;border:1px solid #2a2e3d;border-radius:50px;padding:10px 20px;
+    font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.6);
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;}
   #toast.show{transform:translateX(-50%) translateY(0);}
   #toast.success{border-color:#00e676;color:#00e676;}
   #toast.error{border-color:#ff5252;color:#ff5252;}
+  #toast.warning{border-color:#ffc107;color:#ffc107;}
+
+  .spin{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;
+    border-radius:50%;animation:sp .6s linear infinite;display:inline-block;vertical-align:middle;margin-right:5px;}
+  @keyframes sp{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -164,47 +217,69 @@
 <header>
   <div class="logo">📦</div>
   <div>
-    <h1>KD WAREHOUSE SCANNER</h1>
+    <h1>KD WAREHOUSE TRACKER</h1>
     <p id="hTime">Loading...</p>
   </div>
 </header>
 
 <div class="container">
 
-  <!-- START BUTTON (shown before camera starts) -->
-  <button id="startBtn" onclick="startCamera()">📷 Start Camera Scanner</button>
- <button id="galleryBtn"
-onclick="document.getElementById('imagePicker').click()"
-style="
-width:100%;
-padding:13px;
-margin-bottom:14px;
-background:#6c63ff;
-border:none;
-border-radius:12px;
-color:white;
-font-size:13px;
-font-weight:700;
-cursor:pointer;">
-🖼 Scan From Gallery
-</button>
+  <!-- ── APPS SCRIPT CONFIG ── -->
+  <div class="config-banner show" id="configBanner">
+    ⚙️ <strong>First-time setup:</strong> Paste your Google Apps Script Web App URL below to connect to your Google Sheet.
+    <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/YOUR_ID/exec"/>
+    <button class="config-save" onclick="saveUrl()">Save & Connect</button>
+  </div>
 
-<input
-type="file"
-id="imagePicker"
-accept="image/*"
-style="display:none"
-onchange="scanImage(event)">
+  <!-- ── STATS ── -->
+  <div class="stats">
+    <div class="stat s-in"><div class="val" id="statIn">—</div><div class="lbl">In Stock</div></div>
+    <div class="stat s-out"><div class="val" id="statOut">—</div><div class="lbl">Checked Out</div></div>
+    <div class="stat s-net"><div class="val" id="statNet">—</div><div class="lbl">Live Stock</div></div>
+  </div>
 
-  <!-- CAMERA -->
-  <div class="cam-box">
-    <div class="cam-box-title">📷 Camera — Point at Barcode or QR Code</div>
+  <!-- ── IN / OUT TOGGLE ── -->
+  <div class="toggle-row">
+    <button class="tog in-on" id="togIn"  onclick="setRemark('IN')">✅ CHECK IN</button>
+    <button class="tog"       id="togOut" onclick="setRemark('OUT')">📤 CHECK OUT</button>
+  </div>
+
+  <!-- ── START BUTTONS ── -->
+  <!-- Hidden file input for gallery -->
+  <input type="file" id="galleryInput" accept="image/*" onchange="onGalleryPick(event)"/>
+  <div class="start-row">
+    <button id="startBtn" onclick="startCamera()">📷 Live Camera</button>
+    <button id="galleryBtn" onclick="document.getElementById('galleryInput').click()">🖼️ Gallery</button>
+  </div>
+
+  <!-- ── GALLERY PREVIEW ── -->
+  <div class="gallery-preview" id="galleryPreview">
+    <div class="gallery-preview-title">🖼️ Image from Gallery — Scanning for barcodes...</div>
+    <div class="gallery-img-wrap">
+      <canvas id="galleryCanvas"></canvas>
+      <div class="gallery-scan-overlay" id="galleryScanOverlay">
+        <span>🔍 Scanning image...</span>
+      </div>
+    </div>
+    <div class="gallery-status">
+      <div class="sdot" id="galDot"></div>
+      <div class="stxt" id="galTxt">Loading image...</div>
+    </div>
+  </div>
+
+  <!-- ── SCAN TARGET INDICATOR ── -->
+  <div class="scan-target-bar idle" id="scanTargetBar">
+    <div class="scan-target-dot"></div>
+    <div class="scan-target-txt" id="scanTargetTxt">Start camera to begin scanning</div>
+  </div>
+
+  <!-- ── CAMERA ── -->
+  <div class="cam-card">
+    <div class="cam-title">📷 Point camera at barcode or QR</div>
     <div class="cam-viewport">
       <video id="camVideo" autoplay playsinline muted></video>
-      <!-- Shade -->
       <div class="sh sh-t"></div><div class="sh sh-b"></div>
       <div class="sh sh-l"></div><div class="sh sh-r"></div>
-      <!-- Target -->
       <div class="target-wrap">
         <div class="target-box">
           <div class="tc-bl"></div><div class="tc-tr"></div>
@@ -212,34 +287,50 @@ onchange="scanImage(event)">
         </div>
       </div>
     </div>
-    <!-- Status -->
     <div class="cam-status">
-      <div class="status-dot" id="statusDot"></div>
-      <div class="status-text" id="statusText">Tap "Start Camera Scanner" above to begin</div>
+      <div class="sdot" id="sdot"></div>
+      <div class="stxt" id="stxt">Tap "Start Camera Scanner" to begin</div>
     </div>
-    <!-- Controls -->
-    <div class="cam-controls">
-      <button class="ctrl-btn" onclick="flipCamera()">🔄 Flip Camera</button>
-      <button class="ctrl-btn" id="torchBtn" onclick="toggleTorch()">🔦 Torch</button>
-      <button class="ctrl-btn" onclick="stopCamera()" style="color:#ff5252;">⏹ Stop</button>
-    </div>
-  </div>
-
-  <!-- RESULT -->
-  <div class="result-box">
-    <div class="result-label">Last Scanned Result</div>
-    <div class="result-value empty" id="resultVal">No scan yet — point camera at a barcode</div>
-    <div class="result-actions">
-      <button class="action-btn copy-btn" onclick="copyResult()">📋 Copy</button>
-      <button class="action-btn clear-btn" onclick="clearResult()">🗑 Clear</button>
+    <div class="cam-ctrls">
+      <button class="cc" onclick="flipCamera()">🔄 Flip</button>
+      <button class="cc" id="torchBtn" onclick="toggleTorch()">🔦 Torch</button>
+      <button class="cc" onclick="stopCamera()" style="color:#ff5252">⏹ Stop</button>
     </div>
   </div>
 
-  <!-- HISTORY -->
-  <div class="history-box">
-    <div class="history-title">Scan History (This Session)</div>
-    <div class="history-list" id="historyList">
-      <div class="history-empty">No scans yet</div>
+  <!-- ── ALERT ── -->
+  <div class="alert" id="alertBox"></div>
+
+  <!-- ── FORM ── -->
+  <div class="form-card">
+    <div class="field">
+      <label>📦 Case No.</label>
+      <input type="text" id="f_case" placeholder="Scan with camera or type..." autocomplete="off"/>
+      <div class="hint" id="h_case">📷 Camera will fill this automatically</div>
+    </div>
+    <div class="field">
+      <label>🏷️ Item No.</label>
+      <input type="text" id="f_item" placeholder="Scan with camera or type..." autocomplete="off"/>
+      <div class="hint" id="h_item">📷 Camera will fill this automatically</div>
+    </div>
+    <div class="field">
+      <label>📍 Location</label>
+      <input type="text" id="f_place" placeholder="Scan with camera or type..." autocomplete="off"/>
+      <div class="hint" id="h_place">📷 Camera will fill this automatically</div>
+    </div>
+    <div class="field">
+      <label>👤 Your Name</label>
+      <input type="text" id="f_user" placeholder="Enter your name"/>
+    </div>
+  </div>
+
+  <button id="submitBtn" class="in" onclick="doSubmit()">✅ LOG CHECK IN</button>
+
+  <!-- ── SESSION LOG ── -->
+  <div class="log-card">
+    <div class="log-title">Session Log</div>
+    <div class="log-list" id="logList">
+      <div class="log-empty">No logs yet this session</div>
     </div>
   </div>
 
@@ -248,31 +339,117 @@ onchange="scanImage(event)">
 <div id="toast"></div>
 
 <script>
-let videoStream = null;
-let torchTrack  = null;
-let torchOn     = false;
-let scanning    = false;
-let decodeInterval = null;
-let useFrontCam = false;
-let history     = [];
-let lastResult  = "";
+// ════════════════════════════════════════════════════════════
+//  CONFIG — Apps Script URL
+// ════════════════════════════════════════════════════════════
+// ▼▼▼ OPTION 1: Hardcode your URL here (easiest) ▼▼▼
+const HARDCODED_URL = "";
+// ▲▲▲ Paste between the quotes like: "https://script.google.com/macros/s/ABC/exec"
 
-// Clock
-setInterval(()=>{
-  document.getElementById("hTime").textContent =
-    new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"});
-},1000);
-document.getElementById("hTime").textContent =
-  new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"});
-
-// ── Status helper ──────────────────────────────────────────
-function setStatus(msg, state){
-  document.getElementById("statusText").textContent = msg;
-  document.getElementById("statusText").className = "status-text"+(state?" "+state:"");
-  document.getElementById("statusDot").className  = "status-dot"+(state?" "+state:"");
+function getScriptUrl(){
+  return HARDCODED_URL || localStorage.getItem("kd_script_url") || "";
+}
+function saveUrl(){
+  const url = document.getElementById("scriptUrl").value.trim();
+  if(!url || !url.startsWith("https://")){ toast("⚠️ Please paste a valid URL","error"); return; }
+  localStorage.setItem("kd_script_url", url);
+  document.getElementById("configBanner").classList.remove("show");
+  toast("✅ Connected to Google Sheet!","success");
+  loadStats();
 }
 
-// ── Start Camera ───────────────────────────────────────────
+// On load — check if URL is already saved
+window.onload = () => {
+  tick(); setInterval(tick, 1000);
+  document.getElementById("f_user").value = localStorage.getItem("kd_user") || "";
+
+  const saved = getScriptUrl();
+  if(saved){
+    document.getElementById("configBanner").classList.remove("show");
+    loadStats();
+  } else {
+    document.getElementById("scriptUrl").value = "";
+  }
+
+  // Enter key navigation
+  document.getElementById("f_case").addEventListener("keydown",  e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_item").focus();}});
+  document.getElementById("f_item").addEventListener("keydown",  e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_place").focus();}});
+  document.getElementById("f_place").addEventListener("keydown", e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_user").focus();}});
+  document.getElementById("f_user").addEventListener("keydown",  e=>{if(e.key==="Enter"){e.preventDefault();doSubmit();}});
+
+  // Field fill tracking
+  ["f_case","f_item","f_place","f_user"].forEach(id=>
+    document.getElementById(id).addEventListener("input", updateScanTarget));
+};
+
+function tick(){ document.getElementById("hTime").textContent = new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"}); }
+
+// ════════════════════════════════════════════════════════════
+//  REMARK TOGGLE
+// ════════════════════════════════════════════════════════════
+let remark = "IN";
+function setRemark(r){
+  remark = r;
+  const btn = document.getElementById("submitBtn");
+  if(r==="IN"){
+    document.getElementById("togIn").className="tog in-on";
+    document.getElementById("togOut").className="tog";
+    btn.className="in"; btn.textContent="✅ LOG CHECK IN";
+  } else {
+    document.getElementById("togOut").className="tog out-on";
+    document.getElementById("togIn").className="tog";
+    btn.className="out"; btn.textContent="📤 LOG CHECK OUT";
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  SCAN TARGET — which field to fill next
+// ════════════════════════════════════════════════════════════
+// Scan order: case → item → place (each QR fills the next empty field)
+const SCAN_ORDER = [
+  { field:"f_case",  hint:"h_case",  label:"🎯 Next: Scan Case No."    },
+  { field:"f_item",  hint:"h_item",  label:"🎯 Next: Scan Item No."    },
+  { field:"f_place", hint:"h_place", label:"🎯 Next: Scan Location"    },
+];
+
+function getNextEmptyField(){
+  for(const s of SCAN_ORDER){
+    if(!document.getElementById(s.field).value.trim()) return s;
+  }
+  return null; // all filled
+}
+
+function updateScanTarget(){
+  const next = getNextEmptyField();
+  const bar  = document.getElementById("scanTargetBar");
+  const txt  = document.getElementById("scanTargetTxt");
+  if(!next){
+    bar.className = "scan-target-bar done";
+    txt.textContent = "✅ All scanned — enter name and tap LOG";
+  } else if(!isScanning()){
+    bar.className = "scan-target-bar idle";
+    txt.textContent = "Start camera to begin scanning";
+  } else {
+    bar.className = "scan-target-bar";
+    txt.textContent = next.label;
+  }
+}
+
+function isScanning(){ return videoStream !== null; }
+
+// ════════════════════════════════════════════════════════════
+//  CAMERA
+// ════════════════════════════════════════════════════════════
+let videoStream = null, torchTrack = null, torchOn = false;
+let scanning = false, decodeInterval = null, useFrontCam = false;
+let lastScan = "", lastScanTime = 0;
+
+function setStatus(msg, state){
+  document.getElementById("stxt").textContent = msg;
+  document.getElementById("stxt").className = "stxt"+(state?" "+state:"");
+  document.getElementById("sdot").className  = "sdot"+(state?" "+state:"");
+}
+
 async function startCamera(){
   document.getElementById("startBtn").style.display = "none";
   setStatus("Starting camera...", "");
@@ -280,271 +457,460 @@ async function startCamera(){
 
   const video = document.getElementById("camVideo");
   try{
-    const constraints = {
-      video:{
-        facingMode: useFrontCam ? "user" : { ideal:"environment" },
-        width:  { ideal:1280 },
-        height: { ideal:720 }
-      },
+    videoStream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode: useFrontCam?"user":{ideal:"environment"}, width:{ideal:1280}, height:{ideal:720} },
       audio: false
-    };
-    videoStream = await navigator.mediaDevices.getUserMedia(constraints);
+    });
     video.srcObject = videoStream;
     await video.play();
 
-    // Torch support
-    const tracks = videoStream.getVideoTracks();
-    if(tracks.length > 0 && !useFrontCam){
-      torchTrack = tracks[0];
-      const caps = torchTrack.getCapabilities ? torchTrack.getCapabilities() : {};
-      if(caps.torch){
-        document.getElementById("torchBtn").style.display = "";
-      }
+    // Torch
+    if(!useFrontCam){
+      const tr = videoStream.getVideoTracks()[0];
+      if(tr){ torchTrack = tr; const c = tr.getCapabilities?tr.getCapabilities():{};
+        if(c.torch) document.getElementById("torchBtn").style.display=""; }
     }
 
-    setStatus("🔍 Searching — point at barcode or QR code", "searching");
+    setStatus("🔍 Searching — hold phone 10–15cm from barcode", "s");
     scanning = true;
+    updateScanTarget();
     startDecoding(video);
 
   } catch(err){
     document.getElementById("startBtn").style.display = "";
-    console.error(err);
-    if(err.name === "NotAllowedError"){
-      setStatus("❌ Camera permission denied. Tap the 🔒 lock icon in your browser → Site Settings → Camera → Allow", "error");
-    } else if(err.name === "NotFoundError"){
-      setStatus("❌ No camera found on this device", "error");
-    } else {
-      setStatus("❌ " + err.name + ": " + err.message, "error");
-    }
+    if(err.name==="NotAllowedError") setStatus("❌ Camera denied. Tap 🔒 in address bar → Allow Camera","er");
+    else if(err.name==="NotFoundError") setStatus("❌ No camera found","er");
+    else setStatus("❌ "+err.name+": "+err.message,"er");
   }
 }
 
-// ── Stop Camera ────────────────────────────────────────────
 function stopCamera(){
   scanning = false;
-  if(decodeInterval){ clearInterval(decodeInterval); decodeInterval = null; }
-  if(videoStream){ videoStream.getTracks().forEach(t=>t.stop()); videoStream = null; }
+  if(decodeInterval){clearInterval(decodeInterval);decodeInterval=null;}
+  if(videoStream){videoStream.getTracks().forEach(t=>t.stop());videoStream=null;}
   document.getElementById("camVideo").srcObject = null;
-  torchTrack = null; torchOn = false;
-  document.getElementById("torchBtn").className = "ctrl-btn";
+  torchTrack=null; torchOn=false;
+  document.getElementById("torchBtn").className="cc";
+  document.getElementById("torchBtn").style.display="none";
+  updateScanTarget();
 }
 
-// ── Decode ─────────────────────────────────────────────────
 function startDecoding(video){
   if("BarcodeDetector" in window){
-    // Native API — fastest on Android Chrome
-    const det = new BarcodeDetector({
-      formats:[
-        "qr_code","code_128","code_39","code_93",
-        "ean_13","ean_8","upc_a","upc_e",
-        "data_matrix","itf","codabar","aztec","pdf417"
-      ]
-    });
+    const det = new BarcodeDetector({formats:["qr_code","code_128","code_39","code_93","ean_13","ean_8","upc_a","upc_e","data_matrix","itf","codabar","aztec","pdf417"]});
     decodeInterval = setInterval(async()=>{
-      if(!scanning || video.readyState < 2) return;
-      try{
-        const results = await det.detect(video);
-        if(results.length > 0) onFound(results[0].rawValue);
-      } catch(e){}
-    }, 150); // fast scan — every 150ms
-
+      if(!scanning||video.readyState<2) return;
+      try{ const r=await det.detect(video); if(r.length>0) onCodeDetected(r[0].rawValue); }catch(e){}
+    }, 150);
   } else {
-    // ZXing fallback for Safari / older browsers
     loadZXing(video);
   }
 }
-
 function loadZXing(video){
-  setStatus("🔄 Loading scanner library...", "searching");
-  if(window._zxingReady){ startZXing(video); return; }
-  const sc = document.createElement("script");
-  sc.src = "https://unpkg.com/@zxing/browser@latest/umd/index.min.js";
-  sc.onload = ()=>{ window._zxingReady=true; startZXing(video); };
-  sc.onerror = ()=>{
-    const sc2 = document.createElement("script");
-    sc2.src = "https://cdn.jsdelivr.net/npm/@zxing/browser@latest/umd/index.min.js";
-    sc2.onload = ()=>{ window._zxingReady=true; startZXing(video); };
-    sc2.onerror = ()=> setStatus("⚠️ Scanner library failed to load. Please try refreshing.", "error");
-    document.head.appendChild(sc2);
+  setStatus("🔄 Loading scanner library...","s");
+  if(window._zxReady){startZXing(video);return;}
+  const sc=document.createElement("script");
+  sc.src="https://unpkg.com/@zxing/browser@latest/umd/index.min.js";
+  sc.onload=()=>{window._zxReady=true;startZXing(video);};
+  sc.onerror=()=>{
+    const s2=document.createElement("script");
+    s2.src="https://cdn.jsdelivr.net/npm/@zxing/browser@latest/umd/index.min.js";
+    s2.onload=()=>{window._zxReady=true;startZXing(video);};
+    s2.onerror=()=>setStatus("⚠️ Scanner library failed. Type codes manually.","er");
+    document.head.appendChild(s2);
   };
   document.head.appendChild(sc);
 }
-
 function startZXing(video){
-  setStatus("🔍 Searching — point at barcode or QR code", "searching");
+  setStatus("🔍 Searching — hold phone 10–15cm from barcode","s");
   try{
-    const reader = new ZXingBrowser.BrowserMultiFormatReader();
-    decodeInterval = setInterval(()=>{
-      if(!scanning) return;
-      reader.decodeFromVideoElement(video)
-        .then(r=>{ if(r && scanning) onFound(r.getText()); })
-        .catch(()=>{});
-    }, 300);
-  } catch(e){
-    setStatus("⚠️ Could not start decoder. Try a different browser.", "error");
-  }
+    const reader=new ZXingBrowser.BrowserMultiFormatReader();
+    decodeInterval=setInterval(()=>{
+      if(!scanning)return;
+      reader.decodeFromVideoElement(video).then(r=>{if(r&&scanning)onCodeDetected(r.getText());}).catch(()=>{});
+    },300);
+  }catch(e){setStatus("⚠️ Could not start decoder. Type manually.","er");}
 }
 
-// ── On code found ──────────────────────────────────────────
-function onFound(text){
-  if(!text || text === lastResult) return;
-  lastResult = text;
+function flipCamera(){ useFrontCam=!useFrontCam; startCamera(); }
+async function toggleTorch(){
+  if(!torchTrack)return; torchOn=!torchOn;
+  try{ await torchTrack.applyConstraints({advanced:[{torch:torchOn}]});
+    document.getElementById("torchBtn").className="cc"+(torchOn?" on":""); }catch(e){}
+}
+
+// ── On code detected ──────────────────────────────────────
+function onCodeDetected(text){
+  if(!text) return;
+  const now = Date.now();
+  // Debounce — ignore same code within 2 seconds
+  if(text === lastScan && now - lastScanTime < 2000) return;
+  lastScan = text; lastScanTime = now;
 
   // Vibrate
   if(navigator.vibrate) navigator.vibrate([100,50,100]);
 
-  // Update result display
-  const rv = document.getElementById("resultVal");
-  rv.textContent = text;
-  rv.className = "result-value";
+  // Find next empty field and fill it
+  const next = getNextEmptyField();
+  if(!next){
+    // All fields full — ignore scan
+    setStatus("✅ All fields filled — tap LOG to submit","ok");
+    return;
+  }
 
-  // Status
-  setStatus("✅ Scanned: " + text, "found");
+  // Fill the field
+  const inp = document.getElementById(next.field);
+  inp.value = text; inp.classList.add("filled");
+  const h = document.getElementById(next.hint);
+  if(h){ h.textContent = "✅ Scanned: "+text; h.className = "hint ok"; }
 
-  // Add to history
-  const time = new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
-  history.unshift({ code: text, time });
-  if(history.length > 50) history.pop();
-  renderHistory();
+  // Update status
+  setStatus("✅ Got: "+text+" — now scan next code","ok");
+  setTimeout(()=>{ if(scanning) setStatus("🔍 Searching — point at next barcode","s"); },1500);
 
-  toast("✅ Scanned!", "success");
-
-  // Resume scanning after 2 seconds (allows rescanning different code)
-  setTimeout(()=>{
-    lastResult = "";
-    if(scanning) setStatus("🔍 Searching — point at next barcode", "searching");
-  }, 2000);
+  // Update target indicator
+  updateScanTarget();
+  toast("✅ Scanned: "+text, "success");
 }
 
-// ── Flip Camera ────────────────────────────────────────────
-function flipCamera(){
-  useFrontCam = !useFrontCam;
-  startCamera();
-}
+// ════════════════════════════════════════════════════════════
+//  SUBMIT — sends data to Apps Script
+// ════════════════════════════════════════════════════════════
+let sessionLog = [];
 
-// ── Torch ──────────────────────────────────────────────────
-async function toggleTorch(){
-  if(!torchTrack) return;
-  torchOn = !torchOn;
+function showAlert(msg, type){ const a=document.getElementById("alertBox"); a.textContent=msg; a.className="alert "+type; }
+function hideAlert(){ document.getElementById("alertBox").className="alert"; }
+
+async function doSubmit(){
+  const caseNo = document.getElementById("f_case").value.trim();
+  const itemNo = document.getElementById("f_item").value.trim();
+  const place  = document.getElementById("f_place").value.trim();
+  const user   = document.getElementById("f_user").value.trim();
+  hideAlert();
+
+  if(!caseNo) return toast("⚠️ Case No. is required","error");
+  if(!itemNo) return toast("⚠️ Item No. is required","error");
+  if(!place)  return toast("⚠️ Location is required","error");
+  if(!user)   return toast("⚠️ Your name is required","error");
+
+  const url = getScriptUrl();
+  if(!url){ showAlert("⚠️ Apps Script URL not set. Paste your URL at the top of the page.","warn"); return; }
+
+  localStorage.setItem("kd_user", user);
+
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span>Logging...';
+
+  const data = { caseNo, itemNo, place, user, remark };
+
   try{
-    await torchTrack.applyConstraints({ advanced:[{ torch: torchOn }] });
-    document.getElementById("torchBtn").className = "ctrl-btn"+(torchOn?" on":"");
-  } catch(e){ toast("Torch not supported", "error"); }
-}
-
-// ── Copy result ────────────────────────────────────────────
-function copyResult(){
-  const text = document.getElementById("resultVal").textContent;
-  if(!text || text.includes("No scan yet")){ toast("Nothing to copy","error"); return; }
-  navigator.clipboard.writeText(text)
-    .then(()=> toast("📋 Copied!", "success"))
-    .catch(()=>{
-      // Fallback for older browsers
-      const ta = document.createElement("textarea");
-      ta.value = text; document.body.appendChild(ta);
-      ta.select(); document.execCommand("copy");
-      document.body.removeChild(ta);
-      toast("📋 Copied!", "success");
+    // Apps Script requires a GET or POST with no-cors mode
+    // We use fetch with mode no-cors — Apps Script handles CORS via redirect
+    const params = new URLSearchParams({
+      caseNo, itemNo, place, user, remark,
+      action: "logScan"
     });
+
+    const response = await fetch(url + "?" + params.toString(), {
+      method: "GET",
+      mode: "no-cors"
+    });
+
+    // no-cors always returns opaque response — we assume success
+    // The Apps Script will log it regardless
+    onSubmitSuccess(data);
+
+  } catch(err){
+    btn.disabled = false; setRemark(remark);
+    showAlert("❌ Network error: "+err.message+". Check your internet connection.", "err");
+  }
 }
 
-// ── Clear ──────────────────────────────────────────────────
-function clearResult(){
-  document.getElementById("resultVal").textContent = "No scan yet — point camera at a barcode";
-  document.getElementById("resultVal").className = "result-value empty";
-  lastResult = "";
-  setStatus("🔍 Searching — point at barcode or QR code", "searching");
+function onSubmitSuccess(data){
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = false; setRemark(remark);
+  toast("✅ "+data.caseNo+" logged "+data.remark,"success");
+  addLog(data, false);
+  resetForm();
+  loadStats();
 }
 
-// ── History ────────────────────────────────────────────────
-function renderHistory(){
-  const list = document.getElementById("historyList");
-  if(!history.length){ list.innerHTML='<div class="history-empty">No scans yet</div>'; return; }
-  list.innerHTML = history.map((h,i)=>`
-    <div class="history-item" onclick="selectHistory('${esc(h.code)}')">
-      <span class="history-num">#${history.length - i}</span>
-      <span class="history-code">${esc(h.code)}</span>
-      <span class="history-time">${h.time}</span>
+function resetForm(){
+  ["f_case","f_item","f_place"].forEach(id=>{
+    const el=document.getElementById(id); el.value=""; el.classList.remove("filled");
+  });
+  [["h_case","📷 Camera will fill this automatically"],
+   ["h_item","📷 Camera will fill this automatically"],
+   ["h_place","📷 Camera will fill this automatically"]].forEach(([id,txt])=>{
+    const h=document.getElementById(id); if(h){h.textContent=txt;h.className="hint";}
+  });
+  lastScan = "";
+  updateScanTarget();
+}
+
+// ════════════════════════════════════════════════════════════
+//  STATS — fetch from Apps Script
+// ════════════════════════════════════════════════════════════
+async function loadStats(){
+  const url = getScriptUrl();
+  if(!url) return;
+  try{
+    const res = await fetch(url + "?action=getSummary", { mode:"no-cors" });
+    // no-cors = opaque, can't read response body
+    // Stats will show from session log only
+  } catch(e){}
+
+  // Update from session log
+  const i = sessionLog.filter(r=>r.remark==="IN"&&!r.isAlert).length;
+  const o = sessionLog.filter(r=>r.remark==="OUT"&&!r.isAlert).length;
+  document.getElementById("statIn").textContent  = i;
+  document.getElementById("statOut").textContent = o;
+  document.getElementById("statNet").textContent = i-o;
+}
+
+// ════════════════════════════════════════════════════════════
+//  SESSION LOG
+// ════════════════════════════════════════════════════════════
+function addLog(data, isAlert){
+  sessionLog.unshift({...data, time:new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}), isAlert});
+  if(sessionLog.length>30) sessionLog.pop();
+  renderLog();
+  // Update stats from session
+  const i=sessionLog.filter(r=>r.remark==="IN"&&!r.isAlert).length;
+  const o=sessionLog.filter(r=>r.remark==="OUT"&&!r.isAlert).length;
+  document.getElementById("statIn").textContent=i;
+  document.getElementById("statOut").textContent=o;
+  document.getElementById("statNet").textContent=i-o;
+}
+
+function renderLog(){
+  const list=document.getElementById("logList");
+  if(!sessionLog.length){list.innerHTML='<div class="log-empty">No logs yet this session</div>';return;}
+  list.innerHTML=sessionLog.map(e=>`
+    <div class="log-item${e.isAlert?" warn-row":""}">
+      <div class="log-dot ${e.isAlert?"warn":e.remark.toLowerCase()}">${e.isAlert?"⚠️":e.remark==="IN"?"📥":"📤"}</div>
+      <div class="log-body">
+        <div class="log-name">${x(e.caseNo)} / ${x(e.itemNo)}</div>
+        <div class="log-sub">📍 ${x(e.place)} · 👤 ${x(e.user)} · 🕐 ${e.time}</div>
+      </div>
+      <span class="log-badge ${e.isAlert?"warn":e.remark.toLowerCase()}">${e.isAlert?"⚠️":e.remark}</span>
     </div>`).join("");
 }
 
-function selectHistory(code){
-  document.getElementById("resultVal").textContent = code;
-  document.getElementById("resultVal").className = "result-value";
-  toast("✅ Selected from history", "success");
-}
+// ════════════════════════════════════════════════════════════
+//  GALLERY SCAN — pick image from phone gallery
+// ════════════════════════════════════════════════════════════
 
- async function scanImage(event){
-
+function onGalleryPick(event){
   const file = event.target.files[0];
-
   if(!file) return;
 
-  try{
+  // Reset file input so same image can be picked again
+  event.target.value = "";
 
-    setStatus("🔍 Reading image...", "s");
+  // Stop live camera if running
+  stopCamera();
+  document.getElementById("startBtn").style.display = "";
 
-    const bitmap = await createImageBitmap(file);
+  // Show preview section
+  const preview = document.getElementById("galleryPreview");
+  preview.classList.add("show");
+  setGalStatus("🔍 Scanning image for barcodes...", "s");
+  document.getElementById("galleryScanOverlay").classList.add("show");
 
-    let results = [];
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      // Draw image to canvas
+      const canvas  = document.getElementById("galleryCanvas");
+      const maxW    = 400;
+      const scale   = Math.min(1, maxW / img.width);
+      canvas.width  = img.width  * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    if("BarcodeDetector" in window){
+      // Try scanning
+      scanImageCanvas(canvas, img);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 
-      const detector = new BarcodeDetector({
-        formats:[
-          "qr_code",
-          "code_128",
-          "code_39",
-          "code_93",
-          "ean_13",
-          "ean_8",
-          "upc_a",
-          "upc_e",
-          "data_matrix",
-          "itf",
-          "codabar",
-          "aztec",
-          "pdf417"
-        ]
+function setGalStatus(msg, state){
+  document.getElementById("galTxt").textContent = msg;
+  document.getElementById("galTxt").className = "stxt"+(state?" "+state:"");
+  document.getElementById("galDot").className  = "sdot"+(state?" "+state:"");
+}
+
+async function scanImageCanvas(canvas, originalImg){
+  let detected = false;
+
+  // ── Method 1: BarcodeDetector (fastest, Android Chrome) ──
+  if("BarcodeDetector" in window){
+    try{
+      const det = new BarcodeDetector({
+        formats:["qr_code","code_128","code_39","code_93","ean_13","ean_8",
+                 "upc_a","upc_e","data_matrix","itf","codabar","aztec","pdf417"]
       });
-
-      results = await detector.detect(bitmap);
-
-      if(results.length){
-
-        onCodeDetected(results[0].rawValue);
-
-        setStatus("✅ Code detected from image","ok");
-
-      }else{
-
-        setStatus("❌ No barcode found in image","er");
-
-        toast("No barcode found in image","error");
+      // Scan the original image blob for best quality
+      const results = await det.detect(originalImg);
+      if(results.length > 0){
+        detected = true;
+        document.getElementById("galleryScanOverlay").classList.remove("show");
+        drawDetectedBoxes(canvas, results, originalImg);
+        handleGalleryResults(results.map(r=>r.rawValue));
+        return;
       }
+    } catch(e){ console.log("BarcodeDetector error:", e); }
+  }
 
-    }else{
-
-      toast("Browser does not support image scanning","error");
-
+  // ── Method 2: ZXing library fallback ──
+  if(!detected){
+    if(!window._zxReady){
+      setGalStatus("🔄 Loading scanner library...", "s");
+      await loadZXingPromise();
     }
+    try{
+      const reader = new ZXingBrowser.BrowserMultiFormatReader();
+      // ZXing can scan from canvas image data URL
+      const dataUrl = canvas.toDataURL("image/png");
+      const result  = await reader.decodeFromImageUrl(dataUrl);
+      if(result){
+        detected = true;
+        document.getElementById("galleryScanOverlay").classList.remove("show");
+        handleGalleryResults([result.getText()]);
+        return;
+      }
+    } catch(e){ console.log("ZXing error:", e); }
+  }
 
-  }catch(err){
-
-    setStatus("❌ "+err.message,"er");
-
-    toast(err.message,"error");
-
+  // ── No code found ──
+  if(!detected){
+    document.getElementById("galleryScanOverlay").classList.remove("show");
+    setGalStatus("❌ No barcode or QR code found in this image. Try a clearer photo.", "er");
+    toast("❌ No barcode found in image","error");
   }
 }
-// ── Toast ──────────────────────────────────────────────────
-function toast(msg, type){
-  const t = document.getElementById("toast");
-  t.textContent = msg; t.className = "show "+(type||"");
-  setTimeout(()=> t.className = "", 2500);
+
+function drawDetectedBoxes(canvas, results, img){
+  // Draw green boxes around detected barcodes on canvas
+  const ctx   = canvas.getContext("2d");
+  const scaleX = canvas.width  / img.naturalWidth;
+  const scaleY = canvas.height / img.naturalHeight;
+  results.forEach(r=>{
+    if(r.boundingBox){
+      ctx.strokeStyle = "#00e676";
+      ctx.lineWidth   = 3;
+      ctx.strokeRect(
+        r.boundingBox.x      * scaleX,
+        r.boundingBox.y      * scaleY,
+        r.boundingBox.width  * scaleX,
+        r.boundingBox.height * scaleY
+      );
+    }
+  });
 }
 
-function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function handleGalleryResults(codes){
+  if(!codes || codes.length === 0) return;
+
+  const unique = [...new Set(codes.filter(Boolean))];
+
+  if(unique.length === 1){
+    // Single code found — fill next empty field
+    const code = unique[0];
+    setGalStatus("✅ Found: " + code, "ok");
+    toast("✅ Scanned from image: "+code, "success");
+    if(navigator.vibrate) navigator.vibrate([100,50,100]);
+
+    const next = getNextEmptyField();
+    if(next){
+      const inp = document.getElementById(next.field);
+      inp.value = code; inp.classList.add("filled");
+      const h = document.getElementById(next.hint);
+      if(h){ h.textContent = "✅ From gallery: "+code; h.className = "hint ok"; }
+      updateScanTarget();
+    } else {
+      setGalStatus("✅ Found: "+code+" — all fields already filled. Copy it manually if needed.", "ok");
+    }
+
+  } else {
+    // Multiple codes found — show picker
+    setGalStatus("✅ Found "+unique.length+" codes — tap one to use it", "ok");
+    showMultiPicker(unique);
+  }
+}
+
+// Multi-code picker modal
+function showMultiPicker(codes){
+  // Remove existing picker if any
+  const existing = document.getElementById("multiPickerModal");
+  if(existing) existing.remove();
+
+  const modal = document.createElement("div");
+  modal.id = "multiPickerModal";
+  modal.style.cssText = `
+    position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:600;
+    display:flex;align-items:flex-end;justify-content:center;padding:16px;
+  `;
+  modal.innerHTML = `
+    <div style="width:100%;max-width:440px;background:#1a1d27;border:1px solid #2a2e3d;border-radius:16px;overflow:hidden;">
+      <div style="padding:12px 16px;border-bottom:1px solid #2a2e3d;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:12px;font-weight:700;color:#e8eaf0;">📋 Multiple codes found — tap one to use</div>
+        <button onclick="document.getElementById('multiPickerModal').remove()" style="background:none;border:none;color:#8890a4;font-size:20px;cursor:pointer;line-height:1;">✕</button>
+      </div>
+      <div style="padding:10px 12px;display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto;">
+        ${codes.map((c,i)=>`
+          <button onclick="usePickedCode('${c.replace(/'/g,"\\'")}'); document.getElementById('multiPickerModal').remove();"
+            style="width:100%;padding:12px 14px;background:#20242f;border:1px solid #2a2e3d;
+              border-radius:10px;color:#e8eaf0;font-family:monospace;font-size:13px;
+              text-align:left;cursor:pointer;transition:border-color .2s;word-break:break-all;">
+            <span style="font-size:10px;color:#8890a4;display:block;margin-bottom:3px;">CODE ${i+1}</span>
+            ${x(c)}
+          </button>`).join("")}
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+}
+
+function usePickedCode(code){
+  const next = getNextEmptyField();
+  if(next){
+    const inp = document.getElementById(next.field);
+    inp.value = code; inp.classList.add("filled");
+    const h = document.getElementById(next.hint);
+    if(h){ h.textContent = "✅ From gallery: "+code; h.className = "hint ok"; }
+    updateScanTarget();
+    toast("✅ Used: "+code, "success");
+  } else {
+    toast("⚠️ All fields already filled","warning");
+  }
+}
+
+// Promise-based ZXing loader for gallery use
+function loadZXingPromise(){
+  return new Promise((resolve)=>{
+    if(window._zxReady){ resolve(); return; }
+    const sc = document.createElement("script");
+    sc.src = "https://unpkg.com/@zxing/browser@latest/umd/index.min.js";
+    sc.onload = ()=>{ window._zxReady=true; resolve(); };
+    sc.onerror = ()=>{
+      const s2 = document.createElement("script");
+      s2.src = "https://cdn.jsdelivr.net/npm/@zxing/browser@latest/umd/index.min.js";
+      s2.onload = ()=>{ window._zxReady=true; resolve(); };
+      s2.onerror = ()=>{ resolve(); }; // resolve anyway, will fail gracefully
+      document.head.appendChild(s2);
+    };
+    document.head.appendChild(sc);
+  });
+}
+
+function toast(msg,type){ const t=document.getElementById("toast"); t.textContent=msg; t.className="show "+(type||""); setTimeout(()=>t.className="",3000); }
+function x(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 </script>
 </body>
 </html>
