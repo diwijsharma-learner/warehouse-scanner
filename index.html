@@ -474,6 +474,69 @@ function selectHistory(code){
   toast("✅ Selected from history", "success");
 }
 
+ async function scanImage(event){
+
+  const file = event.target.files[0];
+
+  if(!file) return;
+
+  try{
+
+    setStatus("🔍 Reading image...", "s");
+
+    const bitmap = await createImageBitmap(file);
+
+    let results = [];
+
+    if("BarcodeDetector" in window){
+
+      const detector = new BarcodeDetector({
+        formats:[
+          "qr_code",
+          "code_128",
+          "code_39",
+          "code_93",
+          "ean_13",
+          "ean_8",
+          "upc_a",
+          "upc_e",
+          "data_matrix",
+          "itf",
+          "codabar",
+          "aztec",
+          "pdf417"
+        ]
+      });
+
+      results = await detector.detect(bitmap);
+
+      if(results.length){
+
+        onCodeDetected(results[0].rawValue);
+
+        setStatus("✅ Code detected from image","ok");
+
+      }else{
+
+        setStatus("❌ No barcode found in image","er");
+
+        toast("No barcode found in image","error");
+      }
+
+    }else{
+
+      toast("Browser does not support image scanning","error");
+
+    }
+
+  }catch(err){
+
+    setStatus("❌ "+err.message,"er");
+
+    toast(err.message,"error");
+
+  }
+}
 // ── Toast ──────────────────────────────────────────────────
 function toast(msg, type){
   const t = document.getElementById("toast");
