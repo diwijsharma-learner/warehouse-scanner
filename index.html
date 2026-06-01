@@ -14,6 +14,7 @@
     padding:0 0 60px;
   }
 
+  /* HEADER */
   header{
     width:100%;background:#1a1d2e;border-bottom:1px solid #2a2e3d;
     padding:14px 18px;display:flex;align-items:center;gap:12px;
@@ -26,25 +27,24 @@
 
   .container{width:100%;max-width:440px;padding:16px 14px 0;}
 
-  /* ── CONFIG BANNER ── */
+  /* CONFIG BANNER */
   .config-banner{
     background:rgba(255,193,7,.08);border:1px solid rgba(255,193,7,.35);
     border-radius:12px;padding:12px 14px;margin-bottom:14px;
     font-size:12px;color:#ffc107;line-height:1.5;display:none;
   }
   .config-banner.show{display:block;}
-  .config-banner input{
+  .config-banner input[type=text]{
     width:100%;background:#20242f;border:1px solid rgba(255,193,7,.4);
     border-radius:8px;color:#e8eaf0;font-size:12px;padding:9px 11px;
     outline:none;margin-top:8px;font-family:monospace;
   }
-  .config-banner input:focus{border-color:#ffc107;}
   .config-save{
     margin-top:8px;padding:8px 16px;background:#ffc107;border:none;
     border-radius:8px;color:#111;font-weight:700;font-size:12px;cursor:pointer;
   }
 
-  /* ── STATS ── */
+  /* STATS */
   .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
   .stat{background:#1a1d27;border:1px solid #2a2e3d;border-radius:12px;padding:10px 8px;text-align:center;}
   .stat .val{font-size:20px;font-weight:700;font-family:monospace;line-height:1;}
@@ -53,7 +53,7 @@
   .stat.s-out .val{color:#ff5252;}
   .stat.s-net .val{color:#6c63ff;}
 
-  /* ── TOGGLE ── */
+  /* IN / OUT TOGGLE */
   .toggle-row{display:flex;gap:8px;margin-bottom:14px;}
   .tog{flex:1;padding:13px;border-radius:12px;border:2px solid #2a2e3d;
     background:#1a1d27;color:#8890a4;font-size:13px;font-weight:700;
@@ -61,15 +61,104 @@
   .tog.in-on{border-color:#00e676;background:rgba(0,230,118,.08);color:#00e676;}
   .tog.out-on{border-color:#ff5252;background:rgba(255,82,82,.08);color:#ff5252;}
 
-  /* ── CAMERA BOX ── */
-  .cam-card{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;overflow:hidden;margin-bottom:14px;}
-  .cam-title{padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;border-bottom:1px solid #2a2e3d;}
-  .cam-viewport{position:relative;width:100%;background:#000;}
-  #camVideo{width:100%;display:block;max-height:240px;object-fit:cover;}
+  /* HOW TO STEPS */
+  .how-to{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;margin-bottom:14px;overflow:hidden;}
+  .how-to-title{padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8890a4;border-bottom:1px solid #2a2e3d;}
+  .how-to-steps{padding:10px 12px;display:flex;flex-direction:column;gap:6px;}
+  .how-step{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;border:1px solid transparent;transition:all .3s;}
+  .how-step.waiting{border-color:#2a2e3d;background:rgba(255,255,255,.02);}
+  .how-step.current{border-color:#6c63ff;background:rgba(108,99,255,.08);}
+  .how-step.done{border-color:rgba(0,230,118,.3);background:rgba(0,230,118,.05);}
+  .step-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:#20242f;border:1px solid #2a2e3d;transition:all .3s;}
+  .how-step.current .step-icon{background:rgba(108,99,255,.15);border-color:#6c63ff;}
+  .how-step.done .step-icon{background:rgba(0,230,118,.12);border-color:rgba(0,230,118,.4);}
+  .step-body{flex:1;}
+  .step-label{font-size:12px;font-weight:700;color:#8890a4;transition:color .3s;}
+  .how-step.current .step-label{color:#e8eaf0;}
+  .how-step.done .step-label{color:#00e676;}
+  .step-desc{font-size:10px;color:#8890a4;margin-top:1px;}
+  .step-arrow{font-size:10px;color:#8890a4;flex-shrink:0;transition:color .3s;}
+  .how-step.current .step-arrow{color:#6c63ff;}
+  .how-step.done .step-arrow{color:#00e676;}
 
+  /* ALERT BANNER */
+  .alert-banner{display:none;padding:11px 14px;border-radius:10px;margin-bottom:12px;font-size:12px;font-weight:600;line-height:1.4;}
+  .alert-banner.warning{display:block;background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.4);color:#ffc107;}
+  .alert-banner.err{display:block;background:rgba(255,82,82,.1);border:1px solid rgba(255,82,82,.4);color:#ff5252;}
+
+  /* FORM CARD */
+  .form-card{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;padding:16px;margin-bottom:14px;}
+  .field{margin-bottom:13px;}
+  .field:last-child{margin-bottom:0;}
+  .field label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;margin-bottom:6px;}
+
+  /* Input row with scan button */
+  .input-row{display:flex;gap:8px;align-items:stretch;}
+  .input-row input{
+    flex:1;background:#20242f;border:1.5px solid #2a2e3d;border-radius:10px;
+    color:#e8eaf0;font-family:monospace;font-size:13px;padding:12px 13px;
+    outline:none;transition:border-color .2s;min-width:0;
+  }
+  .input-row input:focus{border-color:#6c63ff;}
+  .input-row input.filled{border-color:#00e676;background:rgba(0,230,118,.04);}
+  .input-row input::placeholder{color:#8890a4;font-size:12px;font-family:Arial;}
+
+  /* 📷 scan button beside field */
+  .scan-field-btn{
+    width:48px;height:48px;flex-shrink:0;
+    background:#20242f;border:1.5px solid #2a2e3d;border-radius:10px;
+    color:#e8eaf0;font-size:20px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s;
+  }
+  .scan-field-btn:hover{border-color:#6c63ff;background:rgba(108,99,255,.1);}
+  .scan-field-btn.scanning{border-color:#00e676;background:rgba(0,230,118,.1);animation:pulse 1.5s infinite;}
+  .scan-field-btn.done{border-color:#00e676;background:rgba(0,230,118,.08);color:#00e676;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,.4)}50%{box-shadow:0 0 0 5px rgba(0,230,118,0)}}
+
+  /* Gallery button beside field */
+  .gallery-field-btn{
+    width:48px;height:48px;flex-shrink:0;
+    background:#20242f;border:1.5px solid #2a2e3d;border-radius:10px;
+    color:#8890a4;font-size:18px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s;
+  }
+  .gallery-field-btn:hover{border-color:#6c63ff;color:#e8eaf0;}
+  .gallery-field-btn.done{border-color:#00e676;color:#00e676;}
+
+  .field-hint{font-size:10px;color:#8890a4;margin-top:4px;}
+  .field-hint.ok{color:#00e676;}
+
+  /* SUBMIT */
+  #submitBtn{
+    width:100%;padding:14px;border:none;border-radius:12px;
+    font-size:14px;font-weight:700;letter-spacing:.05em;cursor:pointer;transition:all .2s;
+  }
+  #submitBtn.in{background:linear-gradient(135deg,#00e676,#00c85a);color:#071a0e;}
+  #submitBtn.out{background:linear-gradient(135deg,#ff5252,#e04040);color:#1a0505;}
+  #submitBtn:disabled{opacity:.5;cursor:not-allowed;}
+  #submitBtn:active{transform:scale(.98);}
+
+  /* SCANNER MODAL */
+  .scan-overlay{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:500;
+    flex-direction:column;align-items:center;justify-content:center;padding:16px;
+  }
+  .scan-overlay.open{display:flex;}
+  .scan-box{width:100%;max-width:420px;background:#1a1d27;border:1px solid #2a2e3d;border-radius:18px;overflow:hidden;}
+  .scan-hdr{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a2e3d;}
+  .scan-hdr .t1{font-size:12px;font-weight:700;letter-spacing:.04em;}
+  .scan-hdr .t2{font-size:10px;color:#6c63ff;margin-top:2px;}
+  .scan-close{background:none;border:none;color:#8890a4;font-size:24px;cursor:pointer;line-height:1;padding:0 4px;}
+  .scan-close:hover{color:#ff5252;}
+
+  /* Camera viewport */
+  .scan-viewport{position:relative;width:100%;background:#000;overflow:hidden;}
+  #scanVideo{width:100%;display:block;max-height:280px;object-fit:cover;}
   .target-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
-  .target-box{width:72%;max-width:240px;height:120px;position:relative;}
-  .target-box::before,.target-box::after,.tc-bl,.tc-tr{content:'';position:absolute;width:18px;height:18px;border-color:#00e676;border-style:solid;}
+  .target-box{width:72%;max-width:260px;height:130px;position:relative;}
+  .target-box::before,.target-box::after,.tc-bl,.tc-tr{content:'';position:absolute;width:20px;height:20px;border-color:#00e676;border-style:solid;}
   .target-box::before{top:0;left:0;border-width:3px 0 0 3px;border-radius:4px 0 0 0;}
   .target-box::after{top:0;right:0;border-width:3px 3px 0 0;border-radius:0 4px 0 0;}
   .tc-bl{bottom:0;left:0;border-width:0 0 3px 3px;border-radius:0 0 0 4px;}
@@ -77,12 +166,13 @@
   .scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00e676,transparent);animation:sl 2s ease-in-out infinite;}
   @keyframes sl{0%{top:0}50%{top:calc(100% - 2px)}100%{top:0}}
   .sh{position:absolute;background:rgba(0,0,0,.5);}
-  .sh-t{top:0;left:0;right:0;height:calc(50% - 60px);}
-  .sh-b{bottom:0;left:0;right:0;height:calc(50% - 60px);}
-  .sh-l{top:calc(50% - 60px);left:0;width:14%;height:120px;}
-  .sh-r{top:calc(50% - 60px);right:0;width:14%;height:120px;}
+  .sh-t{top:0;left:0;right:0;height:calc(50% - 65px);}
+  .sh-b{bottom:0;left:0;right:0;height:calc(50% - 65px);}
+  .sh-l{top:calc(50% - 65px);left:0;width:14%;height:130px;}
+  .sh-r{top:calc(50% - 65px);right:0;width:14%;height:130px;}
 
-  .cam-status{padding:9px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid #2a2e3d;font-size:12px;min-height:38px;}
+  /* Status */
+  .scan-status{padding:10px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid #2a2e3d;font-size:12px;min-height:40px;}
   .sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:#8890a4;}
   .sdot.s{background:#ffc107;animation:blink .8s infinite;}
   .sdot.ok{background:#00e676;}
@@ -92,93 +182,42 @@
   .stxt.ok{color:#00e676;font-weight:700;}
   .stxt.er{color:#ff5252;}
 
-  .cam-ctrls{display:flex;gap:7px;padding:8px 12px;border-top:1px solid #2a2e3d;}
-  .cc{flex:1;padding:8px;background:#20242f;border:1px solid #2a2e3d;border-radius:8px;color:#e8eaf0;font-size:12px;cursor:pointer;transition:all .2s;}
-  .cc:hover{border-color:#6c63ff;}
-  .cc.on{border-color:#00e676;color:#00e676;}
+  /* Controls */
+  .scan-ctrls{display:flex;gap:7px;padding:8px 12px;border-top:1px solid #2a2e3d;}
+  .scc{flex:1;padding:8px;background:#20242f;border:1px solid #2a2e3d;border-radius:8px;color:#e8eaf0;font-size:12px;cursor:pointer;transition:all .2s;}
+  .scc:hover{border-color:#6c63ff;}
+  .scc.on{border-color:#00e676;color:#00e676;}
   #torchBtn{display:none;}
 
-  /* ── START BUTTONS ── */
-  .start-row{display:flex;gap:8px;margin-bottom:14px;}
-  #startBtn{
-    flex:1;padding:13px;background:linear-gradient(135deg,#00e676,#00c85a);
-    border:none;border-radius:12px;color:#071a0e;font-size:13px;font-weight:700;
-    cursor:pointer;letter-spacing:.04em;
-  }
-  #startBtn:active{transform:scale(.98);}
-  #galleryBtn{
-    flex:0 0 auto;padding:13px 16px;background:#1a1d27;
-    border:1.5px solid #2a2e3d;border-radius:12px;color:#e8eaf0;
-    font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;
-    white-space:nowrap;
-  }
-  #galleryBtn:hover{border-color:#6c63ff;background:#20242f;}
-  #galleryBtn:active{transform:scale(.98);}
-  /* Hidden file input */
-  #galleryInput{display:none;}
+  /* Manual entry in scanner */
+  .scan-manual{display:flex;gap:8px;padding:10px 12px;border-top:1px solid #2a2e3d;}
+  .scan-manual input{flex:1;background:#20242f;border:1.5px solid #2a2e3d;border-radius:9px;color:#e8eaf0;font-family:monospace;font-size:13px;padding:10px 12px;outline:none;}
+  .scan-manual input:focus{border-color:#6c63ff;}
+  .scan-manual input::placeholder{color:#8890a4;font-size:11px;font-family:Arial;}
+  .scan-manual-btn{background:#6c63ff;border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;padding:10px 14px;cursor:pointer;white-space:nowrap;}
 
-  /* Gallery preview */
-  .gallery-preview{
-    display:none;background:#1a1d27;border:1px solid #2a2e3d;
-    border-radius:14px;overflow:hidden;margin-bottom:14px;
+  .scan-tip{padding:8px 14px 12px;font-size:10px;color:#8890a4;line-height:1.6;}
+  .scan-tip strong{color:#e8eaf0;}
+
+  /* GALLERY PREVIEW MODAL */
+  .gallery-overlay{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:500;
+    flex-direction:column;align-items:center;justify-content:center;padding:16px;
   }
-  .gallery-preview.show{display:block;}
-  .gallery-preview-title{padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;border-bottom:1px solid #2a2e3d;}
-  .gallery-img-wrap{position:relative;width:100%;background:#000;display:flex;align-items:center;justify-content:center;min-height:160px;}
+  .gallery-overlay.open{display:flex;}
+  .gallery-box{width:100%;max-width:420px;background:#1a1d27;border:1px solid #2a2e3d;border-radius:18px;overflow:hidden;}
+  .gallery-hdr{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a2e3d;}
+  .gallery-hdr .t1{font-size:12px;font-weight:700;}
+  .gallery-hdr .t2{font-size:10px;color:#6c63ff;margin-top:2px;}
+  .gallery-close{background:none;border:none;color:#8890a4;font-size:24px;cursor:pointer;line-height:1;padding:0 4px;}
+  .gallery-img-wrap{position:relative;width:100%;background:#000;min-height:140px;display:flex;align-items:center;justify-content:center;}
   #galleryCanvas{max-width:100%;max-height:260px;display:block;}
-  .gallery-scan-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);display:none;}
+  .gallery-scan-overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;}
   .gallery-scan-overlay.show{display:flex;}
-  .gallery-scan-overlay span{background:rgba(0,0,0,.8);border:1px solid #6c63ff;border-radius:10px;padding:10px 18px;font-size:13px;color:#6c63ff;font-weight:700;}
-  .gallery-status{padding:9px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid #2a2e3d;font-size:12px;}
-  .gallery-status .sdot{flex-shrink:0;}
-  .gallery-status .stxt{flex:1;}
+  .gallery-scan-overlay span{background:#1a1d27;border:1px solid #6c63ff;border-radius:10px;padding:10px 18px;font-size:13px;color:#6c63ff;font-weight:700;}
+  .gallery-status{padding:9px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid #2a2e3d;font-size:12px;min-height:38px;}
 
-  /* ── FORM ── */
-  .form-card{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;padding:14px;margin-bottom:14px;}
-  .field{margin-bottom:11px;}
-  .field:last-child{margin-bottom:0;}
-  .field label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#8890a4;margin-bottom:5px;}
-  .field input{
-    width:100%;background:#20242f;border:1.5px solid #2a2e3d;
-    border-radius:9px;color:#e8eaf0;font-size:13px;
-    padding:11px 12px;outline:none;font-family:monospace;transition:border-color .2s;
-  }
-  .field input:focus{border-color:#6c63ff;}
-  .field input.filled{border-color:#00e676;background:rgba(0,230,118,.04);}
-  .field input::placeholder{color:#8890a4;font-size:12px;font-family:Arial;}
-  .field .hint{font-size:10px;color:#8890a4;margin-top:4px;}
-  .field .hint.ok{color:#00e676;}
-
-  /* ── SCAN TARGET INDICATOR ── */
-  .scan-target-bar{
-    background:#20242f;border:1px solid #2a2e3d;border-radius:10px;
-    padding:10px 12px;margin-bottom:14px;
-    display:flex;align-items:center;gap:10px;font-size:12px;
-  }
-  .scan-target-dot{width:8px;height:8px;border-radius:50%;background:#ffc107;animation:blink .8s infinite;flex-shrink:0;}
-  .scan-target-txt{color:#ffc107;font-weight:700;flex:1;}
-  .scan-target-bar.idle .scan-target-dot{background:#8890a4;animation:none;}
-  .scan-target-bar.idle .scan-target-txt{color:#8890a4;}
-  .scan-target-bar.done .scan-target-dot{background:#00e676;animation:none;}
-  .scan-target-bar.done .scan-target-txt{color:#00e676;}
-
-  /* ── SUBMIT ── */
-  #submitBtn{
-    width:100%;padding:14px;border:none;border-radius:12px;
-    font-size:13px;font-weight:700;letter-spacing:.05em;cursor:pointer;transition:all .2s;
-  }
-  #submitBtn.in{background:linear-gradient(135deg,#00e676,#00c85a);color:#071a0e;}
-  #submitBtn.out{background:linear-gradient(135deg,#ff5252,#e04040);color:#1a0505;}
-  #submitBtn:disabled{opacity:.5;cursor:not-allowed;}
-  #submitBtn:active{transform:scale(.98);}
-
-  /* ── ALERT ── */
-  .alert{display:none;padding:10px 13px;border-radius:10px;margin-bottom:12px;font-size:12px;font-weight:600;line-height:1.5;}
-  .alert.warn{display:block;background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.35);color:#ffc107;}
-  .alert.err{display:block;background:rgba(255,82,82,.1);border:1px solid rgba(255,82,82,.35);color:#ff5252;}
-  .alert.ok{display:block;background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.3);color:#00e676;}
-
-  /* ── LOG ── */
+  /* SESSION LOG */
   .log-card{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;padding:14px;margin-top:14px;}
   .log-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;margin-bottom:10px;}
   .log-list{display:flex;flex-direction:column;gap:7px;max-height:260px;overflow-y:auto;}
@@ -197,19 +236,20 @@
   .log-badge.warn{background:rgba(255,193,7,.12);color:#ffc107;}
   .log-empty{font-size:12px;color:#8890a4;text-align:center;padding:14px 0;}
 
-  /* ── TOAST ── */
-  #toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(100px);
+  /* TOAST */
+  #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(100px);
     background:#1a1d27;border:1px solid #2a2e3d;border-radius:50px;padding:10px 20px;
-    font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.6);
-    transition:transform .3s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;}
+    font-size:12px;font-weight:600;box-shadow:0 8px 26px rgba(0,0,0,.6);
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;}
   #toast.show{transform:translateX(-50%) translateY(0);}
   #toast.success{border-color:#00e676;color:#00e676;}
   #toast.error{border-color:#ff5252;color:#ff5252;}
   #toast.warning{border-color:#ffc107;color:#ffc107;}
-
-  .spin{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;
-    border-radius:50%;animation:sp .6s linear infinite;display:inline-block;vertical-align:middle;margin-right:5px;}
+  .spin{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite;display:inline-block;vertical-align:middle;margin-right:5px;}
   @keyframes sp{to{transform:rotate(360deg)}}
+
+  /* Hidden file inputs */
+  #galleryInputCase, #galleryInputLoc{display:none;}
 </style>
 </head>
 <body>
@@ -224,109 +264,115 @@
 
 <div class="container">
 
-  <!-- ── APPS SCRIPT CONFIG ── -->
+  <!-- CONFIG BANNER -->
   <div class="config-banner show" id="configBanner">
-    ⚙️ <strong>First-time setup:</strong> Paste your Google Apps Script Web App URL below to connect to your Google Sheet.
+    ⚙️ <strong>First-time setup:</strong> Paste your Google Apps Script Web App URL to connect to your Google Sheet.
     <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/YOUR_ID/exec"/>
     <button class="config-save" onclick="saveUrl()">Save & Connect</button>
   </div>
 
-  <!-- ── STATS ── -->
+  <!-- STATS -->
   <div class="stats">
     <div class="stat s-in"><div class="val" id="statIn">—</div><div class="lbl">In Stock</div></div>
     <div class="stat s-out"><div class="val" id="statOut">—</div><div class="lbl">Checked Out</div></div>
     <div class="stat s-net"><div class="val" id="statNet">—</div><div class="lbl">Live Stock</div></div>
   </div>
 
-  <!-- ── IN / OUT TOGGLE ── -->
+  <!-- IN / OUT TOGGLE -->
   <div class="toggle-row">
     <button class="tog in-on" id="togIn"  onclick="setRemark('IN')">✅ CHECK IN</button>
     <button class="tog"       id="togOut" onclick="setRemark('OUT')">📤 CHECK OUT</button>
   </div>
 
-  <!-- ── START BUTTONS ── -->
-  <!-- Hidden file input for gallery -->
-  <input type="file" id="galleryInput" accept="image/*" onchange="onGalleryPick(event)"/>
-  <div class="start-row">
-    <button id="startBtn" onclick="startCamera()">📷 Live Camera</button>
-    <button id="galleryBtn" onclick="document.getElementById('galleryInput').click()">🖼️ Gallery</button>
-  </div>
-
-  <!-- ── GALLERY PREVIEW ── -->
-  <div class="gallery-preview" id="galleryPreview">
-    <div class="gallery-preview-title">🖼️ Image from Gallery — Scanning for QR codes...</div>
-    <div class="gallery-img-wrap">
-      <canvas id="galleryCanvas"></canvas>
-      <div class="gallery-scan-overlay" id="galleryScanOverlay">
-        <span>🔍 Scanning image...</span>
-      </div>
-    </div>
-    <div class="gallery-status">
-      <div class="sdot" id="galDot"></div>
-      <div class="stxt" id="galTxt">Loading image...</div>
-    </div>
-  </div>
-
-  <!-- ── SCAN TARGET INDICATOR ── -->
-  <div class="scan-target-bar idle" id="scanTargetBar">
-    <div class="scan-target-dot"></div>
-    <div class="scan-target-txt" id="scanTargetTxt">Start camera to scan QR codes</div>
-  </div>
-
-  <!-- ── CAMERA ── -->
-  <div class="cam-card">
-    <div class="cam-title">📷 Point camera at QR code</div>
-    <div class="cam-viewport">
-      <video id="camVideo" autoplay playsinline muted></video>
-      <div class="sh sh-t"></div><div class="sh sh-b"></div>
-      <div class="sh sh-l"></div><div class="sh sh-r"></div>
-      <div class="target-wrap">
-        <div class="target-box">
-          <div class="tc-bl"></div><div class="tc-tr"></div>
-          <div class="scan-line"></div>
+  <!-- HOW TO STEPS -->
+  <div class="how-to">
+    <div class="how-to-title">📋 HOW TO LOG AN ITEM</div>
+    <div class="how-to-steps">
+      <div class="how-step current" id="s1">
+        <div class="step-icon">📦</div>
+        <div class="step-body">
+          <div class="step-label">Step 1 — Scan Case / Item QR</div>
+          <div class="step-desc">Tap 📷 next to Case No. · one QR fills both Case + Item</div>
         </div>
+        <div class="step-arrow">▶</div>
       </div>
-    </div>
-    <div class="cam-status">
-      <div class="sdot" id="sdot"></div>
-      <div class="stxt" id="stxt">Tap "Live Camera" to scan QR codes</div>
-    </div>
-    <div class="cam-ctrls">
-      <button class="cc" onclick="flipCamera()">🔄 Flip</button>
-      <button class="cc" id="torchBtn" onclick="toggleTorch()">🔦 Torch</button>
-      <button class="cc" onclick="stopCamera()" style="color:#ff5252">⏹ Stop</button>
+      <div class="how-step waiting" id="s2">
+        <div class="step-icon">📍</div>
+        <div class="step-body">
+          <div class="step-label">Step 2 — Scan Location QR</div>
+          <div class="step-desc">Tap 📷 next to Location · scan the shelf label</div>
+        </div>
+        <div class="step-arrow">▶</div>
+      </div>
+      <div class="how-step waiting" id="s3">
+        <div class="step-icon">👤</div>
+        <div class="step-body">
+          <div class="step-label">Step 3 — Enter Your Name</div>
+          <div class="step-desc">Remembered automatically next time</div>
+        </div>
+        <div class="step-arrow">▶</div>
+      </div>
+      <div class="how-step waiting" id="s4">
+        <div class="step-icon">✅</div>
+        <div class="step-body">
+          <div class="step-label">Step 4 — Tap LOG</div>
+          <div class="step-desc">Saves instantly to Google Sheet with timestamp</div>
+        </div>
+        <div class="step-arrow">✓</div>
+      </div>
     </div>
   </div>
 
-  <!-- ── ALERT ── -->
-  <div class="alert" id="alertBox"></div>
+  <!-- ALERT BANNER -->
+  <div class="alert-banner" id="alertBanner"></div>
 
-  <!-- ── FORM ── -->
+  <!-- FORM -->
   <div class="form-card">
+
+    <!-- CASE NO — scanning this also fills Item No automatically -->
     <div class="field">
-      <label>📦 Case No.</label>
-      <input type="text" id="f_case" placeholder="Scan with camera or type..." autocomplete="off"/>
-      <div class="hint" id="h_case">📷 Camera will scan QR code automatically</div>
+      <label>📦 Case No. <span style="color:#6c63ff;font-size:9px;letter-spacing:.04em;">· SCAN QR TO FILL BOTH CASE + ITEM</span></label>
+      <div class="input-row">
+        <input type="text" id="f_case" placeholder="Tap 📷 to scan or type..." autocomplete="off"/>
+        <button class="scan-field-btn" id="cb_case" onclick="openScanner('case')" title="Scan Case QR">📷</button>
+        <input type="file" id="galleryInputCase" accept="image/*" onchange="onGalleryPick(event,'case')"/>
+        <button class="gallery-field-btn" id="gb_case" onclick="document.getElementById('galleryInputCase').click()" title="Pick from gallery">🖼️</button>
+      </div>
+      <div class="field-hint" id="h_case">📷 Scan QR to auto-fill Case No. + Item No. (format: CASE-ITEM)</div>
     </div>
+
+    <!-- ITEM NO — filled automatically from Case QR, can also type manually -->
     <div class="field">
-      <label>🏷️ Item No.</label>
-      <input type="text" id="f_item" placeholder="Scan with camera or type..." autocomplete="off"/>
-      <div class="hint" id="h_item">📷 Camera will scan QR code automatically</div>
+      <label>🏷️ Item No. <span style="color:#8890a4;font-size:9px;">· auto-filled from Case QR</span></label>
+      <div class="input-row">
+        <input type="text" id="f_item" placeholder="Auto-filled when Case QR is scanned..." autocomplete="off"/>
+      </div>
+      <div class="field-hint" id="h_item">Auto-filled · or type manually if needed</div>
     </div>
+
+    <!-- LOCATION -->
     <div class="field">
       <label>📍 Location</label>
-      <input type="text" id="f_place" placeholder="Scan with camera or type..." autocomplete="off"/>
-      <div class="hint" id="h_place">📷 Camera will scan QR code automatically</div>
+      <div class="input-row">
+        <input type="text" id="f_place" placeholder="Tap 📷 to scan shelf QR or type..." autocomplete="off"/>
+        <button class="scan-field-btn" id="cb_place" onclick="openScanner('place')" title="Scan Location QR">📷</button>
+        <input type="file" id="galleryInputLoc" accept="image/*" onchange="onGalleryPick(event,'place')"/>
+        <button class="gallery-field-btn" id="gb_place" onclick="document.getElementById('galleryInputLoc').click()" title="Pick from gallery">🖼️</button>
+      </div>
+      <div class="field-hint" id="h_place">📷 Scan the shelf / rack QR label</div>
     </div>
+
+    <!-- USER -->
     <div class="field">
       <label>👤 Your Name</label>
-      <input type="text" id="f_user" placeholder="Enter your name"/>
+      <input type="text" id="f_user" placeholder="Enter your name" style="width:100%;background:#20242f;border:1.5px solid #2a2e3d;border-radius:10px;color:#e8eaf0;font-size:13px;padding:12px 13px;outline:none;font-family:Arial;" autocomplete="off"/>
     </div>
+
   </div>
 
   <button id="submitBtn" class="in" onclick="doSubmit()">✅ LOG CHECK IN</button>
 
-  <!-- ── SESSION LOG ── -->
+  <!-- SESSION LOG -->
   <div class="log-card">
     <div class="log-title">Session Log</div>
     <div class="log-list" id="logList">
@@ -336,148 +382,208 @@
 
 </div>
 
+<!-- SCANNER MODAL -->
+<div class="scan-overlay" id="scanOverlay">
+  <div class="scan-box">
+    <div class="scan-hdr">
+      <div>
+        <div class="t1">📷 KD WAREHOUSE SCANNER</div>
+        <div class="t2" id="scanLabel">Scanning...</div>
+      </div>
+      <button class="scan-close" onclick="closeScanner()">✕</button>
+    </div>
+    <div class="scan-viewport">
+      <video id="scanVideo" autoplay playsinline muted></video>
+      <div class="sh sh-t"></div><div class="sh sh-b"></div>
+      <div class="sh sh-l"></div><div class="sh sh-r"></div>
+      <div class="target-wrap">
+        <div class="target-box">
+          <div class="tc-bl"></div><div class="tc-tr"></div>
+          <div class="scan-line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="scan-status">
+      <div class="sdot" id="sdot"></div>
+      <div class="stxt" id="stxt">Starting camera...</div>
+    </div>
+    <div class="scan-ctrls">
+      <button class="scc" onclick="flipCamera()">🔄 Flip Camera</button>
+      <button class="scc" id="torchBtn" onclick="toggleTorch()">🔦 Torch</button>
+      <button class="scc" onclick="closeScanner()" style="color:#ff5252;">⏹ Close</button>
+    </div>
+    <div class="scan-manual">
+      <input type="text" id="manualInput" placeholder="Or type code manually..."/>
+      <button class="scan-manual-btn" onclick="useManual()">USE</button>
+    </div>
+    <div class="scan-tip">
+      <strong>Tips:</strong> Hold phone 10–20 cm from QR · Ensure full QR is inside the box · Good lighting helps
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY PREVIEW MODAL -->
+<div class="gallery-overlay" id="galleryOverlay">
+  <div class="gallery-box">
+    <div class="gallery-hdr">
+      <div>
+        <div class="t1">🖼️ GALLERY SCAN</div>
+        <div class="t2" id="galleryLabel">Scanning image for QR...</div>
+      </div>
+      <button class="gallery-close" onclick="closeGallery()">✕</button>
+    </div>
+    <div class="gallery-img-wrap">
+      <canvas id="galleryCanvas"></canvas>
+      <div class="gallery-scan-overlay" id="galScanOverlay"><span>🔍 Scanning QR...</span></div>
+    </div>
+    <div class="gallery-status">
+      <div class="sdot" id="galDot"></div>
+      <div class="stxt" id="galTxt">Loading image...</div>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
-// ════════════════════════════════════════════════════════════
-//  CONFIG — Apps Script URL
-// ════════════════════════════════════════════════════════════
-// ▼▼▼ OPTION 1: Hardcode your URL here (easiest) ▼▼▼
-const HARDCODED_URL = "";
-// ▲▲▲ Paste between the quotes like: "https://script.google.com/macros/s/ABC/exec"
-
-function getScriptUrl(){
-  return HARDCODED_URL || localStorage.getItem("kd_script_url") || "";
-}
+// ─── CONFIG ───────────────────────────────────────────────
+const HARDCODED_URL = ""; // paste your Apps Script URL here if you want
+function getScriptUrl(){ return HARDCODED_URL || localStorage.getItem("kd_script_url") || ""; }
 function saveUrl(){
   const url = document.getElementById("scriptUrl").value.trim();
-  if(!url || !url.startsWith("https://")){ toast("⚠️ Please paste a valid URL","error"); return; }
+  if(!url||!url.startsWith("https://")){ toast("⚠️ Please paste a valid HTTPS URL","error"); return; }
   localStorage.setItem("kd_script_url", url);
   document.getElementById("configBanner").classList.remove("show");
   toast("✅ Connected to Google Sheet!","success");
-  loadStats();
 }
 
-// On load — check if URL is already saved
+// ─── INIT ─────────────────────────────────────────────────
 window.onload = () => {
-  tick(); setInterval(tick, 1000);
+  tick(); setInterval(tick,1000);
   document.getElementById("f_user").value = localStorage.getItem("kd_user") || "";
-
-  const saved = getScriptUrl();
-  if(saved){
-    document.getElementById("configBanner").classList.remove("show");
-    loadStats();
-  } else {
-    document.getElementById("scriptUrl").value = "";
-  }
+  if(getScriptUrl()) document.getElementById("configBanner").classList.remove("show");
 
   // Enter key navigation
-  document.getElementById("f_case").addEventListener("keydown",  e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_item").focus();}});
-  document.getElementById("f_item").addEventListener("keydown",  e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_place").focus();}});
-  document.getElementById("f_place").addEventListener("keydown", e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_user").focus();}});
-  document.getElementById("f_user").addEventListener("keydown",  e=>{if(e.key==="Enter"){e.preventDefault();doSubmit();}});
+  document.getElementById("f_case").addEventListener("keydown", e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_place").focus();}});
+  document.getElementById("f_item").addEventListener("keydown", e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_place").focus();}});
+  document.getElementById("f_place").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_user").focus();}});
+  document.getElementById("f_user").addEventListener("keydown", e=>{if(e.key==="Enter"){e.preventDefault();doSubmit();}});
+  document.getElementById("manualInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();useManual();}});
 
-  // Field fill tracking
+  // Step tracking
   ["f_case","f_item","f_place","f_user"].forEach(id=>
-    document.getElementById(id).addEventListener("input", updateScanTarget));
+    document.getElementById(id).addEventListener("input", updateSteps));
 };
-
 function tick(){ document.getElementById("hTime").textContent = new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"}); }
 
-// ════════════════════════════════════════════════════════════
-//  REMARK TOGGLE
-// ════════════════════════════════════════════════════════════
+// ─── REMARK TOGGLE ────────────────────────────────────────
 let remark = "IN";
 function setRemark(r){
-  remark = r;
-  const btn = document.getElementById("submitBtn");
-  if(r==="IN"){
-    document.getElementById("togIn").className="tog in-on";
-    document.getElementById("togOut").className="tog";
-    btn.className="in"; btn.textContent="✅ LOG CHECK IN";
+  remark=r; const b=document.getElementById("submitBtn");
+  if(r==="IN"){ document.getElementById("togIn").className="tog in-on"; document.getElementById("togOut").className="tog"; b.className="in"; b.textContent="✅ LOG CHECK IN"; }
+  else         { document.getElementById("togOut").className="tog out-on"; document.getElementById("togIn").className="tog"; b.className="out"; b.textContent="📤 LOG CHECK OUT"; }
+}
+
+// ─── STEP TRACKER ─────────────────────────────────────────
+function updateSteps(){
+  const c=gv("f_case"), p=gv("f_place"), u=gv("f_user");
+  ["s1","s2","s3","s4"].forEach(id=>setSC(id,"waiting"));
+  if(!c)       setSC("s1","current");
+  else if(!p){ setSC("s1","done"); setSC("s2","current"); }
+  else if(!u){ setSC("s1","done"); setSC("s2","done"); setSC("s3","current"); }
+  else       { setSC("s1","done"); setSC("s2","done"); setSC("s3","done"); setSC("s4","current"); }
+}
+function setSC(id,cls){ document.getElementById(id).className="how-step "+cls; }
+function gv(id){ return document.getElementById(id).value.trim(); }
+
+// ─── BANNER ───────────────────────────────────────────────
+function showBanner(msg,type){ const b=document.getElementById("alertBanner"); b.textContent=msg; b.className="alert-banner "+type; setTimeout(()=>b.className="alert-banner",8000); }
+function hideBanner(){ document.getElementById("alertBanner").className="alert-banner"; }
+
+// ─── FILL FIELDS FROM SCANNED VALUE ───────────────────────
+// Case QR format: "CASE001-ITEM005"
+// Splits on first dash — left = Case No., right = Item No.
+function fillCaseQR(text){
+  const dashIdx = text.indexOf("-");
+  if(dashIdx > 0){
+    const caseNo = text.substring(0, dashIdx).trim();
+    const itemNo = text.substring(dashIdx + 1).trim();
+    setField("f_case",  "h_case",  "cb_case",  "gb_case",  caseNo, "✅ Case No.: "+caseNo);
+    setField("f_item",  "h_item",  null,        null,        itemNo, "✅ Item No.: "+itemNo+" (auto-filled)");
+    toast("✅ Case: "+caseNo+" · Item: "+itemNo, "success");
   } else {
-    document.getElementById("togOut").className="tog out-on";
-    document.getElementById("togIn").className="tog";
-    btn.className="out"; btn.textContent="📤 LOG CHECK OUT";
+    // No dash — put entire value in Case No., leave Item blank for manual entry
+    setField("f_case", "h_case", "cb_case", "gb_case", text, "✅ Scanned: "+text);
+    document.getElementById("f_item").focus();
+    toast("✅ Case scanned — enter Item No. manually","success");
   }
+  updateSteps();
 }
 
-// ════════════════════════════════════════════════════════════
-//  SCAN TARGET — which field to fill next
-// ════════════════════════════════════════════════════════════
-// Scan order: case → item → place (each QR fills the next empty field)
-const SCAN_ORDER = [
-  { field:"f_case",  hint:"h_case",  label:"🎯 Next: Scan Case No. QR"    },
-  { field:"f_item",  hint:"h_item",  label:"🎯 Next: Scan Item No. QR"    },
-  { field:"f_place", hint:"h_place", label:"🎯 Next: Scan Location QR"    },
-];
-
-function getNextEmptyField(){
-  for(const s of SCAN_ORDER){
-    if(!document.getElementById(s.field).value.trim()) return s;
-  }
-  return null; // all filled
+function fillLocationQR(text){
+  setField("f_place", "h_place", "cb_place", "gb_place", text, "✅ Location: "+text);
+  toast("✅ Location: "+text, "success");
+  updateSteps();
+  document.getElementById("f_user").focus();
 }
 
-function updateScanTarget(){
-  const next = getNextEmptyField();
-  const bar  = document.getElementById("scanTargetBar");
-  const txt  = document.getElementById("scanTargetTxt");
-  if(!next){
-    bar.className = "scan-target-bar done";
-    txt.textContent = "✅ All scanned — enter name and tap LOG";
-  } else if(!isScanning()){
-    bar.className = "scan-target-bar idle";
-    txt.textContent = "Start camera to scan QR codes";
-  } else {
-    bar.className = "scan-target-bar";
-    txt.textContent = next.label;
-  }
+function setField(inputId, hintId, btnId, galBtnId, value, hintText){
+  const inp = document.getElementById(inputId);
+  if(inp){ inp.value=value; inp.classList.add("filled"); }
+  const h = document.getElementById(hintId);
+  if(h){ h.textContent=hintText; h.className="field-hint ok"; }
+  if(btnId){ const b=document.getElementById(btnId); if(b){b.textContent="✅";b.classList.remove("scanning");b.classList.add("done");}}
+  if(galBtnId){ const g=document.getElementById(galBtnId); if(g) g.classList.add("done"); }
 }
 
-function isScanning(){ return videoStream !== null; }
+// ═══════════════════════════════════════════════════════════
+//  LIVE CAMERA SCANNER
+// ═══════════════════════════════════════════════════════════
+let scanTarget = "case";
+let videoStream=null, torchTrack=null, torchOn=false;
+let scanning=false, decodeInterval=null, useFrontCam=false;
+let lastScan="", lastScanTime=0;
 
-// ════════════════════════════════════════════════════════════
-//  CAMERA
-// ════════════════════════════════════════════════════════════
-let videoStream = null, torchTrack = null, torchOn = false;
-let scanning = false, decodeInterval = null, useFrontCam = false;
-let lastScan = "", lastScanTime = 0;
+const SCAN_LABELS = {
+  case:  "📦 Scanning: Case + Item QR (format CASE-ITEM)",
+  place: "📍 Scanning: Location / Shelf QR"
+};
 
-function setStatus(msg, state){
-  document.getElementById("stxt").textContent = msg;
-  document.getElementById("stxt").className = "stxt"+(state?" "+state:"");
-  document.getElementById("sdot").className  = "sdot"+(state?" "+state:"");
+function setStatus(msg,state){
+  document.getElementById("stxt").textContent=msg;
+  document.getElementById("stxt").className="stxt"+(state?" "+state:"");
+  document.getElementById("sdot").className="sdot"+(state?" "+state:"");
+}
+
+function openScanner(target){
+  scanTarget=target;
+  document.getElementById("scanLabel").textContent = SCAN_LABELS[target]||"Scanning...";
+  document.getElementById("manualInput").value="";
+  // Mark active button
+  ["cb_case","cb_place"].forEach(id=>{ const b=document.getElementById(id); if(b)b.classList.remove("scanning"); });
+  const ab=document.getElementById("cb_"+target); if(ab) ab.classList.add("scanning");
+  document.getElementById("scanOverlay").classList.add("open");
+  startCamera();
 }
 
 async function startCamera(){
-  document.getElementById("startBtn").style.display = "none";
-  setStatus("Starting camera...", "");
   stopCamera();
-
-  const video = document.getElementById("camVideo");
+  setStatus("Starting camera...","");
+  const video=document.getElementById("scanVideo");
   try{
-    videoStream = await navigator.mediaDevices.getUserMedia({
-      video:{ facingMode: useFrontCam?"user":{ideal:"environment"}, width:{ideal:1280}, height:{ideal:720} },
-      audio: false
+    videoStream=await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:useFrontCam?"user":{ideal:"environment"}, width:{ideal:1280}, height:{ideal:720} },
+      audio:false
     });
-    video.srcObject = videoStream;
-    await video.play();
-
-    // Torch
+    video.srcObject=videoStream; await video.play();
     if(!useFrontCam){
-      const tr = videoStream.getVideoTracks()[0];
-      if(tr){ torchTrack = tr; const c = tr.getCapabilities?tr.getCapabilities():{};
+      const tr=videoStream.getVideoTracks()[0];
+      if(tr){ torchTrack=tr; const c=tr.getCapabilities?tr.getCapabilities():{};
         if(c.torch) document.getElementById("torchBtn").style.display=""; }
     }
-
-    setStatus("🔍 Searching — hold phone steady near QR code", "s");
-    scanning = true;
-    updateScanTarget();
-    startDecoding(video);
-
+    setStatus("🔍 Point at QR code","s");
+    scanning=true; startDecoding(video);
   } catch(err){
-    document.getElementById("startBtn").style.display = "";
     if(err.name==="NotAllowedError") setStatus("❌ Camera denied. Tap 🔒 in address bar → Allow Camera","er");
     else if(err.name==="NotFoundError") setStatus("❌ No camera found","er");
     else setStatus("❌ "+err.name+": "+err.message,"er");
@@ -485,26 +591,23 @@ async function startCamera(){
 }
 
 function stopCamera(){
-  scanning = false;
+  scanning=false;
   if(decodeInterval){clearInterval(decodeInterval);decodeInterval=null;}
   if(videoStream){videoStream.getTracks().forEach(t=>t.stop());videoStream=null;}
-  document.getElementById("camVideo").srcObject = null;
+  document.getElementById("scanVideo").srcObject=null;
   torchTrack=null; torchOn=false;
-  document.getElementById("torchBtn").className="cc";
+  document.getElementById("torchBtn").className="scc";
   document.getElementById("torchBtn").style.display="none";
-  updateScanTarget();
 }
 
 function startDecoding(video){
   if("BarcodeDetector" in window){
-    const det = new BarcodeDetector({ formats: ["qr_code"] });
-    decodeInterval = setInterval(async()=>{
-      if(!scanning||video.readyState<2) return;
+    const det=new BarcodeDetector({formats:["qr_code"]});
+    decodeInterval=setInterval(async()=>{
+      if(!scanning||video.readyState<2)return;
       try{ const r=await det.detect(video); if(r.length>0) onCodeDetected(r[0].rawValue); }catch(e){}
-    }, 150);
-  } else {
-    loadZXing(video);
-  }
+    },150);
+  } else { loadZXing(video); }
 }
 function loadZXing(video){
   setStatus("🔄 Loading scanner library...","s");
@@ -516,179 +619,227 @@ function loadZXing(video){
     const s2=document.createElement("script");
     s2.src="https://cdn.jsdelivr.net/npm/@zxing/browser@latest/umd/index.min.js";
     s2.onload=()=>{window._zxReady=true;startZXing(video);};
-    s2.onerror=()=>setStatus("⚠️ Scanner library failed. Type codes manually.","er");
+    s2.onerror=()=>setStatus("⚠️ Library failed. Type manually below.","er");
     document.head.appendChild(s2);
   };
   document.head.appendChild(sc);
 }
 function startZXing(video){
-  setStatus("🔍 Searching — point at QR code","s");
+  setStatus("🔍 Point at QR code","s");
   try{
-    const hints = new Map();
-    // QR code only
-    if(window.ZXingBrowser && ZXingBrowser.BarcodeFormat){
-      hints.set(ZXingBrowser.DecodeHintType.POSSIBLE_FORMATS, [ZXingBrowser.BarcodeFormat.QR_CODE]);
-    }
-    const reader = new ZXingBrowser.BrowserQRCodeReader(hints);
+    const reader=new ZXingBrowser.BrowserQRCodeReader();
     decodeInterval=setInterval(()=>{
       if(!scanning)return;
       reader.decodeFromVideoElement(video).then(r=>{if(r&&scanning)onCodeDetected(r.getText());}).catch(()=>{});
     },300);
-  }catch(e){setStatus("⚠️ Could not start decoder. Type manually.","er");}
+  }catch(e){setStatus("⚠️ Decoder failed. Type manually.","er");}
+}
+
+function onCodeDetected(text){
+  if(!text)return;
+  const now=Date.now();
+  if(text===lastScan&&now-lastScanTime<2000)return;
+  lastScan=text; lastScanTime=now;
+  if(navigator.vibrate) navigator.vibrate([100,50,100]);
+  setStatus("✅ Detected: "+text,"ok");
+  setTimeout(()=>{ closeScanner(); applyScannedValue(scanTarget, text); },600);
+}
+
+function closeScanner(){
+  stopCamera();
+  document.getElementById("scanOverlay").classList.remove("open");
+  ["cb_case","cb_place"].forEach(id=>{ const b=document.getElementById(id); if(b)b.classList.remove("scanning"); });
 }
 
 function flipCamera(){ useFrontCam=!useFrontCam; startCamera(); }
 async function toggleTorch(){
   if(!torchTrack)return; torchOn=!torchOn;
   try{ await torchTrack.applyConstraints({advanced:[{torch:torchOn}]});
-    document.getElementById("torchBtn").className="cc"+(torchOn?" on":""); }catch(e){}
+    document.getElementById("torchBtn").className="scc"+(torchOn?" on":""); }catch(e){}
 }
 
-// ── On code detected ──────────────────────────────────────
-function onCodeDetected(text){
-  if(!text) return;
-  const now = Date.now();
-  // Debounce — ignore same code within 2 seconds
-  if(text === lastScan && now - lastScanTime < 2000) return;
-  lastScan = text; lastScanTime = now;
+// Manual entry in scanner modal
+function useManual(){
+  const text=document.getElementById("manualInput").value.trim();
+  if(!text){toast("⚠️ Please type a code first","error");return;}
+  closeScanner(); applyScannedValue(scanTarget, text);
+}
 
-  // Vibrate
-  if(navigator.vibrate) navigator.vibrate([100,50,100]);
+// Route scanned value to correct field(s)
+function applyScannedValue(target, text){
+  if(target==="case")  fillCaseQR(text);
+  if(target==="place") fillLocationQR(text);
+}
 
-  // Find next empty field and fill it
-  const next = getNextEmptyField();
-  if(!next){
-    // All fields full — ignore scan
-    setStatus("✅ All fields filled — tap LOG to submit","ok");
-    return;
+// ═══════════════════════════════════════════════════════════
+//  GALLERY SCAN
+// ═══════════════════════════════════════════════════════════
+let galleryTarget = "case";
+
+function onGalleryPick(event, target){
+  const file=event.target.files[0]; if(!file)return;
+  event.target.value="";
+  galleryTarget=target;
+  document.getElementById("galleryLabel").textContent =
+    target==="case" ? "📦 Scanning Case + Item QR from image..." : "📍 Scanning Location QR from image...";
+  setGalStatus("🔍 Scanning image for QR code...","s");
+  document.getElementById("galScanOverlay").classList.add("show");
+  document.getElementById("galleryOverlay").classList.add("open");
+
+  const reader=new FileReader();
+  reader.onload=(e)=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.getElementById("galleryCanvas");
+      const maxW=400; const scale=Math.min(1,maxW/img.width);
+      canvas.width=img.width*scale; canvas.height=img.height*scale;
+      canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
+      scanGalleryImage(canvas, img);
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function setGalStatus(msg,state){
+  document.getElementById("galTxt").textContent=msg;
+  document.getElementById("galTxt").className="stxt"+(state?" "+state:"");
+  document.getElementById("galDot").className="sdot"+(state?" "+state:"");
+}
+
+async function scanGalleryImage(canvas, origImg){
+  let found=false;
+
+  if("BarcodeDetector" in window){
+    try{
+      const det=new BarcodeDetector({formats:["qr_code"]});
+      const results=await det.detect(origImg);
+      if(results.length>0){
+        found=true;
+        drawBoxes(canvas, results, origImg);
+        document.getElementById("galScanOverlay").classList.remove("show");
+        handleGalleryResult(results[0].rawValue);
+        return;
+      }
+    }catch(e){}
   }
 
-  // Fill the field
-  const inp = document.getElementById(next.field);
-  inp.value = text; inp.classList.add("filled");
-  const h = document.getElementById(next.hint);
-  if(h){ h.textContent = "✅ Scanned: "+text; h.className = "hint ok"; }
+  if(!found){
+    if(!window._zxReady){ setGalStatus("🔄 Loading library...","s"); await loadZXingPromise(); }
+    try{
+      const reader=new ZXingBrowser.BrowserQRCodeReader();
+      const dataUrl=canvas.toDataURL("image/png");
+      const result=await reader.decodeFromImageUrl(dataUrl);
+      if(result){ found=true; document.getElementById("galScanOverlay").classList.remove("show"); handleGalleryResult(result.getText()); return; }
+    }catch(e){}
+  }
 
-  // Update status
-  setStatus("✅ Got: "+text+" — now scan next code","ok");
-  setTimeout(()=>{ if(scanning) setStatus("🔍 Searching — point at next barcode","s"); },1500);
-
-  // Update target indicator
-  updateScanTarget();
-  toast("✅ Scanned: "+text, "success");
+  if(!found){
+    document.getElementById("galScanOverlay").classList.remove("show");
+    setGalStatus("❌ No QR code found. Try a clearer photo with the full QR visible.","er");
+    toast("❌ No QR code found in image","error");
+  }
 }
 
-// ════════════════════════════════════════════════════════════
-//  SUBMIT — sends data to Apps Script
-// ════════════════════════════════════════════════════════════
-let sessionLog = [];
+function drawBoxes(canvas, results, img){
+  const ctx=canvas.getContext("2d");
+  const sx=canvas.width/img.naturalWidth, sy=canvas.height/img.naturalHeight;
+  results.forEach(r=>{
+    if(r.boundingBox){
+      ctx.strokeStyle="#00e676"; ctx.lineWidth=3;
+      ctx.strokeRect(r.boundingBox.x*sx, r.boundingBox.y*sy, r.boundingBox.width*sx, r.boundingBox.height*sy);
+    }
+  });
+}
 
-function showAlert(msg, type){ const a=document.getElementById("alertBox"); a.textContent=msg; a.className="alert "+type; }
-function hideAlert(){ document.getElementById("alertBox").className="alert"; }
+function handleGalleryResult(text){
+  setGalStatus("✅ Found: "+text,"ok");
+  setTimeout(()=>{
+    closeGallery();
+    applyScannedValue(galleryTarget, text);
+  },800);
+}
+
+function closeGallery(){
+  document.getElementById("galleryOverlay").classList.remove("open");
+}
+
+function loadZXingPromise(){
+  return new Promise(resolve=>{
+    if(window._zxReady){resolve();return;}
+    const sc=document.createElement("script");
+    sc.src="https://unpkg.com/@zxing/browser@latest/umd/index.min.js";
+    sc.onload=()=>{window._zxReady=true;resolve();};
+    sc.onerror=()=>{
+      const s2=document.createElement("script");
+      s2.src="https://cdn.jsdelivr.net/npm/@zxing/browser@latest/umd/index.min.js";
+      s2.onload=()=>{window._zxReady=true;resolve();};
+      s2.onerror=()=>resolve();
+      document.head.appendChild(s2);
+    };
+    document.head.appendChild(sc);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SUBMIT
+// ═══════════════════════════════════════════════════════════
+let sessionLog=[];
 
 async function doSubmit(){
-  const caseNo = document.getElementById("f_case").value.trim();
-  const itemNo = document.getElementById("f_item").value.trim();
-  const place  = document.getElementById("f_place").value.trim();
-  const user   = document.getElementById("f_user").value.trim();
-  hideAlert();
-
+  const caseNo=gv("f_case"), itemNo=gv("f_item"), place=gv("f_place"), user=gv("f_user");
+  hideBanner();
   if(!caseNo) return toast("⚠️ Case No. is required","error");
-  if(!itemNo) return toast("⚠️ Item No. is required","error");
+  if(!itemNo) return toast("⚠️ Item No. is required — scan the Case QR (format: CASE-ITEM)","error");
   if(!place)  return toast("⚠️ Location is required","error");
   if(!user)   return toast("⚠️ Your name is required","error");
 
-  const url = getScriptUrl();
-  if(!url){ showAlert("⚠️ Apps Script URL not set. Paste your URL at the top of the page.","warn"); return; }
+  const url=getScriptUrl();
+  if(!url){ showBanner("⚠️ Apps Script URL not set. Paste your URL in the setup banner.","warning"); return; }
 
-  localStorage.setItem("kd_user", user);
+  localStorage.setItem("kd_user",user);
+  const btn=document.getElementById("submitBtn");
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span>Logging...';
 
-  const btn = document.getElementById("submitBtn");
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spin"></span>Logging...';
-
-  const data = { caseNo, itemNo, place, user, remark };
+  const data={caseNo,itemNo,place,user,remark};
+  const params=new URLSearchParams({caseNo,itemNo,place,user,remark,action:"logScan"});
 
   try{
-    // Apps Script requires a GET or POST with no-cors mode
-    // We use fetch with mode no-cors — Apps Script handles CORS via redirect
-    const params = new URLSearchParams({
-      caseNo, itemNo, place, user, remark,
-      action: "logScan"
-    });
-
-    const response = await fetch(url + "?" + params.toString(), {
-      method: "GET",
-      mode: "no-cors"
-    });
-
-    // no-cors always returns opaque response — we assume success
-    // The Apps Script will log it regardless
-    onSubmitSuccess(data);
-
-  } catch(err){
-    btn.disabled = false; setRemark(remark);
-    showAlert("❌ Network error: "+err.message+". Check your internet connection.", "err");
+    await fetch(url+"?"+params.toString(),{method:"GET",mode:"no-cors"});
+    btn.disabled=false; setRemark(remark);
+    toast("✅ "+caseNo+" / "+itemNo+" logged "+remark,"success");
+    addLog(data,false); resetForm();
+  }catch(err){
+    btn.disabled=false; setRemark(remark);
+    showBanner("❌ Network error: "+err.message,"err");
   }
-}
-
-function onSubmitSuccess(data){
-  const btn = document.getElementById("submitBtn");
-  btn.disabled = false; setRemark(remark);
-  toast("✅ "+data.caseNo+" logged "+data.remark,"success");
-  addLog(data, false);
-  resetForm();
-  loadStats();
 }
 
 function resetForm(){
   ["f_case","f_item","f_place"].forEach(id=>{
     const el=document.getElementById(id); el.value=""; el.classList.remove("filled");
   });
-  [["h_case","📷 Camera will scan QR code automatically"],
-   ["h_item","📷 Camera will scan QR code automatically"],
-   ["h_place","📷 Camera will scan QR code automatically"]].forEach(([id,txt])=>{
-    const h=document.getElementById(id); if(h){h.textContent=txt;h.className="hint";}
+  [["h_case","📷 Scan QR to auto-fill Case No. + Item No. (format: CASE-ITEM)"],
+   ["h_item","Auto-filled · or type manually if needed"],
+   ["h_place","📷 Scan the shelf / rack QR label"]].forEach(([id,txt])=>{
+    const h=document.getElementById(id); if(h){h.textContent=txt;h.className="field-hint";}
   });
-  lastScan = "";
-  updateScanTarget();
+  ["cb_case","cb_place"].forEach(id=>{const b=document.getElementById(id);if(b){b.textContent="📷";b.classList.remove("done","scanning");}});
+  ["gb_case","gb_place"].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.remove("done");});
+  updateSteps();
 }
 
-// ════════════════════════════════════════════════════════════
-//  STATS — fetch from Apps Script
-// ════════════════════════════════════════════════════════════
-async function loadStats(){
-  const url = getScriptUrl();
-  if(!url) return;
-  try{
-    const res = await fetch(url + "?action=getSummary", { mode:"no-cors" });
-    // no-cors = opaque, can't read response body
-    // Stats will show from session log only
-  } catch(e){}
-
-  // Update from session log
-  const i = sessionLog.filter(r=>r.remark==="IN"&&!r.isAlert).length;
-  const o = sessionLog.filter(r=>r.remark==="OUT"&&!r.isAlert).length;
-  document.getElementById("statIn").textContent  = i;
-  document.getElementById("statOut").textContent = o;
-  document.getElementById("statNet").textContent = i-o;
-}
-
-// ════════════════════════════════════════════════════════════
-//  SESSION LOG
-// ════════════════════════════════════════════════════════════
-function addLog(data, isAlert){
-  sessionLog.unshift({...data, time:new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}), isAlert});
-  if(sessionLog.length>30) sessionLog.pop();
+// ─── SESSION LOG ──────────────────────────────────────────
+function addLog(data,isAlert){
+  sessionLog.unshift({...data,time:new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}),isAlert});
+  if(sessionLog.length>30)sessionLog.pop();
   renderLog();
-  // Update stats from session
   const i=sessionLog.filter(r=>r.remark==="IN"&&!r.isAlert).length;
   const o=sessionLog.filter(r=>r.remark==="OUT"&&!r.isAlert).length;
   document.getElementById("statIn").textContent=i;
   document.getElementById("statOut").textContent=o;
   document.getElementById("statNet").textContent=i-o;
 }
-
 function renderLog(){
   const list=document.getElementById("logList");
   if(!sessionLog.length){list.innerHTML='<div class="log-empty">No logs yet this session</div>';return;}
@@ -703,216 +854,8 @@ function renderLog(){
     </div>`).join("");
 }
 
-// ════════════════════════════════════════════════════════════
-//  GALLERY SCAN — pick image from phone gallery
-// ════════════════════════════════════════════════════════════
-
-function onGalleryPick(event){
-  const file = event.target.files[0];
-  if(!file) return;
-
-  // Reset file input so same image can be picked again
-  event.target.value = "";
-
-  // Stop live camera if running
-  stopCamera();
-  document.getElementById("startBtn").style.display = "";
-
-  // Show preview section
-  const preview = document.getElementById("galleryPreview");
-  preview.classList.add("show");
-  setGalStatus("🔍 Scanning image for barcodes...", "s");
-  document.getElementById("galleryScanOverlay").classList.add("show");
-
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const img = new Image();
-    img.onload = () => {
-      // Draw image to canvas
-      const canvas  = document.getElementById("galleryCanvas");
-      const maxW    = 400;
-      const scale   = Math.min(1, maxW / img.width);
-      canvas.width  = img.width  * scale;
-      canvas.height = img.height * scale;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-      // Try scanning
-      scanImageCanvas(canvas, img);
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-function setGalStatus(msg, state){
-  document.getElementById("galTxt").textContent = msg;
-  document.getElementById("galTxt").className = "stxt"+(state?" "+state:"");
-  document.getElementById("galDot").className  = "sdot"+(state?" "+state:"");
-}
-
-async function scanImageCanvas(canvas, originalImg){
-  let detected = false;
-
-  // ── Method 1: BarcodeDetector (fastest, Android Chrome) ──
-  if("BarcodeDetector" in window){
-    try{
-      const det = new BarcodeDetector({ formats: ["qr_code"] });
-      // Scan the original image blob for best quality
-      const results = await det.detect(originalImg);
-      if(results.length > 0){
-        detected = true;
-        document.getElementById("galleryScanOverlay").classList.remove("show");
-        drawDetectedBoxes(canvas, results, originalImg);
-        handleGalleryResults(results.map(r=>r.rawValue));
-        return;
-      }
-    } catch(e){ console.log("BarcodeDetector error:", e); }
-  }
-
-  // ── Method 2: ZXing QR-only fallback ──
-  if(!detected){
-    if(!window._zxReady){
-      setGalStatus("🔄 Loading scanner library...", "s");
-      await loadZXingPromise();
-    }
-    try{
-      const reader = new ZXingBrowser.BrowserQRCodeReader();
-      // ZXing can scan from canvas image data URL
-      const dataUrl = canvas.toDataURL("image/png");
-      const result  = await reader.decodeFromImageUrl(dataUrl);
-      if(result){
-        detected = true;
-        document.getElementById("galleryScanOverlay").classList.remove("show");
-        handleGalleryResults([result.getText()]);
-        return;
-      }
-    } catch(e){ console.log("ZXing error:", e); }
-  }
-
-  // ── No QR found ──
-  if(!detected){
-    document.getElementById("galleryScanOverlay").classList.remove("show");
-    setGalStatus("❌ No QR code found in this image. Try a clearer photo with the full QR code visible.", "er");
-    toast("❌ No QR code found in image","error");
-  }
-}
-
-function drawDetectedBoxes(canvas, results, img){
-  // Draw green boxes around detected barcodes on canvas
-  const ctx   = canvas.getContext("2d");
-  const scaleX = canvas.width  / img.naturalWidth;
-  const scaleY = canvas.height / img.naturalHeight;
-  results.forEach(r=>{
-    if(r.boundingBox){
-      ctx.strokeStyle = "#00e676";
-      ctx.lineWidth   = 3;
-      ctx.strokeRect(
-        r.boundingBox.x      * scaleX,
-        r.boundingBox.y      * scaleY,
-        r.boundingBox.width  * scaleX,
-        r.boundingBox.height * scaleY
-      );
-    }
-  });
-}
-
-function handleGalleryResults(codes){
-  if(!codes || codes.length === 0) return;
-
-  const unique = [...new Set(codes.filter(Boolean))];
-
-  if(unique.length === 1){
-    // Single code found — fill next empty field
-    const code = unique[0];
-    setGalStatus("✅ Found: " + code, "ok");
-    toast("✅ Scanned from image: "+code, "success");
-    if(navigator.vibrate) navigator.vibrate([100,50,100]);
-
-    const next = getNextEmptyField();
-    if(next){
-      const inp = document.getElementById(next.field);
-      inp.value = code; inp.classList.add("filled");
-      const h = document.getElementById(next.hint);
-      if(h){ h.textContent = "✅ From gallery: "+code; h.className = "hint ok"; }
-      updateScanTarget();
-    } else {
-      setGalStatus("✅ Found: "+code+" — all fields already filled. Copy it manually if needed.", "ok");
-    }
-
-  } else {
-    // Multiple codes found — show picker
-    setGalStatus("✅ Found "+unique.length+" codes — tap one to use it", "ok");
-    showMultiPicker(unique);
-  }
-}
-
-// Multi-code picker modal
-function showMultiPicker(codes){
-  // Remove existing picker if any
-  const existing = document.getElementById("multiPickerModal");
-  if(existing) existing.remove();
-
-  const modal = document.createElement("div");
-  modal.id = "multiPickerModal";
-  modal.style.cssText = `
-    position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:600;
-    display:flex;align-items:flex-end;justify-content:center;padding:16px;
-  `;
-  modal.innerHTML = `
-    <div style="width:100%;max-width:440px;background:#1a1d27;border:1px solid #2a2e3d;border-radius:16px;overflow:hidden;">
-      <div style="padding:12px 16px;border-bottom:1px solid #2a2e3d;display:flex;align-items:center;justify-content:space-between;">
-        <div style="font-size:12px;font-weight:700;color:#e8eaf0;">📋 Multiple codes found — tap one to use</div>
-        <button onclick="document.getElementById('multiPickerModal').remove()" style="background:none;border:none;color:#8890a4;font-size:20px;cursor:pointer;line-height:1;">✕</button>
-      </div>
-      <div style="padding:10px 12px;display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto;">
-        ${codes.map((c,i)=>`
-          <button onclick="usePickedCode('${c.replace(/'/g,"\\'")}'); document.getElementById('multiPickerModal').remove();"
-            style="width:100%;padding:12px 14px;background:#20242f;border:1px solid #2a2e3d;
-              border-radius:10px;color:#e8eaf0;font-family:monospace;font-size:13px;
-              text-align:left;cursor:pointer;transition:border-color .2s;word-break:break-all;">
-            <span style="font-size:10px;color:#8890a4;display:block;margin-bottom:3px;">CODE ${i+1}</span>
-            ${x(c)}
-          </button>`).join("")}
-      </div>
-    </div>`;
-  document.body.appendChild(modal);
-}
-
-function usePickedCode(code){
-  const next = getNextEmptyField();
-  if(next){
-    const inp = document.getElementById(next.field);
-    inp.value = code; inp.classList.add("filled");
-    const h = document.getElementById(next.hint);
-    if(h){ h.textContent = "✅ From gallery: "+code; h.className = "hint ok"; }
-    updateScanTarget();
-    toast("✅ Used: "+code, "success");
-  } else {
-    toast("⚠️ All fields already filled","warning");
-  }
-}
-
-// Promise-based ZXing loader for gallery use
-function loadZXingPromise(){
-  return new Promise((resolve)=>{
-    if(window._zxReady){ resolve(); return; }
-    const sc = document.createElement("script");
-    sc.src = "https://unpkg.com/@zxing/browser@latest/umd/index.min.js";
-    sc.onload = ()=>{ window._zxReady=true; resolve(); };
-    sc.onerror = ()=>{
-      const s2 = document.createElement("script");
-      s2.src = "https://cdn.jsdelivr.net/npm/@zxing/browser@latest/umd/index.min.js";
-      s2.onload = ()=>{ window._zxReady=true; resolve(); };
-      s2.onerror = ()=>{ resolve(); }; // resolve anyway, will fail gracefully
-      document.head.appendChild(s2);
-    };
-    document.head.appendChild(sc);
-  });
-}
-
-function toast(msg,type){ const t=document.getElementById("toast"); t.textContent=msg; t.className="show "+(type||""); setTimeout(()=>t.className="",3000); }
-function x(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function toast(msg,type){const t=document.getElementById("toast");t.textContent=msg;t.className="show "+(type||"");setTimeout(()=>t.className="",3500);}
+function x(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 </script>
 </body>
 </html>
