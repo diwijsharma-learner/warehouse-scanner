@@ -254,7 +254,7 @@
 
   <!-- ── GALLERY PREVIEW ── -->
   <div class="gallery-preview" id="galleryPreview">
-    <div class="gallery-preview-title">🖼️ Image from Gallery — Scanning for barcodes...</div>
+    <div class="gallery-preview-title">🖼️ Image from Gallery — Scanning for QR codes...</div>
     <div class="gallery-img-wrap">
       <canvas id="galleryCanvas"></canvas>
       <div class="gallery-scan-overlay" id="galleryScanOverlay">
@@ -270,12 +270,12 @@
   <!-- ── SCAN TARGET INDICATOR ── -->
   <div class="scan-target-bar idle" id="scanTargetBar">
     <div class="scan-target-dot"></div>
-    <div class="scan-target-txt" id="scanTargetTxt">Start camera to begin scanning</div>
+    <div class="scan-target-txt" id="scanTargetTxt">Start camera to scan QR codes</div>
   </div>
 
   <!-- ── CAMERA ── -->
   <div class="cam-card">
-    <div class="cam-title">📷 Point camera at barcode or QR</div>
+    <div class="cam-title">📷 Point camera at QR code</div>
     <div class="cam-viewport">
       <video id="camVideo" autoplay playsinline muted></video>
       <div class="sh sh-t"></div><div class="sh sh-b"></div>
@@ -289,7 +289,7 @@
     </div>
     <div class="cam-status">
       <div class="sdot" id="sdot"></div>
-      <div class="stxt" id="stxt">Tap "Start Camera Scanner" to begin</div>
+      <div class="stxt" id="stxt">Tap "Live Camera" to scan QR codes</div>
     </div>
     <div class="cam-ctrls">
       <button class="cc" onclick="flipCamera()">🔄 Flip</button>
@@ -306,17 +306,17 @@
     <div class="field">
       <label>📦 Case No.</label>
       <input type="text" id="f_case" placeholder="Scan with camera or type..." autocomplete="off"/>
-      <div class="hint" id="h_case">📷 Camera will fill this automatically</div>
+      <div class="hint" id="h_case">📷 Camera will scan QR code automatically</div>
     </div>
     <div class="field">
       <label>🏷️ Item No.</label>
       <input type="text" id="f_item" placeholder="Scan with camera or type..." autocomplete="off"/>
-      <div class="hint" id="h_item">📷 Camera will fill this automatically</div>
+      <div class="hint" id="h_item">📷 Camera will scan QR code automatically</div>
     </div>
     <div class="field">
       <label>📍 Location</label>
       <input type="text" id="f_place" placeholder="Scan with camera or type..." autocomplete="off"/>
-      <div class="hint" id="h_place">📷 Camera will fill this automatically</div>
+      <div class="hint" id="h_place">📷 Camera will scan QR code automatically</div>
     </div>
     <div class="field">
       <label>👤 Your Name</label>
@@ -407,9 +407,9 @@ function setRemark(r){
 // ════════════════════════════════════════════════════════════
 // Scan order: case → item → place (each QR fills the next empty field)
 const SCAN_ORDER = [
-  { field:"f_case",  hint:"h_case",  label:"🎯 Next: Scan Case No."    },
-  { field:"f_item",  hint:"h_item",  label:"🎯 Next: Scan Item No."    },
-  { field:"f_place", hint:"h_place", label:"🎯 Next: Scan Location"    },
+  { field:"f_case",  hint:"h_case",  label:"🎯 Next: Scan Case No. QR"    },
+  { field:"f_item",  hint:"h_item",  label:"🎯 Next: Scan Item No. QR"    },
+  { field:"f_place", hint:"h_place", label:"🎯 Next: Scan Location QR"    },
 ];
 
 function getNextEmptyField(){
@@ -428,7 +428,7 @@ function updateScanTarget(){
     txt.textContent = "✅ All scanned — enter name and tap LOG";
   } else if(!isScanning()){
     bar.className = "scan-target-bar idle";
-    txt.textContent = "Start camera to begin scanning";
+    txt.textContent = "Start camera to scan QR codes";
   } else {
     bar.className = "scan-target-bar";
     txt.textContent = next.label;
@@ -471,7 +471,7 @@ async function startCamera(){
         if(c.torch) document.getElementById("torchBtn").style.display=""; }
     }
 
-    setStatus("🔍 Searching — hold phone 10–15cm from barcode", "s");
+    setStatus("🔍 Searching — hold phone steady near QR code", "s");
     scanning = true;
     updateScanTarget();
     startDecoding(video);
@@ -497,7 +497,7 @@ function stopCamera(){
 
 function startDecoding(video){
   if("BarcodeDetector" in window){
-    const det = new BarcodeDetector({formats:["qr_code","code_128","code_39","code_93","ean_13","ean_8","upc_a","upc_e","data_matrix","itf","codabar","aztec","pdf417"]});
+    const det = new BarcodeDetector({ formats: ["qr_code"] });
     decodeInterval = setInterval(async()=>{
       if(!scanning||video.readyState<2) return;
       try{ const r=await det.detect(video); if(r.length>0) onCodeDetected(r[0].rawValue); }catch(e){}
@@ -522,9 +522,14 @@ function loadZXing(video){
   document.head.appendChild(sc);
 }
 function startZXing(video){
-  setStatus("🔍 Searching — hold phone 10–15cm from barcode","s");
+  setStatus("🔍 Searching — point at QR code","s");
   try{
-    const reader=new ZXingBrowser.BrowserMultiFormatReader();
+    const hints = new Map();
+    // QR code only
+    if(window.ZXingBrowser && ZXingBrowser.BarcodeFormat){
+      hints.set(ZXingBrowser.DecodeHintType.POSSIBLE_FORMATS, [ZXingBrowser.BarcodeFormat.QR_CODE]);
+    }
+    const reader = new ZXingBrowser.BrowserQRCodeReader(hints);
     decodeInterval=setInterval(()=>{
       if(!scanning)return;
       reader.decodeFromVideoElement(video).then(r=>{if(r&&scanning)onCodeDetected(r.getText());}).catch(()=>{});
@@ -640,9 +645,9 @@ function resetForm(){
   ["f_case","f_item","f_place"].forEach(id=>{
     const el=document.getElementById(id); el.value=""; el.classList.remove("filled");
   });
-  [["h_case","📷 Camera will fill this automatically"],
-   ["h_item","📷 Camera will fill this automatically"],
-   ["h_place","📷 Camera will fill this automatically"]].forEach(([id,txt])=>{
+  [["h_case","📷 Camera will scan QR code automatically"],
+   ["h_item","📷 Camera will scan QR code automatically"],
+   ["h_place","📷 Camera will scan QR code automatically"]].forEach(([id,txt])=>{
     const h=document.getElementById(id); if(h){h.textContent=txt;h.className="hint";}
   });
   lastScan = "";
@@ -752,10 +757,7 @@ async function scanImageCanvas(canvas, originalImg){
   // ── Method 1: BarcodeDetector (fastest, Android Chrome) ──
   if("BarcodeDetector" in window){
     try{
-      const det = new BarcodeDetector({
-        formats:["qr_code","code_128","code_39","code_93","ean_13","ean_8",
-                 "upc_a","upc_e","data_matrix","itf","codabar","aztec","pdf417"]
-      });
+      const det = new BarcodeDetector({ formats: ["qr_code"] });
       // Scan the original image blob for best quality
       const results = await det.detect(originalImg);
       if(results.length > 0){
@@ -768,14 +770,14 @@ async function scanImageCanvas(canvas, originalImg){
     } catch(e){ console.log("BarcodeDetector error:", e); }
   }
 
-  // ── Method 2: ZXing library fallback ──
+  // ── Method 2: ZXing QR-only fallback ──
   if(!detected){
     if(!window._zxReady){
       setGalStatus("🔄 Loading scanner library...", "s");
       await loadZXingPromise();
     }
     try{
-      const reader = new ZXingBrowser.BrowserMultiFormatReader();
+      const reader = new ZXingBrowser.BrowserQRCodeReader();
       // ZXing can scan from canvas image data URL
       const dataUrl = canvas.toDataURL("image/png");
       const result  = await reader.decodeFromImageUrl(dataUrl);
@@ -788,11 +790,11 @@ async function scanImageCanvas(canvas, originalImg){
     } catch(e){ console.log("ZXing error:", e); }
   }
 
-  // ── No code found ──
+  // ── No QR found ──
   if(!detected){
     document.getElementById("galleryScanOverlay").classList.remove("show");
-    setGalStatus("❌ No barcode or QR code found in this image. Try a clearer photo.", "er");
-    toast("❌ No barcode found in image","error");
+    setGalStatus("❌ No QR code found in this image. Try a clearer photo with the full QR code visible.", "er");
+    toast("❌ No QR code found in image","error");
   }
 }
 
