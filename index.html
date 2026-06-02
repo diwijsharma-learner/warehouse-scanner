@@ -816,23 +816,63 @@ function resetForm(){
 }
 
 // ─── SEARCH ───────────────────────────────────────────────
-function doSearch(){
-  const caseNo=document.getElementById("s_case").value.trim();
-  const itemNo=document.getElementById("s_item").value.trim();
-  if(!caseNo&&!itemNo) return toast("⚠️ Enter Case No. or Item No. to search","error");
-  const card=document.getElementById("resultCard"); card.classList.add("show");
-  document.getElementById("resultStatus").textContent="🔍 Searching...";
-  document.getElementById("resultDetails").innerHTML="";
-  const url=getScriptUrl();
-  if(!url){ document.getElementById("resultStatus").innerHTML='<span class="clr-none">⚠️ Apps Script URL not set</span>'; return; }
-  const params=new URLSearchParams({action:"searchItem", caseNo, itemNo});
-  fetch(url+"?"+params.toString(),{method:"GET",mode:"no-cors"})
-    .then(()=>{
-      // no-cors = opaque response, can't read body
-      // Show a helpful message
-      document.getElementById("resultStatus").innerHTML='<span style="color:#ffc107;">⚠️ Search requires the Apps Script URL to return data. Use the Google Sheet directly for search, or upgrade to a CORS-enabled deployment.</span>';
-    })
-    .catch(()=>{ document.getElementById("resultStatus").innerHTML='<span class="clr-none">❌ Search failed — check connection</span>'; });
+async function doSearch(){
+
+  const caseNo =
+    document.getElementById("s_case").value.trim();
+
+  const itemNo =
+    document.getElementById("s_item").value.trim();
+
+  if(!caseNo && !itemNo){
+    return toast("⚠️ Enter Case ID to search","error");
+  }
+
+  const card =
+    document.getElementById("resultCard");
+
+  card.classList.add("show");
+
+  document.getElementById("resultStatus").textContent =
+    "🔍 Searching...";
+
+  document.getElementById("resultDetails").innerHTML = "";
+
+  const url = getScriptUrl();
+
+  if(!url){
+    document.getElementById("resultStatus").innerHTML =
+      '<span class="clr-none">⚠️ Apps Script URL not set</span>';
+    return;
+  }
+
+  try{
+
+    const params =
+      new URLSearchParams({
+        action:"searchItem",
+        caseNo:caseNo,
+        itemNo:itemNo
+      });
+
+    const response =
+      await fetch(
+        url + "?" + params.toString()
+      );
+
+    const data =
+      await response.json();
+
+    showResult(data);
+
+  }catch(err){
+
+    document.getElementById("resultStatus").innerHTML =
+      '<span class="clr-none">❌ Search failed</span>';
+
+    console.error(err);
+
+  }
 }
 
 // ─── LOG ──────────────────────────────────────────────────
