@@ -874,6 +874,58 @@ async function doSearch(){
 
   }
 }
+ function showResult(res){
+
+  const stat = document.getElementById("resultStatus");
+  const det  = document.getElementById("resultDetails");
+
+  if(!res || !res.success){
+    stat.innerHTML =
+      '<span class="clr-none">❌ Search error</span>';
+    det.innerHTML = "";
+    return;
+  }
+
+  if(!res.found || !res.results || res.results.length===0){
+    stat.innerHTML =
+      '<span class="clr-none">❓ No record found</span>';
+    det.innerHTML =
+      '<p style="color:#8890a4">No matching Case ID found.</p>';
+    return;
+  }
+
+  const r = res.results[0];
+
+  const isIn = r.status === "IN";
+
+  stat.innerHTML = isIn
+    ? '<span class="clr-in">✅ Currently IN Warehouse</span>'
+    : '<span class="clr-out">🔴 Currently Checked OUT</span>';
+
+  det.innerHTML = `
+    <div class="r-row">
+      <div class="r-lbl">CASE ID</div>
+      <div class="r-val">${r.caseId || "-"}</div>
+    </div>
+
+    <div class="r-row">
+      <div class="r-lbl">LOCATION</div>
+      <div class="r-val">${r.location || "-"}</div>
+    </div>
+
+    <hr class="r-divider">
+
+    <div class="r-row">
+      <div class="r-lbl">DATE</div>
+      <div class="r-val">${r.dateIn || "-"}</div>
+    </div>
+
+    <div class="r-row">
+      <div class="r-lbl">USER</div>
+      <div class="r-val">${r.userIn || "-"}</div>
+    </div>
+  `;
+}
 
 // ─── LOG ──────────────────────────────────────────────────
 function addLog(data,isAlert){
