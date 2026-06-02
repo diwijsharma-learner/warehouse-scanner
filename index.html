@@ -6,58 +6,47 @@
 <title>KD Warehouse Scanner</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{
-    background:#0f1117;color:#e8eaf0;
-    font-family:Arial,sans-serif;
-    min-height:100vh;
-    display:flex;flex-direction:column;align-items:center;
-    padding:0 0 60px;
-  }
+  body{background:#0f1117;color:#e8eaf0;font-family:Arial,sans-serif;
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 0 60px;}
 
   /* HEADER */
-  header{
-    width:100%;background:#1a1d2e;border-bottom:1px solid #2a2e3d;
-    padding:14px 18px;display:flex;align-items:center;gap:12px;
-    position:sticky;top:0;z-index:100;
-  }
+  header{width:100%;background:#1a1d2e;border-bottom:1px solid #2a2e3d;
+    padding:14px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;}
   .logo{width:38px;height:38px;background:linear-gradient(135deg,#00e676,#6c63ff);
     border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
   header h1{font-size:15px;letter-spacing:.03em;font-weight:700;}
   header p{font-size:11px;color:#8890a4;margin-top:1px;}
 
-  .container{width:100%;max-width:440px;padding:16px 14px 0;}
+  /* TABS */
+  .tabs{width:calc(100% - 28px);max-width:440px;display:flex;margin:14px auto 0;
+    background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;overflow:hidden;}
+  .tab{flex:1;padding:11px 6px;text-align:center;font-size:11px;font-weight:700;
+    letter-spacing:.04em;cursor:pointer;background:transparent;color:#8890a4;border:none;transition:all .2s;}
+  .tab.active{background:#6c63ff;color:#fff;}
+
+  .tab-panel{display:none;width:100%;max-width:440px;padding:14px 14px 0;}
+  .tab-panel.active{display:block;}
 
   /* CONFIG BANNER */
-  .config-banner{
-    background:rgba(255,193,7,.08);border:1px solid rgba(255,193,7,.35);
-    border-radius:12px;padding:12px 14px;margin-bottom:14px;
-    font-size:12px;color:#ffc107;line-height:1.5;display:none;
-  }
+  .config-banner{background:rgba(255,193,7,.08);border:1px solid rgba(255,193,7,.35);
+    border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:#ffc107;line-height:1.5;display:none;}
   .config-banner.show{display:block;}
-  .config-banner input[type=text]{
-    width:100%;background:#20242f;border:1px solid rgba(255,193,7,.4);
-    border-radius:8px;color:#e8eaf0;font-size:12px;padding:9px 11px;
-    outline:none;margin-top:8px;font-family:monospace;
-  }
-  .config-save{
-    margin-top:8px;padding:8px 16px;background:#ffc107;border:none;
-    border-radius:8px;color:#111;font-weight:700;font-size:12px;cursor:pointer;
-  }
+  .config-banner input[type=text]{width:100%;background:#20242f;border:1px solid rgba(255,193,7,.4);
+    border-radius:8px;color:#e8eaf0;font-size:12px;padding:9px 11px;outline:none;margin-top:8px;font-family:monospace;}
+  .config-save{margin-top:8px;padding:8px 16px;background:#ffc107;border:none;
+    border-radius:8px;color:#111;font-weight:700;font-size:12px;cursor:pointer;}
 
   /* STATS */
   .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
   .stat{background:#1a1d27;border:1px solid #2a2e3d;border-radius:12px;padding:10px 8px;text-align:center;}
   .stat .val{font-size:20px;font-weight:700;font-family:monospace;line-height:1;}
   .stat .lbl{font-size:10px;color:#8890a4;margin-top:3px;text-transform:uppercase;letter-spacing:.04em;}
-  .stat.s-in .val{color:#00e676;}
-  .stat.s-out .val{color:#ff5252;}
-  .stat.s-net .val{color:#6c63ff;}
+  .stat.s-in .val{color:#00e676;} .stat.s-out .val{color:#ff5252;} .stat.s-net .val{color:#6c63ff;}
 
   /* IN / OUT TOGGLE */
   .toggle-row{display:flex;gap:8px;margin-bottom:14px;}
-  .tog{flex:1;padding:13px;border-radius:12px;border:2px solid #2a2e3d;
-    background:#1a1d27;color:#8890a4;font-size:13px;font-weight:700;
-    cursor:pointer;transition:all .2s;letter-spacing:.03em;}
+  .tog{flex:1;padding:13px;border-radius:12px;border:2px solid #2a2e3d;background:#1a1d27;
+    color:#8890a4;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.03em;}
   .tog.in-on{border-color:#00e676;background:rgba(0,230,118,.08);color:#00e676;}
   .tog.out-on{border-color:#ff5252;background:rgba(255,82,82,.08);color:#ff5252;}
 
@@ -69,17 +58,16 @@
   .how-step.waiting{border-color:#2a2e3d;background:rgba(255,255,255,.02);}
   .how-step.current{border-color:#6c63ff;background:rgba(108,99,255,.08);}
   .how-step.done{border-color:rgba(0,230,118,.3);background:rgba(0,230,118,.05);}
-  .step-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:#20242f;border:1px solid #2a2e3d;transition:all .3s;}
+  .step-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;
+    font-size:14px;flex-shrink:0;background:#20242f;border:1px solid #2a2e3d;transition:all .3s;}
   .how-step.current .step-icon{background:rgba(108,99,255,.15);border-color:#6c63ff;}
   .how-step.done .step-icon{background:rgba(0,230,118,.12);border-color:rgba(0,230,118,.4);}
   .step-body{flex:1;}
   .step-label{font-size:12px;font-weight:700;color:#8890a4;transition:color .3s;}
-  .how-step.current .step-label{color:#e8eaf0;}
-  .how-step.done .step-label{color:#00e676;}
+  .how-step.current .step-label{color:#e8eaf0;} .how-step.done .step-label{color:#00e676;}
   .step-desc{font-size:10px;color:#8890a4;margin-top:1px;}
-  .step-arrow{font-size:10px;color:#8890a4;flex-shrink:0;transition:color .3s;}
-  .how-step.current .step-arrow{color:#6c63ff;}
-  .how-step.done .step-arrow{color:#00e676;}
+  .step-arrow{font-size:10px;color:#8890a4;flex-shrink:0;}
+  .how-step.current .step-arrow{color:#6c63ff;} .how-step.done .step-arrow{color:#00e676;}
 
   /* ALERT BANNER */
   .alert-banner{display:none;padding:11px 14px;border-radius:10px;margin-bottom:12px;font-size:12px;font-weight:600;line-height:1.4;}
@@ -88,63 +76,82 @@
 
   /* FORM CARD */
   .form-card{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;padding:16px;margin-bottom:14px;}
-  .field{margin-bottom:13px;}
-  .field:last-child{margin-bottom:0;}
+  .field{margin-bottom:13px;} .field:last-child{margin-bottom:0;}
   .field label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;margin-bottom:6px;}
-
-  /* Input row with scan button */
   .input-row{display:flex;gap:8px;align-items:stretch;}
-  .input-row input{
-    flex:1;background:#20242f;border:1.5px solid #2a2e3d;border-radius:10px;
-    color:#e8eaf0;font-family:monospace;font-size:13px;padding:12px 13px;
-    outline:none;transition:border-color .2s;min-width:0;
-  }
+  .input-row input{flex:1;background:#20242f;border:1.5px solid #2a2e3d;border-radius:10px;
+    color:#e8eaf0;font-family:monospace;font-size:13px;padding:12px 13px;outline:none;transition:border-color .2s;min-width:0;}
   .input-row input:focus{border-color:#6c63ff;}
   .input-row input.filled{border-color:#00e676;background:rgba(0,230,118,.04);}
   .input-row input::placeholder{color:#8890a4;font-size:12px;font-family:Arial;}
+  .field input[type=text]{width:100%;background:#20242f;border:1.5px solid #2a2e3d;border-radius:10px;
+    color:#e8eaf0;font-size:13px;padding:12px 13px;outline:none;font-family:Arial;transition:border-color .2s;}
+  .field input[type=text]:focus{border-color:#6c63ff;}
+  .field-hint{font-size:10px;color:#8890a4;margin-top:4px;} .field-hint.ok{color:#00e676;}
 
-  /* 📷 scan button beside field */
-  .scan-field-btn{
-    width:48px;height:48px;flex-shrink:0;
-    background:#20242f;border:1.5px solid #2a2e3d;border-radius:10px;
-    color:#e8eaf0;font-size:20px;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    transition:all .2s;
-  }
+  /* Scan / Gallery buttons beside field */
+  .scan-field-btn{width:48px;height:48px;flex-shrink:0;background:#20242f;border:1.5px solid #2a2e3d;
+    border-radius:10px;color:#e8eaf0;font-size:20px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:all .2s;}
   .scan-field-btn:hover{border-color:#6c63ff;background:rgba(108,99,255,.1);}
   .scan-field-btn.scanning{border-color:#00e676;background:rgba(0,230,118,.1);animation:pulse 1.5s infinite;}
   .scan-field-btn.done{border-color:#00e676;background:rgba(0,230,118,.08);color:#00e676;}
-  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,.4)}50%{box-shadow:0 0 0 5px rgba(0,230,118,0)}}
-
-  /* Gallery button beside field */
-  .gallery-field-btn{
-    width:48px;height:48px;flex-shrink:0;
-    background:#20242f;border:1.5px solid #2a2e3d;border-radius:10px;
-    color:#8890a4;font-size:18px;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    transition:all .2s;
-  }
+  .gallery-field-btn{width:48px;height:48px;flex-shrink:0;background:#20242f;border:1.5px solid #2a2e3d;
+    border-radius:10px;color:#8890a4;font-size:18px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:all .2s;}
   .gallery-field-btn:hover{border-color:#6c63ff;color:#e8eaf0;}
   .gallery-field-btn.done{border-color:#00e676;color:#00e676;}
-
-  .field-hint{font-size:10px;color:#8890a4;margin-top:4px;}
-  .field-hint.ok{color:#00e676;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,.4)}50%{box-shadow:0 0 0 5px rgba(0,230,118,0)}}
 
   /* SUBMIT */
-  #submitBtn{
-    width:100%;padding:14px;border:none;border-radius:12px;
-    font-size:14px;font-weight:700;letter-spacing:.05em;cursor:pointer;transition:all .2s;
-  }
+  #submitBtn{width:100%;padding:14px;border:none;border-radius:12px;
+    font-size:14px;font-weight:700;letter-spacing:.05em;cursor:pointer;transition:all .2s;}
   #submitBtn.in{background:linear-gradient(135deg,#00e676,#00c85a);color:#071a0e;}
   #submitBtn.out{background:linear-gradient(135deg,#ff5252,#e04040);color:#1a0505;}
-  #submitBtn:disabled{opacity:.5;cursor:not-allowed;}
-  #submitBtn:active{transform:scale(.98);}
+  #submitBtn:disabled{opacity:.5;cursor:not-allowed;} #submitBtn:active{transform:scale(.98);}
+
+  /* SEARCH TAB */
+  .search-card{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;padding:16px;margin-bottom:12px;}
+  .search-card-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;margin-bottom:10px;}
+  .search-row{display:flex;gap:8px;margin-bottom:8px;}
+  .search-row input{flex:1;background:#20242f;border:1.5px solid #2a2e3d;border-radius:10px;
+    color:#e8eaf0;font-family:monospace;font-size:13px;padding:11px 13px;outline:none;transition:border-color .2s;}
+  .search-row input:focus{border-color:#6c63ff;}
+  .search-row input::placeholder{color:#8890a4;font-size:12px;font-family:Arial;}
+  .search-go{padding:11px 18px;background:#6c63ff;border:none;border-radius:10px;
+    color:#fff;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;letter-spacing:.04em;}
+  .search-go:hover{opacity:.88;}
+  .search-note{font-size:10px;color:#8890a4;}
+
+  /* Search result */
+  .result-card{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;padding:16px;display:none;}
+  .result-card.show{display:block;}
+  .result-status{font-family:monospace;font-size:15px;font-weight:700;margin-bottom:12px;}
+  .r-row{display:flex;gap:8px;margin-bottom:7px;align-items:baseline;}
+  .r-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#8890a4;flex:0 0 90px;}
+  .r-val{font-size:13px;font-weight:600;flex:1;font-family:monospace;}
+  .r-divider{border:none;border-top:1px solid #2a2e3d;margin:10px 0;}
+  .clr-in{color:#00e676;} .clr-out{color:#ff5252;} .clr-none{color:#8890a4;}
+
+  /* LOG TAB */
+  .log-list{display:flex;flex-direction:column;gap:7px;}
+  .log-item{background:#1a1d27;border:1px solid #2a2e3d;border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:10px;}
+  .log-item.warn-row{border-color:rgba(255,193,7,.3);}
+  .log-dot{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  .log-dot.in{background:rgba(0,230,118,.12);} .log-dot.out{background:rgba(255,82,82,.12);} .log-dot.warn{background:rgba(255,193,7,.12);}
+  .log-body{flex:1;min-width:0;}
+  .log-name{font-family:monospace;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .log-sub{font-size:10px;color:#8890a4;margin-top:2px;}
+  .log-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;flex-shrink:0;}
+  .log-badge.in{background:rgba(0,230,118,.12);color:#00e676;}
+  .log-badge.out{background:rgba(255,82,82,.12);color:#ff5252;}
+  .log-badge.warn{background:rgba(255,193,7,.12);color:#ffc107;}
+  .log-empty{text-align:center;padding:24px;color:#8890a4;font-size:12px;}
+  .sec-title{font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#8890a4;margin-bottom:8px;}
 
   /* SCANNER MODAL */
-  .scan-overlay{
-    display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:500;
-    flex-direction:column;align-items:center;justify-content:center;padding:16px;
-  }
+  .scan-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:500;
+    flex-direction:column;align-items:center;justify-content:center;padding:16px;}
   .scan-overlay.open{display:flex;}
   .scan-box{width:100%;max-width:420px;background:#1a1d27;border:1px solid #2a2e3d;border-radius:18px;overflow:hidden;}
   .scan-hdr{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a2e3d;}
@@ -152,8 +159,6 @@
   .scan-hdr .t2{font-size:10px;color:#6c63ff;margin-top:2px;}
   .scan-close{background:none;border:none;color:#8890a4;font-size:24px;cursor:pointer;line-height:1;padding:0 4px;}
   .scan-close:hover{color:#ff5252;}
-
-  /* Camera viewport */
   .scan-viewport{position:relative;width:100%;background:#000;overflow:hidden;}
   #scanVideo{width:100%;display:block;max-height:280px;object-fit:cover;}
   .target-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
@@ -170,40 +175,26 @@
   .sh-b{bottom:0;left:0;right:0;height:calc(50% - 65px);}
   .sh-l{top:calc(50% - 65px);left:0;width:14%;height:130px;}
   .sh-r{top:calc(50% - 65px);right:0;width:14%;height:130px;}
-
-  /* Status */
   .scan-status{padding:10px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid #2a2e3d;font-size:12px;min-height:40px;}
   .sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:#8890a4;}
-  .sdot.s{background:#ffc107;animation:blink .8s infinite;}
-  .sdot.ok{background:#00e676;}
-  .sdot.er{background:#ff5252;}
+  .sdot.s{background:#ffc107;animation:blink .8s infinite;} .sdot.ok{background:#00e676;} .sdot.er{background:#ff5252;}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-  .stxt{flex:1;color:#8890a4;font-size:12px;}
-  .stxt.ok{color:#00e676;font-weight:700;}
-  .stxt.er{color:#ff5252;}
-
-  /* Controls */
+  .stxt{flex:1;color:#8890a4;font-size:12px;} .stxt.ok{color:#00e676;font-weight:700;} .stxt.er{color:#ff5252;}
   .scan-ctrls{display:flex;gap:7px;padding:8px 12px;border-top:1px solid #2a2e3d;}
   .scc{flex:1;padding:8px;background:#20242f;border:1px solid #2a2e3d;border-radius:8px;color:#e8eaf0;font-size:12px;cursor:pointer;transition:all .2s;}
-  .scc:hover{border-color:#6c63ff;}
-  .scc.on{border-color:#00e676;color:#00e676;}
+  .scc:hover{border-color:#6c63ff;} .scc.on{border-color:#00e676;color:#00e676;}
   #torchBtn{display:none;}
-
-  /* Manual entry in scanner */
   .scan-manual{display:flex;gap:8px;padding:10px 12px;border-top:1px solid #2a2e3d;}
   .scan-manual input{flex:1;background:#20242f;border:1.5px solid #2a2e3d;border-radius:9px;color:#e8eaf0;font-family:monospace;font-size:13px;padding:10px 12px;outline:none;}
   .scan-manual input:focus{border-color:#6c63ff;}
   .scan-manual input::placeholder{color:#8890a4;font-size:11px;font-family:Arial;}
   .scan-manual-btn{background:#6c63ff;border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;padding:10px 14px;cursor:pointer;white-space:nowrap;}
-
   .scan-tip{padding:8px 14px 12px;font-size:10px;color:#8890a4;line-height:1.6;}
   .scan-tip strong{color:#e8eaf0;}
 
-  /* GALLERY PREVIEW MODAL */
-  .gallery-overlay{
-    display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:500;
-    flex-direction:column;align-items:center;justify-content:center;padding:16px;
-  }
+  /* GALLERY MODAL */
+  .gallery-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:500;
+    flex-direction:column;align-items:center;justify-content:center;padding:16px;}
   .gallery-overlay.open{display:flex;}
   .gallery-box{width:100%;max-width:420px;background:#1a1d27;border:1px solid #2a2e3d;border-radius:18px;overflow:hidden;}
   .gallery-hdr{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a2e3d;}
@@ -217,25 +208,6 @@
   .gallery-scan-overlay span{background:#1a1d27;border:1px solid #6c63ff;border-radius:10px;padding:10px 18px;font-size:13px;color:#6c63ff;font-weight:700;}
   .gallery-status{padding:9px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid #2a2e3d;font-size:12px;min-height:38px;}
 
-  /* SESSION LOG */
-  .log-card{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;padding:14px;margin-top:14px;}
-  .log-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8890a4;margin-bottom:10px;}
-  .log-list{display:flex;flex-direction:column;gap:7px;max-height:260px;overflow-y:auto;}
-  .log-item{background:#20242f;border:1px solid #2a2e3d;border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:10px;}
-  .log-item.warn-row{border-color:rgba(255,193,7,.3);}
-  .log-dot{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
-  .log-dot.in{background:rgba(0,230,118,.12);}
-  .log-dot.out{background:rgba(255,82,82,.12);}
-  .log-dot.warn{background:rgba(255,193,7,.12);}
-  .log-body{flex:1;min-width:0;}
-  .log-name{font-family:monospace;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .log-sub{font-size:10px;color:#8890a4;margin-top:2px;}
-  .log-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;flex-shrink:0;}
-  .log-badge.in{background:rgba(0,230,118,.12);color:#00e676;}
-  .log-badge.out{background:rgba(255,82,82,.12);color:#ff5252;}
-  .log-badge.warn{background:rgba(255,193,7,.12);color:#ffc107;}
-  .log-empty{font-size:12px;color:#8890a4;text-align:center;padding:14px 0;}
-
   /* TOAST */
   #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(100px);
     background:#1a1d27;border:1px solid #2a2e3d;border-radius:50px;padding:10px 20px;
@@ -245,11 +217,10 @@
   #toast.success{border-color:#00e676;color:#00e676;}
   #toast.error{border-color:#ff5252;color:#ff5252;}
   #toast.warning{border-color:#ffc107;color:#ffc107;}
-  .spin{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite;display:inline-block;vertical-align:middle;margin-right:5px;}
+  .spin{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;
+    border-radius:50%;animation:sp .6s linear infinite;display:inline-block;vertical-align:middle;margin-right:5px;}
   @keyframes sp{to{transform:rotate(360deg)}}
-
-  /* Hidden file inputs */
-  #galleryInputCase, #galleryInputLoc{display:none;}
+  #galleryInputCase,#galleryInputLoc{display:none;}
 </style>
 </head>
 <body>
@@ -262,7 +233,15 @@
   </div>
 </header>
 
-<div class="container">
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('scan')">📷 SCAN</button>
+  <button class="tab"        onclick="showTab('search')">🔍 SEARCH</button>
+  <button class="tab"        onclick="showTab('log')">📋 LOG</button>
+</div>
+
+<!-- ═══════════════════ TAB: SCAN ═══════════════════ -->
+<div class="tab-panel active" id="panel-scan">
 
   <!-- CONFIG BANNER -->
   <div class="config-banner show" id="configBanner">
@@ -291,8 +270,8 @@
       <div class="how-step current" id="s1">
         <div class="step-icon">📦</div>
         <div class="step-body">
-          <div class="step-label">Step 1 — Scan Case / Item QR</div>
-          <div class="step-desc">Tap 📷 next to Case No. · one QR fills both Case + Item</div>
+          <div class="step-label">Step 1 — Scan Case QR</div>
+          <div class="step-desc">Tap 📷 next to Case No. · QR auto-fills both Case + Item</div>
         </div>
         <div class="step-arrow">▶</div>
       </div>
@@ -323,31 +302,31 @@
     </div>
   </div>
 
-  <!-- ALERT BANNER -->
   <div class="alert-banner" id="alertBanner"></div>
 
   <!-- FORM -->
   <div class="form-card">
 
-    <!-- CASE NO — scanning this also fills Item No automatically -->
+    <!-- CASE NO — scanning this fills both Case + Item automatically -->
     <div class="field">
-      <label>📦 Case No. <span style="color:#6c63ff;font-size:9px;letter-spacing:.04em;">· SCAN QR TO FILL BOTH CASE + ITEM</span></label>
+      <label>📦 Case No. <span style="color:#6c63ff;font-size:9px;margin-left:4px;">ONE QR FILLS CASE + ITEM</span></label>
       <div class="input-row">
-        <input type="text" id="f_case" placeholder="Tap 📷 to scan or type..." autocomplete="off"/>
+        <input type="text" id="f_case" placeholder="Tap 📷 to scan QR or type..." autocomplete="off"/>
         <button class="scan-field-btn" id="cb_case" onclick="openScanner('case')" title="Scan Case QR">📷</button>
         <input type="file" id="galleryInputCase" accept="image/*" onchange="onGalleryPick(event,'case')"/>
         <button class="gallery-field-btn" id="gb_case" onclick="document.getElementById('galleryInputCase').click()" title="Pick from gallery">🖼️</button>
       </div>
-      <div class="field-hint" id="h_case">📷 Scan QR to auto-fill Case No. + Item No. (format: CASE-ITEM)</div>
+      <div class="field-hint" id="h_case">📷 Scan QR (format: CASE-ITEM) to auto-fill both fields</div>
     </div>
 
-    <!-- ITEM NO — filled automatically from Case QR, can also type manually -->
+    <!-- ITEM NO — read only, auto-filled from Case QR -->
     <div class="field">
-      <label>🏷️ Item No. <span style="color:#8890a4;font-size:9px;">· auto-filled from Case QR</span></label>
+      <label>🏷️ Item No. <span style="color:#8890a4;font-size:9px;margin-left:4px;">AUTO-FILLED FROM CASE QR</span></label>
       <div class="input-row">
-        <input type="text" id="f_item" placeholder="Auto-filled when Case QR is scanned..." autocomplete="off"/>
+        <input type="text" id="f_item" placeholder="Auto-filled when Case QR is scanned..." autocomplete="off" readonly
+          style="background:#161920;color:#8890a4;cursor:default;"/>
       </div>
-      <div class="field-hint" id="h_item">Auto-filled · or type manually if needed</div>
+      <div class="field-hint" id="h_item">Filled automatically · edit only if needed</div>
     </div>
 
     <!-- LOCATION -->
@@ -365,48 +344,56 @@
     <!-- USER -->
     <div class="field">
       <label>👤 Your Name</label>
-      <input type="text" id="f_user" placeholder="Enter your name" style="width:100%;background:#20242f;border:1.5px solid #2a2e3d;border-radius:10px;color:#e8eaf0;font-size:13px;padding:12px 13px;outline:none;font-family:Arial;" autocomplete="off"/>
+      <input type="text" id="f_user" placeholder="Enter your name" autocomplete="off"/>
     </div>
 
   </div>
 
   <button id="submitBtn" class="in" onclick="doSubmit()">✅ LOG CHECK IN</button>
 
-  <!-- SESSION LOG -->
-  <div class="log-card">
-    <div class="log-title">Session Log</div>
-    <div class="log-list" id="logList">
-      <div class="log-empty">No logs yet this session</div>
-    </div>
-  </div>
+</div>
 
+<!-- ═══════════════════ TAB: SEARCH ═══════════════════ -->
+<div class="tab-panel" id="panel-search">
+  <div class="search-card">
+    <div class="search-card-title">🔍 Find an Item</div>
+    <div class="search-row">
+      <input type="text" id="s_case" placeholder="Case No." autocomplete="off"/>
+      <button class="scan-field-btn" onclick="openScanner('search')" title="Scan to search" style="height:48px;">📷</button>
+    </div>
+    <div class="search-row" style="margin-bottom:8px;">
+      <input type="text" id="s_item" placeholder="Item No. (optional)" autocomplete="off"/>
+      <button class="search-go" onclick="doSearch()">FIND</button>
+    </div>
+    <div class="search-note">Enter Case No. only · OR Item No. only · OR both together to narrow search.</div>
+  </div>
+  <div class="result-card" id="resultCard">
+    <div class="result-status" id="resultStatus"></div>
+    <div id="resultDetails"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ TAB: LOG ═══════════════════ -->
+<div class="tab-panel" id="panel-log">
+  <div class="sec-title">Recent Activity — This Session</div>
+  <div class="log-list" id="logList">
+    <div class="log-empty">No logs yet this session</div>
+  </div>
 </div>
 
 <!-- SCANNER MODAL -->
 <div class="scan-overlay" id="scanOverlay">
   <div class="scan-box">
     <div class="scan-hdr">
-      <div>
-        <div class="t1">📷 KD WAREHOUSE SCANNER</div>
-        <div class="t2" id="scanLabel">Scanning...</div>
-      </div>
+      <div><div class="t1">📷 KD WAREHOUSE SCANNER</div><div class="t2" id="scanLabel">Scanning...</div></div>
       <button class="scan-close" onclick="closeScanner()">✕</button>
     </div>
     <div class="scan-viewport">
       <video id="scanVideo" autoplay playsinline muted></video>
-      <div class="sh sh-t"></div><div class="sh sh-b"></div>
-      <div class="sh sh-l"></div><div class="sh sh-r"></div>
-      <div class="target-wrap">
-        <div class="target-box">
-          <div class="tc-bl"></div><div class="tc-tr"></div>
-          <div class="scan-line"></div>
-        </div>
-      </div>
+      <div class="sh sh-t"></div><div class="sh sh-b"></div><div class="sh sh-l"></div><div class="sh sh-r"></div>
+      <div class="target-wrap"><div class="target-box"><div class="tc-bl"></div><div class="tc-tr"></div><div class="scan-line"></div></div></div>
     </div>
-    <div class="scan-status">
-      <div class="sdot" id="sdot"></div>
-      <div class="stxt" id="stxt">Starting camera...</div>
-    </div>
+    <div class="scan-status"><div class="sdot" id="sdot"></div><div class="stxt" id="stxt">Starting camera...</div></div>
     <div class="scan-ctrls">
       <button class="scc" onclick="flipCamera()">🔄 Flip Camera</button>
       <button class="scc" id="torchBtn" onclick="toggleTorch()">🔦 Torch</button>
@@ -416,30 +403,22 @@
       <input type="text" id="manualInput" placeholder="Or type code manually..."/>
       <button class="scan-manual-btn" onclick="useManual()">USE</button>
     </div>
-    <div class="scan-tip">
-      <strong>Tips:</strong> Hold phone 10–20 cm from QR · Ensure full QR is inside the box · Good lighting helps
-    </div>
+    <div class="scan-tip"><strong>Tips:</strong> Hold 10–20 cm from QR · Full QR inside the box · Good lighting</div>
   </div>
 </div>
 
-<!-- GALLERY PREVIEW MODAL -->
+<!-- GALLERY MODAL -->
 <div class="gallery-overlay" id="galleryOverlay">
   <div class="gallery-box">
     <div class="gallery-hdr">
-      <div>
-        <div class="t1">🖼️ GALLERY SCAN</div>
-        <div class="t2" id="galleryLabel">Scanning image for QR...</div>
-      </div>
+      <div><div class="t1">🖼️ GALLERY SCAN</div><div class="t2" id="galleryLabel">Scanning image for QR...</div></div>
       <button class="gallery-close" onclick="closeGallery()">✕</button>
     </div>
     <div class="gallery-img-wrap">
       <canvas id="galleryCanvas"></canvas>
       <div class="gallery-scan-overlay" id="galScanOverlay"><span>🔍 Scanning QR...</span></div>
     </div>
-    <div class="gallery-status">
-      <div class="sdot" id="galDot"></div>
-      <div class="stxt" id="galTxt">Loading image...</div>
-    </div>
+    <div class="gallery-status"><div class="sdot" id="galDot"></div><div class="stxt" id="galTxt">Loading image...</div></div>
   </div>
 </div>
 
@@ -447,11 +426,11 @@
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────
-const HARDCODED_URL = ""; // paste your Apps Script URL here if you want
+const HARDCODED_URL = ""; // optional: paste your Apps Script URL here
 function getScriptUrl(){ return HARDCODED_URL || localStorage.getItem("kd_script_url") || ""; }
 function saveUrl(){
   const url = document.getElementById("scriptUrl").value.trim();
-  if(!url||!url.startsWith("https://")){ toast("⚠️ Please paste a valid HTTPS URL","error"); return; }
+  if(!url || !url.startsWith("https://")){ toast("⚠️ Please paste a valid HTTPS URL","error"); return; }
   localStorage.setItem("kd_script_url", url);
   document.getElementById("configBanner").classList.remove("show");
   toast("✅ Connected to Google Sheet!","success");
@@ -459,24 +438,38 @@ function saveUrl(){
 
 // ─── INIT ─────────────────────────────────────────────────
 window.onload = () => {
-  tick(); setInterval(tick,1000);
+  tick(); setInterval(tick, 1000);
   document.getElementById("f_user").value = localStorage.getItem("kd_user") || "";
   if(getScriptUrl()) document.getElementById("configBanner").classList.remove("show");
 
+  // Make item field editable on click (it's readonly by default)
+  document.getElementById("f_item").addEventListener("focus", function(){ this.removeAttribute("readonly"); });
+
   // Enter key navigation
-  document.getElementById("f_case").addEventListener("keydown", e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_place").focus();}});
-  document.getElementById("f_item").addEventListener("keydown", e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_place").focus();}});
-  document.getElementById("f_place").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("f_user").focus();}});
-  document.getElementById("f_user").addEventListener("keydown", e=>{if(e.key==="Enter"){e.preventDefault();doSubmit();}});
-  document.getElementById("manualInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();useManual();}});
+  document.getElementById("f_case").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); document.getElementById("f_place").focus();}});
+  document.getElementById("f_item").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); document.getElementById("f_place").focus();}});
+  document.getElementById("f_place").addEventListener("keydown", e=>{ if(e.key==="Enter"){e.preventDefault(); document.getElementById("f_user").focus();}});
+  document.getElementById("f_user").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); doSubmit();}});
+  document.getElementById("manualInput").addEventListener("keydown", e=>{ if(e.key==="Enter"){e.preventDefault(); useManual();}});
+  document.getElementById("s_case").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); doSearch();}});
+  document.getElementById("s_item").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); doSearch();}});
 
   // Step tracking
-  ["f_case","f_item","f_place","f_user"].forEach(id=>
+  ["f_case","f_place","f_user"].forEach(id =>
     document.getElementById(id).addEventListener("input", updateSteps));
 };
+
 function tick(){ document.getElementById("hTime").textContent = new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"}); }
 
-// ─── REMARK TOGGLE ────────────────────────────────────────
+// ─── TABS ─────────────────────────────────────────────────
+function showTab(n){
+  ["scan","search","log"].forEach((t,i)=>{
+    document.querySelectorAll(".tab")[i].className = "tab"+(t===n?" active":"");
+    document.getElementById("panel-"+t).className = "tab-panel"+(t===n?" active":"");
+  });
+}
+
+// ─── REMARK ───────────────────────────────────────────────
 let remark = "IN";
 function setRemark(r){
   remark=r; const b=document.getElementById("submitBtn");
@@ -484,7 +477,7 @@ function setRemark(r){
   else         { document.getElementById("togOut").className="tog out-on"; document.getElementById("togIn").className="tog"; b.className="out"; b.textContent="📤 LOG CHECK OUT"; }
 }
 
-// ─── STEP TRACKER ─────────────────────────────────────────
+// ─── STEPS ────────────────────────────────────────────────
 function updateSteps(){
   const c=gv("f_case"), p=gv("f_place"), u=gv("f_user");
   ["s1","s2","s3","s4"].forEach(id=>setSC(id,"waiting"));
@@ -500,53 +493,64 @@ function gv(id){ return document.getElementById(id).value.trim(); }
 function showBanner(msg,type){ const b=document.getElementById("alertBanner"); b.textContent=msg; b.className="alert-banner "+type; setTimeout(()=>b.className="alert-banner",8000); }
 function hideBanner(){ document.getElementById("alertBanner").className="alert-banner"; }
 
-// ─── FILL FIELDS FROM SCANNED VALUE ───────────────────────
-// Case QR format: "CASE001-ITEM005"
-// Splits on first dash — left = Case No., right = Item No.
+// ─── QR VALUE ROUTING ─────────────────────────────────────
+// Case QR format: "CASE001-ITEM005" → split on first dash
 function fillCaseQR(text){
-  const dashIdx = text.indexOf("-");
-  if(dashIdx > 0){
-    const caseNo = text.substring(0, dashIdx).trim();
-    const itemNo = text.substring(dashIdx + 1).trim();
-    setField("f_case",  "h_case",  "cb_case",  "gb_case",  caseNo, "✅ Case No.: "+caseNo);
-    setField("f_item",  "h_item",  null,        null,        itemNo, "✅ Item No.: "+itemNo+" (auto-filled)");
+  const dash = text.indexOf("-");
+  if(dash > 0){
+    const caseNo = text.substring(0, dash).trim();
+    const itemNo = text.substring(dash + 1).trim();
+    setField("f_case","h_case","cb_case","gb_case", caseNo, "✅ Case: "+caseNo);
+    // Fill item field (remove readonly first)
+    const itemEl = document.getElementById("f_item");
+    itemEl.removeAttribute("readonly");
+    itemEl.value = itemNo; itemEl.classList.add("filled");
+    const ih = document.getElementById("h_item");
+    if(ih){ ih.textContent="✅ Item: "+itemNo+" (auto-filled)"; ih.className="field-hint ok"; }
     toast("✅ Case: "+caseNo+" · Item: "+itemNo, "success");
   } else {
-    // No dash — put entire value in Case No., leave Item blank for manual entry
-    setField("f_case", "h_case", "cb_case", "gb_case", text, "✅ Scanned: "+text);
-    document.getElementById("f_item").focus();
-    toast("✅ Case scanned — enter Item No. manually","success");
+    setField("f_case","h_case","cb_case","gb_case", text, "✅ Scanned: "+text);
+    toast("✅ Case scanned — Item No. not in QR, enter manually if needed","warning");
   }
   updateSteps();
+  // Auto-open location scanner after short delay
+  setTimeout(()=> openScanner("place"), 400);
 }
 
 function fillLocationQR(text){
-  setField("f_place", "h_place", "cb_place", "gb_place", text, "✅ Location: "+text);
+  setField("f_place","h_place","cb_place","gb_place", text, "✅ Location: "+text);
   toast("✅ Location: "+text, "success");
   updateSteps();
   document.getElementById("f_user").focus();
 }
 
+function fillSearchQR(text){
+  // Put scanned value into Case No. search field and search
+  document.getElementById("s_case").value = text;
+  toast("✅ Scanned: "+text,"success");
+  doSearch();
+}
+
 function setField(inputId, hintId, btnId, galBtnId, value, hintText){
-  const inp = document.getElementById(inputId);
+  const inp=document.getElementById(inputId);
   if(inp){ inp.value=value; inp.classList.add("filled"); }
-  const h = document.getElementById(hintId);
+  const h=document.getElementById(hintId);
   if(h){ h.textContent=hintText; h.className="field-hint ok"; }
-  if(btnId){ const b=document.getElementById(btnId); if(b){b.textContent="✅";b.classList.remove("scanning");b.classList.add("done");}}
+  if(btnId){ const b=document.getElementById(btnId); if(b){ b.textContent="✅"; b.classList.remove("scanning"); b.classList.add("done"); }}
   if(galBtnId){ const g=document.getElementById(galBtnId); if(g) g.classList.add("done"); }
 }
 
 // ═══════════════════════════════════════════════════════════
 //  LIVE CAMERA SCANNER
 // ═══════════════════════════════════════════════════════════
-let scanTarget = "case";
-let videoStream=null, torchTrack=null, torchOn=false;
+let scanTarget="case", videoStream=null, torchTrack=null, torchOn=false;
 let scanning=false, decodeInterval=null, useFrontCam=false;
 let lastScan="", lastScanTime=0;
 
 const SCAN_LABELS = {
-  case:  "📦 Scanning: Case + Item QR (format CASE-ITEM)",
-  place: "📍 Scanning: Location / Shelf QR"
+  case:   "📦 Scanning: Case QR (CASE-ITEM format)",
+  place:  "📍 Scanning: Location / Shelf QR",
+  search: "🔍 Scan QR to search"
 };
 
 function setStatus(msg,state){
@@ -559,21 +563,18 @@ function openScanner(target){
   scanTarget=target;
   document.getElementById("scanLabel").textContent = SCAN_LABELS[target]||"Scanning...";
   document.getElementById("manualInput").value="";
-  // Mark active button
   ["cb_case","cb_place"].forEach(id=>{ const b=document.getElementById(id); if(b)b.classList.remove("scanning"); });
-  const ab=document.getElementById("cb_"+target); if(ab) ab.classList.add("scanning");
+  if(target==="case"||target==="place"){ const ab=document.getElementById("cb_"+target); if(ab)ab.classList.add("scanning"); }
   document.getElementById("scanOverlay").classList.add("open");
   startCamera();
 }
 
 async function startCamera(){
-  stopCamera();
-  setStatus("Starting camera...","");
+  stopCamera(); setStatus("Starting camera...","");
   const video=document.getElementById("scanVideo");
   try{
     videoStream=await navigator.mediaDevices.getUserMedia({
-      video:{ facingMode:useFrontCam?"user":{ideal:"environment"}, width:{ideal:1280}, height:{ideal:720} },
-      audio:false
+      video:{ facingMode:useFrontCam?"user":{ideal:"environment"}, width:{ideal:1280}, height:{ideal:720} }, audio:false
     });
     video.srcObject=videoStream; await video.play();
     if(!useFrontCam){
@@ -609,6 +610,7 @@ function startDecoding(video){
     },150);
   } else { loadZXing(video); }
 }
+
 function loadZXing(video){
   setStatus("🔄 Loading scanner library...","s");
   if(window._zxReady){startZXing(video);return;}
@@ -624,6 +626,7 @@ function loadZXing(video){
   };
   document.head.appendChild(sc);
 }
+
 function startZXing(video){
   setStatus("🔍 Point at QR code","s");
   try{
@@ -642,7 +645,7 @@ function onCodeDetected(text){
   lastScan=text; lastScanTime=now;
   if(navigator.vibrate) navigator.vibrate([100,50,100]);
   setStatus("✅ Detected: "+text,"ok");
-  setTimeout(()=>{ closeScanner(); applyScannedValue(scanTarget, text); },600);
+  setTimeout(()=>{ closeScanner(); applyScannedValue(scanTarget,text); },600);
 }
 
 function closeScanner(){
@@ -652,49 +655,47 @@ function closeScanner(){
 }
 
 function flipCamera(){ useFrontCam=!useFrontCam; startCamera(); }
+
 async function toggleTorch(){
   if(!torchTrack)return; torchOn=!torchOn;
   try{ await torchTrack.applyConstraints({advanced:[{torch:torchOn}]});
     document.getElementById("torchBtn").className="scc"+(torchOn?" on":""); }catch(e){}
 }
 
-// Manual entry in scanner modal
 function useManual(){
   const text=document.getElementById("manualInput").value.trim();
   if(!text){toast("⚠️ Please type a code first","error");return;}
-  closeScanner(); applyScannedValue(scanTarget, text);
+  closeScanner(); applyScannedValue(scanTarget,text);
 }
 
-// Route scanned value to correct field(s)
-function applyScannedValue(target, text){
-  if(target==="case")  fillCaseQR(text);
-  if(target==="place") fillLocationQR(text);
+function applyScannedValue(target,text){
+  if(target==="case")   fillCaseQR(text);
+  if(target==="place")  fillLocationQR(text);
+  if(target==="search") fillSearchQR(text);
 }
 
 // ═══════════════════════════════════════════════════════════
 //  GALLERY SCAN
 // ═══════════════════════════════════════════════════════════
-let galleryTarget = "case";
+let galleryTarget="case";
 
-function onGalleryPick(event, target){
+function onGalleryPick(event,target){
   const file=event.target.files[0]; if(!file)return;
-  event.target.value="";
-  galleryTarget=target;
+  event.target.value=""; galleryTarget=target;
   document.getElementById("galleryLabel").textContent =
-    target==="case" ? "📦 Scanning Case + Item QR from image..." : "📍 Scanning Location QR from image...";
+    target==="case" ? "📦 Scanning Case QR from image..." : "📍 Scanning Location QR from image...";
   setGalStatus("🔍 Scanning image for QR code...","s");
   document.getElementById("galScanOverlay").classList.add("show");
   document.getElementById("galleryOverlay").classList.add("open");
-
   const reader=new FileReader();
   reader.onload=(e)=>{
     const img=new Image();
     img.onload=()=>{
       const canvas=document.getElementById("galleryCanvas");
-      const maxW=400; const scale=Math.min(1,maxW/img.width);
+      const maxW=400, scale=Math.min(1,maxW/img.width);
       canvas.width=img.width*scale; canvas.height=img.height*scale;
       canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
-      scanGalleryImage(canvas, img);
+      scanGalleryImage(canvas,img);
     };
     img.src=e.target.result;
   };
@@ -707,33 +708,28 @@ function setGalStatus(msg,state){
   document.getElementById("galDot").className="sdot"+(state?" "+state:"");
 }
 
-async function scanGalleryImage(canvas, origImg){
+async function scanGalleryImage(canvas,origImg){
   let found=false;
-
   if("BarcodeDetector" in window){
     try{
       const det=new BarcodeDetector({formats:["qr_code"]});
       const results=await det.detect(origImg);
       if(results.length>0){
         found=true;
-        drawBoxes(canvas, results, origImg);
+        drawBoxes(canvas,results,origImg);
         document.getElementById("galScanOverlay").classList.remove("show");
-        handleGalleryResult(results[0].rawValue);
-        return;
+        handleGalleryResult(results[0].rawValue); return;
       }
     }catch(e){}
   }
-
   if(!found){
-    if(!window._zxReady){ setGalStatus("🔄 Loading library...","s"); await loadZXingPromise(); }
+    if(!window._zxReady){setGalStatus("🔄 Loading library...","s"); await loadZXingPromise();}
     try{
       const reader=new ZXingBrowser.BrowserQRCodeReader();
-      const dataUrl=canvas.toDataURL("image/png");
-      const result=await reader.decodeFromImageUrl(dataUrl);
+      const result=await reader.decodeFromImageUrl(canvas.toDataURL("image/png"));
       if(result){ found=true; document.getElementById("galScanOverlay").classList.remove("show"); handleGalleryResult(result.getText()); return; }
     }catch(e){}
   }
-
   if(!found){
     document.getElementById("galScanOverlay").classList.remove("show");
     setGalStatus("❌ No QR code found. Try a clearer photo with the full QR visible.","er");
@@ -741,28 +737,19 @@ async function scanGalleryImage(canvas, origImg){
   }
 }
 
-function drawBoxes(canvas, results, img){
+function drawBoxes(canvas,results,img){
   const ctx=canvas.getContext("2d");
   const sx=canvas.width/img.naturalWidth, sy=canvas.height/img.naturalHeight;
-  results.forEach(r=>{
-    if(r.boundingBox){
-      ctx.strokeStyle="#00e676"; ctx.lineWidth=3;
-      ctx.strokeRect(r.boundingBox.x*sx, r.boundingBox.y*sy, r.boundingBox.width*sx, r.boundingBox.height*sy);
-    }
-  });
+  results.forEach(r=>{ if(r.boundingBox){ ctx.strokeStyle="#00e676"; ctx.lineWidth=3;
+    ctx.strokeRect(r.boundingBox.x*sx,r.boundingBox.y*sy,r.boundingBox.width*sx,r.boundingBox.height*sy); }});
 }
 
 function handleGalleryResult(text){
   setGalStatus("✅ Found: "+text,"ok");
-  setTimeout(()=>{
-    closeGallery();
-    applyScannedValue(galleryTarget, text);
-  },800);
+  setTimeout(()=>{ closeGallery(); applyScannedValue(galleryTarget,text); },700);
 }
 
-function closeGallery(){
-  document.getElementById("galleryOverlay").classList.remove("open");
-}
+function closeGallery(){ document.getElementById("galleryOverlay").classList.remove("open"); }
 
 function loadZXingPromise(){
   return new Promise(resolve=>{
@@ -773,8 +760,7 @@ function loadZXingPromise(){
     sc.onerror=()=>{
       const s2=document.createElement("script");
       s2.src="https://cdn.jsdelivr.net/npm/@zxing/browser@latest/umd/index.min.js";
-      s2.onload=()=>{window._zxReady=true;resolve();};
-      s2.onerror=()=>resolve();
+      s2.onload=()=>{window._zxReady=true;resolve();}; s2.onerror=()=>resolve();
       document.head.appendChild(s2);
     };
     document.head.appendChild(sc);
@@ -790,7 +776,6 @@ async function doSubmit(){
   const caseNo=gv("f_case"), itemNo=gv("f_item"), place=gv("f_place"), user=gv("f_user");
   hideBanner();
   if(!caseNo) return toast("⚠️ Case No. is required","error");
-  if(!itemNo) return toast("⚠️ Item No. is required — scan the Case QR (format: CASE-ITEM)","error");
   if(!place)  return toast("⚠️ Location is required","error");
   if(!user)   return toast("⚠️ Your name is required","error");
 
@@ -801,13 +786,13 @@ async function doSubmit(){
   const btn=document.getElementById("submitBtn");
   btn.disabled=true; btn.innerHTML='<span class="spin"></span>Logging...';
 
-  const data={caseNo,itemNo,place,user,remark};
-  const params=new URLSearchParams({caseNo,itemNo,place,user,remark,action:"logScan"});
+  const data={caseNo, itemNo:itemNo||caseNo, place, user, remark};
+  const params=new URLSearchParams({caseNo, itemNo:itemNo||caseNo, place, user, remark, action:"logScan"});
 
   try{
     await fetch(url+"?"+params.toString(),{method:"GET",mode:"no-cors"});
     btn.disabled=false; setRemark(remark);
-    toast("✅ "+caseNo+" / "+itemNo+" logged "+remark,"success");
+    toast("✅ "+caseNo+" logged "+remark,"success");
     addLog(data,false); resetForm();
   }catch(err){
     btn.disabled=false; setRemark(remark);
@@ -818,9 +803,10 @@ async function doSubmit(){
 function resetForm(){
   ["f_case","f_item","f_place"].forEach(id=>{
     const el=document.getElementById(id); el.value=""; el.classList.remove("filled");
+    if(id==="f_item"){ el.setAttribute("readonly",""); el.style.background="#161920"; el.style.color="#8890a4"; }
   });
-  [["h_case","📷 Scan QR to auto-fill Case No. + Item No. (format: CASE-ITEM)"],
-   ["h_item","Auto-filled · or type manually if needed"],
+  [["h_case","📷 Scan QR (format: CASE-ITEM) to auto-fill both fields"],
+   ["h_item","Filled automatically · edit only if needed"],
    ["h_place","📷 Scan the shelf / rack QR label"]].forEach(([id,txt])=>{
     const h=document.getElementById(id); if(h){h.textContent=txt;h.className="field-hint";}
   });
@@ -829,9 +815,29 @@ function resetForm(){
   updateSteps();
 }
 
-// ─── SESSION LOG ──────────────────────────────────────────
+// ─── SEARCH ───────────────────────────────────────────────
+function doSearch(){
+  const caseNo=document.getElementById("s_case").value.trim();
+  const itemNo=document.getElementById("s_item").value.trim();
+  if(!caseNo&&!itemNo) return toast("⚠️ Enter Case No. or Item No. to search","error");
+  const card=document.getElementById("resultCard"); card.classList.add("show");
+  document.getElementById("resultStatus").textContent="🔍 Searching...";
+  document.getElementById("resultDetails").innerHTML="";
+  const url=getScriptUrl();
+  if(!url){ document.getElementById("resultStatus").innerHTML='<span class="clr-none">⚠️ Apps Script URL not set</span>'; return; }
+  const params=new URLSearchParams({action:"searchItem", caseNo, itemNo});
+  fetch(url+"?"+params.toString(),{method:"GET",mode:"no-cors"})
+    .then(()=>{
+      // no-cors = opaque response, can't read body
+      // Show a helpful message
+      document.getElementById("resultStatus").innerHTML='<span style="color:#ffc107;">⚠️ Search requires the Apps Script URL to return data. Use the Google Sheet directly for search, or upgrade to a CORS-enabled deployment.</span>';
+    })
+    .catch(()=>{ document.getElementById("resultStatus").innerHTML='<span class="clr-none">❌ Search failed — check connection</span>'; });
+}
+
+// ─── LOG ──────────────────────────────────────────────────
 function addLog(data,isAlert){
-  sessionLog.unshift({...data,time:new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}),isAlert});
+  sessionLog.unshift({...data, time:new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}), isAlert});
   if(sessionLog.length>30)sessionLog.pop();
   renderLog();
   const i=sessionLog.filter(r=>r.remark==="IN"&&!r.isAlert).length;
@@ -840,6 +846,7 @@ function addLog(data,isAlert){
   document.getElementById("statOut").textContent=o;
   document.getElementById("statNet").textContent=i-o;
 }
+
 function renderLog(){
   const list=document.getElementById("logList");
   if(!sessionLog.length){list.innerHTML='<div class="log-empty">No logs yet this session</div>';return;}
@@ -847,7 +854,7 @@ function renderLog(){
     <div class="log-item${e.isAlert?" warn-row":""}">
       <div class="log-dot ${e.isAlert?"warn":e.remark.toLowerCase()}">${e.isAlert?"⚠️":e.remark==="IN"?"📥":"📤"}</div>
       <div class="log-body">
-        <div class="log-name">${x(e.caseNo)} / ${x(e.itemNo)}</div>
+        <div class="log-name">${x(e.caseNo)}${e.itemNo&&e.itemNo!==e.caseNo?" / "+x(e.itemNo):""}</div>
         <div class="log-sub">📍 ${x(e.place)} · 👤 ${x(e.user)} · 🕐 ${e.time}</div>
       </div>
       <span class="log-badge ${e.isAlert?"warn":e.remark.toLowerCase()}">${e.isAlert?"⚠️":e.remark}</span>
