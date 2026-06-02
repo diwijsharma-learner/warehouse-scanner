@@ -244,7 +244,7 @@
 <div class="tab-panel active" id="panel-scan">
 
   <!-- CONFIG BANNER -->
-  <div class="config-banner show" id="configBanner">
+  <div class="config-banner" id="configBanner">
     ⚙️ <strong>First-time setup:</strong> Paste your Google Apps Script Web App URL to connect to your Google Sheet.
     <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/YOUR_ID/exec"/>
     <button class="config-save" onclick="saveUrl()">Save & Connect</button>
@@ -426,7 +426,7 @@
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────
-const HARDCODED_URL = ""; // optional: paste your Apps Script URL here
+const HARDCODED_URL = "https://script.google.com/macros/s/AKfycbz7f9nRc358g8ieMa7F7G8ze7gGRsnB5jYC4AMs7-1EsepTuQKUK7_NajY-mmIBYy0/exec";
 function getScriptUrl(){ return HARDCODED_URL || localStorage.getItem("kd_script_url") || ""; }
 function saveUrl(){
   const url = document.getElementById("scriptUrl").value.trim();
