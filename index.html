@@ -439,6 +439,7 @@ function saveUrl(){
 // ─── INIT ─────────────────────────────────────────────────
 window.onload = () => {
   tick(); setInterval(tick, 1000);
+ loadStats();
   document.getElementById("f_user").value = localStorage.getItem("kd_user") || "";
   if(getScriptUrl()) document.getElementById("configBanner").classList.remove("show");
 
@@ -953,6 +954,38 @@ function renderLog(){
     </div>`).join("");
 }
 
+ async function loadStats(){
+
+  try{
+
+    const url = getScriptUrl();
+
+    if(!url) return;
+
+    const response =
+      await fetch(url + "?action=getStats");
+
+    const data =
+      await response.json();
+
+    if(!data.success) return;
+
+    document.getElementById("statIn").textContent =
+      data.checkIn;
+
+    document.getElementById("statOut").textContent =
+      data.checkOut;
+
+    document.getElementById("statNet").textContent =
+      data.liveStock;
+
+  }catch(err){
+
+    console.error("Stats error:", err);
+
+  }
+}
+ 
 function toast(msg,type){const t=document.getElementById("toast");t.textContent=msg;t.className="show "+(type||"");setTimeout(()=>t.className="",3500);}
 function x(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 </script>
