@@ -432,7 +432,7 @@ function saveUrl(){
   const url = document.getElementById("scriptUrl").value.trim();
   if(!url || !url.startsWith("https://")){ toast("⚠️ Please paste a valid HTTPS URL","error"); return; }
   localStorage.setItem("kd_script_url", url);
-  document.getElementById("configBanner").classList.remove("show");
+  document.getElementById("configBanner").classList.add("show");
   toast("✅ Connected to Google Sheet!","success");
 }
 
@@ -967,6 +967,8 @@ function renderLog(){
 
     const data =
       await response.json();
+
+   console.log("Stats data:", data);
 
     if(!data.success) return;
 
