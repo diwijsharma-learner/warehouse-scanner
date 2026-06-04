@@ -258,10 +258,27 @@
   </div>
 
   <!-- IN / OUT TOGGLE -->
-  <div class="toggle-row">
-    <button class="tog in-on" id="togIn"  onclick="setRemark('IN')">✅ CHECK IN</button>
-    <button class="tog"       id="togOut" onclick="setRemark('OUT')">📤 CHECK OUT</button>
-  </div>
+<div class="toggle-row">
+
+  <button class="tog in-on"
+          id="togIn"
+          onclick="setRemark('IN')">
+    ✅ CHECK IN
+  </button>
+
+  <button class="tog"
+          id="togMove"
+          onclick="setRemark('MOVE')">
+    🔄 MOVE
+  </button>
+
+  <button class="tog"
+          id="togOut"
+          onclick="setRemark('OUT')">
+    📤 CHECK OUT
+  </button>
+
+</div>
 
   <!-- HOW TO STEPS -->
   <div class="how-to">
@@ -472,10 +489,55 @@ function showTab(n){
 
 // ─── REMARK ───────────────────────────────────────────────
 let remark = "IN";
+
 function setRemark(r){
-  remark=r; const b=document.getElementById("submitBtn");
-  if(r==="IN"){ document.getElementById("togIn").className="tog in-on"; document.getElementById("togOut").className="tog"; b.className="in"; b.textContent="✅ LOG CHECK IN"; }
-  else         { document.getElementById("togOut").className="tog out-on"; document.getElementById("togIn").className="tog"; b.className="out"; b.textContent="📤 LOG CHECK OUT"; }
+
+  remark = r;
+
+  const btn =
+    document.getElementById("submitBtn");
+
+  document.getElementById("togIn")
+    .className = "tog";
+
+  document.getElementById("togMove")
+    .className = "tog";
+
+  document.getElementById("togOut")
+    .className = "tog";
+
+  if(r==="IN"){
+
+    document.getElementById("togIn")
+      .className = "tog in-on";
+
+    btn.className = "in";
+    btn.textContent =
+      "✅ LOG CHECK IN";
+
+  }
+
+  else if(r==="MOVE"){
+
+    document.getElementById("togMove")
+      .className = "tog in-on";
+
+    btn.className = "in";
+    btn.textContent =
+      "🔄 UPDATE LOCATION";
+
+  }
+
+  else{
+
+    document.getElementById("togOut")
+      .className = "tog out-on";
+
+    btn.className = "out";
+    btn.textContent =
+      "📤 LOG CHECK OUT";
+
+  }
 }
 
 // ─── STEPS ────────────────────────────────────────────────
@@ -788,12 +850,32 @@ async function doSubmit(){
   btn.disabled=true; btn.innerHTML='<span class="spin"></span>Logging...';
 
   const data={caseNo, itemNo:itemNo||caseNo, place, user, remark};
-  const params=new URLSearchParams({caseNo, itemNo:itemNo||caseNo, place, user, remark, action:"logScan"});
+  let action = "logScan";
+
+if(remark==="MOVE"){
+  action = "moveCase";
+}
+
+const params=new URLSearchParams({
+  caseNo,
+  caseId:caseNo,
+  itemNo:itemNo||caseNo,
+  place,
+  location:place,
+  user,
+  remark,
+  action
+});
 
   try{
     await fetch(url+"?"+params.toString(),{method:"GET",mode:"no-cors"});
     btn.disabled=false; setRemark(remark);
-    toast("✅ "+caseNo+" logged "+remark,"success");
+if(remark==="MOVE"){
+  toast("📍 Location Updated","success");
+}
+else{
+  toast("✅ "+caseNo+" logged "+remark,"success");
+}
     addLog(data,false); resetForm();
   }catch(err){
     btn.disabled=false; setRemark(remark);
