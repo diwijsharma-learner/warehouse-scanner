@@ -443,10 +443,10 @@
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────
-const HARDCODED_URL = "https://script.google.com/macros/s/AKfycbyclJ_mdn6VFFGSmBmlvCdx1cMgnDZoOL5ynvdIs-UmGEOFy_RnYHoWUvtXQK0v5I1-/exec";
+const HARDCODED_URL = "https://script.google.com/macros/s/AKfycbyHtMEraAulUK38D3koB4SOq8xygMN7BK148JjmFFRKRXaVSXFBj5bpmD2TFHjvQZpf/exec";
 function getScriptUrl(){ return HARDCODED_URL || localStorage.getItem("kd_script_url") || ""; }
 function saveUrl(){
-  const url = document.getElementById("scriptUrl").value.trim();
+  const url = document.getElementById("scriptUrl").value.trim();x
   if(!url || !url.startsWith("https://")){ toast("⚠️ Please paste a valid HTTPS URL","error"); return; }
   localStorage.setItem("kd_script_url", url);
   document.getElementById("configBanner").classList.add("show");
