@@ -347,7 +347,7 @@
     </div>
 
     <!-- LOCATION -->
-    <div class="field">
+    <div class="field" id="locationField">
       <label>📍 Location</label>
       <div class="input-row">
         <input type="text" id="f_place" placeholder="Tap 📷 to scan shelf QR or type..." autocomplete="off"/>
@@ -492,7 +492,7 @@ let remark = "IN";
 
 function setRemark(r){
 
-  remark = r;
+  window.remark = r;
 
   const btn =
     document.getElementById("submitBtn");
@@ -510,6 +510,7 @@ function setRemark(r){
 
     document.getElementById("togIn")
       .className = "tog in-on";
+   document.querySelector(".field:nth-child(3)").style.display = "";
 
     btn.className = "in";
     btn.textContent =
@@ -521,6 +522,7 @@ function setRemark(r){
 
     document.getElementById("togMove")
       .className = "tog in-on";
+  document.getElementById("locationField").style.display = "";
 
     btn.className = "in";
     btn.textContent =
@@ -532,6 +534,8 @@ function setRemark(r){
 
     document.getElementById("togOut")
       .className = "tog out-on";
+document.getElementById("locationField").style.display = "none";
+document.getElementById("f_place").value = "";
 
     btn.className = "out";
     btn.textContent =
@@ -838,8 +842,9 @@ let sessionLog=[];
 async function doSubmit(){
   const caseNo=gv("f_case"), itemNo=gv("f_item"), place=gv("f_place"), user=gv("f_user");
   hideBanner();
-  if(!caseNo) return toast("⚠️ Case No. is required","error");
-  if(!place)  return toast("⚠️ Location is required","error");
+ const remark = window.remark || "IN";
+if(remark !== "OUT" && !place)
+  return toast("⚠️ Location is required","error");
   if(!user)   return toast("⚠️ Your name is required","error");
 
   const url=getScriptUrl();
