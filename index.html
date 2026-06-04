@@ -872,20 +872,56 @@ const params=new URLSearchParams({
   action
 });
 
-  try{
-    await fetch(url+"?"+params.toString(),{method:"GET",mode:"no-cors"});
-    btn.disabled=false; setRemark(remark);
-if(remark==="MOVE"){
-  toast("📍 Location Updated","success");
-}
-else{
-  toast("✅ "+caseNo+" logged "+remark,"success");
-}
-    addLog(data,false); resetForm();
-  }catch(err){
-    btn.disabled=false; setRemark(remark);
-    showBanner("❌ Network error: "+err.message,"err");
+try{
+
+  const response =
+    await fetch(url + "?" + params.toString());
+
+  const result =
+    await response.json();
+
+  btn.disabled = false;
+  setRemark(remark);
+
+  if(!result.success){
+
+    return toast(
+      result.message || "Operation failed",
+      "error"
+    );
+
   }
+
+  if(remark==="MOVE"){
+
+    toast(
+      "📍 Location Updated",
+      "success"
+    );
+
+  }else{
+
+    toast(
+      "✅ " + caseNo + " logged " + remark,
+      "success"
+    );
+
+  }
+
+  addLog(data,false);
+  resetForm();
+
+}
+catch(err){
+
+  btn.disabled = false;
+  setRemark(remark);
+
+  showBanner(
+    "❌ Network error: " + err.message,
+    "err"
+  );
+
 }
 
 function resetForm(){
