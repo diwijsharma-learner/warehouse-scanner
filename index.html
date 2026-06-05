@@ -333,17 +333,6 @@
         <input type="file" id="galleryInputCase" accept="image/*" onchange="onGalleryPick(event,'case')"/>
         <button class="gallery-field-btn" id="gb_case" onclick="document.getElementById('galleryInputCase').click()" title="Pick from gallery">🖼️</button>
       </div>
-      <div class="field-hint" id="h_case">📷 Scan QR (format: CASE-ITEM) to auto-fill both fields</div>
-    </div>
-
-    <!-- ITEM NO — read only, auto-filled from Case QR -->
-    <div class="field">
-      <label>🏷️ Item No. <span style="color:#8890a4;font-size:9px;margin-left:4px;">AUTO-FILLED FROM CASE QR</span></label>
-      <div class="input-row">
-        <input type="text" id="f_item" placeholder="Auto-filled when Case QR is scanned..." autocomplete="off" readonly
-          style="background:#161920;color:#8890a4;cursor:default;"/>
-      </div>
-      <div class="field-hint" id="h_item">Filled automatically · edit only if needed</div>
     </div>
 
     <!-- LOCATION -->
@@ -355,7 +344,6 @@
         <input type="file" id="galleryInputLoc" accept="image/*" onchange="onGalleryPick(event,'place')"/>
         <button class="gallery-field-btn" id="gb_place" onclick="document.getElementById('galleryInputLoc').click()" title="Pick from gallery">🖼️</button>
       </div>
-      <div class="field-hint" id="h_place">📷 Scan the shelf / rack QR label</div>
     </div>
 
     <!-- USER -->
@@ -563,25 +551,24 @@ function hideBanner(){ document.getElementById("alertBanner").className="alert-b
 // ─── QR VALUE ROUTING ─────────────────────────────────────
 // Case QR format: "CASE001-ITEM005" → split on first dash
 function fillCaseQR(text){
-  const dash = text.indexOf("-");
-  if(dash > 0){
-    const caseNo = text.substring(0, dash).trim();
-    const itemNo = text.substring(dash + 1).trim();
-    setField("f_case","h_case","cb_case","gb_case", caseNo, "✅ Case: "+caseNo);
-    // Fill item field (remove readonly first)
-    const itemEl = document.getElementById("f_item");
-    itemEl.removeAttribute("readonly");
-    itemEl.value = itemNo; itemEl.classList.add("filled");
-    const ih = document.getElementById("h_item");
-    if(ih){ ih.textContent="✅ Item: "+itemNo+" (auto-filled)"; ih.className="field-hint ok"; }
-    toast("✅ Case: "+caseNo+" · Item: "+itemNo, "success");
-  } else {
-    setField("f_case","h_case","cb_case","gb_case", text, "✅ Scanned: "+text);
-    toast("✅ Case scanned — Item No. not in QR, enter manually if needed","warning");
-  }
+
+  setField(
+    "f_case",
+    "h_case",
+    "cb_case",
+    "gb_case",
+    text,
+    "✅ Case: " + text
+  );
+
+  toast(
+    "✅ Case: " + text,
+    "success"
+  );
+
   updateSteps();
-  // Auto-open location scanner after short delay
-  setTimeout(()=> openScanner("place"), 400);
+
+  setTimeout(() => openScanner("place"), 400);
 }
 
 function fillLocationQR(text){
@@ -840,7 +827,7 @@ function loadZXingPromise(){
 let sessionLog=[];
 
 async function doSubmit(){
-  const caseNo=gv("f_case"), itemNo=gv("f_item"), place=gv("f_place"), user=gv("f_user");
+  const caseNo=gv("f_case"), place=gv("f_place"), user=gv("f_user");
   hideBanner();
  const remark = window.remark || "IN";
 if(remark !== "OUT" && !place)
@@ -854,7 +841,7 @@ if(remark !== "OUT" && !place)
   const btn=document.getElementById("submitBtn");
   btn.disabled=true; btn.innerHTML='<span class="spin"></span>Logging...';
 
-  const data={caseNo, itemNo:itemNo||caseNo, place, user, remark};
+  const data={caseNo, place, user, remark};
   let action = "logScan";
 
 if(remark==="MOVE"){
@@ -864,7 +851,6 @@ if(remark==="MOVE"){
 const params=new URLSearchParams({
   caseNo,
   caseId:caseNo,
-  itemNo:itemNo||caseNo,
   place,
   location:place,
   user,
@@ -927,9 +913,8 @@ catch(err){
 }
 
 function resetForm(){
-  ["f_case","f_item","f_place"].forEach(id=>{
+  ["f_case","f_place"].forEach(id=>{
     const el=document.getElementById(id); el.value=""; el.classList.remove("filled");
-    if(id==="f_item"){ el.setAttribute("readonly",""); el.style.background="#161920"; el.style.color="#8890a4"; }
   });
   [["h_case","📷 Scan QR (format: CASE-ITEM) to auto-fill both fields"],
    ["h_item","Filled automatically · edit only if needed"],
