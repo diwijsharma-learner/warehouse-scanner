@@ -49,25 +49,7 @@
     color:#8890a4;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.03em;}
   .tog.in-on{border-color:#00e676;background:rgba(0,230,118,.08);color:#00e676;}
   .tog.out-on{border-color:#ff5252;background:rgba(255,82,82,.08);color:#ff5252;}
-
-  /* HOW TO STEPS */
-  .how-to{background:#1a1d27;border:1px solid #2a2e3d;border-radius:14px;margin-bottom:14px;overflow:hidden;}
-  .how-to-title{padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8890a4;border-bottom:1px solid #2a2e3d;}
-  .how-to-steps{padding:10px 12px;display:flex;flex-direction:column;gap:6px;}
-  .how-step{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;border:1px solid transparent;transition:all .3s;}
-  .how-step.waiting{border-color:#2a2e3d;background:rgba(255,255,255,.02);}
-  .how-step.current{border-color:#6c63ff;background:rgba(108,99,255,.08);}
-  .how-step.done{border-color:rgba(0,230,118,.3);background:rgba(0,230,118,.05);}
-  .step-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;
-    font-size:14px;flex-shrink:0;background:#20242f;border:1px solid #2a2e3d;transition:all .3s;}
-  .how-step.current .step-icon{background:rgba(108,99,255,.15);border-color:#6c63ff;}
-  .how-step.done .step-icon{background:rgba(0,230,118,.12);border-color:rgba(0,230,118,.4);}
-  .step-body{flex:1;}
-  .step-label{font-size:12px;font-weight:700;color:#8890a4;transition:color .3s;}
-  .how-step.current .step-label{color:#e8eaf0;} .how-step.done .step-label{color:#00e676;}
-  .step-desc{font-size:10px;color:#8890a4;margin-top:1px;}
-  .step-arrow{font-size:10px;color:#8890a4;flex-shrink:0;}
-  .how-step.current .step-arrow{color:#6c63ff;} .how-step.done .step-arrow{color:#00e676;}
+  .tog.move-on{border-color:#ff9800;background:rgba(255,152,0,.12);color:#ff9800;}
 
   /* ALERT BANNER */
   .alert-banner{display:none;padding:11px 14px;border-radius:10px;margin-bottom:12px;font-size:12px;font-weight:600;line-height:1.4;}
@@ -281,59 +263,35 @@
 </div>
 
   <!-- HOW TO STEPS -->
-  <div class="how-to">
-    <div class="how-to-title">📋 HOW TO LOG AN ITEM</div>
-    <div class="how-to-steps">
-      <div class="how-step current" id="s1">
-        <div class="step-icon">📦</div>
-        <div class="step-body">
-          <div class="step-label">Step 1 — Scan Case QR</div>
-          <div class="step-desc">Tap 📷 next to Case No. · QR auto-fills both Case + Item</div>
-        </div>
-        <div class="step-arrow">▶</div>
-      </div>
-      <div class="how-step waiting" id="s2">
-        <div class="step-icon">📍</div>
-        <div class="step-body">
-          <div class="step-label">Step 2 — Scan Location QR</div>
-          <div class="step-desc">Tap 📷 next to Location · scan the shelf label</div>
-        </div>
-        <div class="step-arrow">▶</div>
-      </div>
-      <div class="how-step waiting" id="s3">
-        <div class="step-icon">👤</div>
-        <div class="step-body">
-          <div class="step-label">Step 3 — Enter Your Name</div>
-          <div class="step-desc">Remembered automatically next time</div>
-        </div>
-        <div class="step-arrow">▶</div>
-      </div>
-      <div class="how-step waiting" id="s4">
-        <div class="step-icon">✅</div>
-        <div class="step-body">
-          <div class="step-label">Step 4 — Tap LOG</div>
-          <div class="step-desc">Saves instantly to Google Sheet with timestamp</div>
-        </div>
-        <div class="step-arrow">✓</div>
-      </div>
-    </div>
-  </div>
-
   <div class="alert-banner" id="alertBanner"></div>
 
   <!-- FORM -->
   <div class="form-card">
 
-    <!-- CASE NO — scanning this fills both Case + Item automatically -->
-    <div class="field">
-      <label>📦 Case No. <span style="color:#6c63ff;font-size:9px;margin-left:4px;">ONE QR FILLS CASE + ITEM</span></label>
-      <div class="input-row">
-        <input type="text" id="f_case" placeholder="Tap 📷 to scan QR or type..." autocomplete="off"/>
-        <button class="scan-field-btn" id="cb_case" onclick="openScanner('case')" title="Scan Case QR">📷</button>
-        <input type="file" id="galleryInputCase" accept="image/*" onchange="onGalleryPick(event,'case')"/>
-        <button class="gallery-field-btn" id="gb_case" onclick="document.getElementById('galleryInputCase').click()" title="Pick from gallery">🖼️</button>
-      </div>
-    </div>
+    <!-- CASE NO — scanning this fills both Case + Item automatically --><div class="field">
+  <label>📦 Case No.</label>
+  <div class="input-row">
+    <input type="text"
+           id="f_case"
+           placeholder="Scan or enter Case ID..."
+           autocomplete="off"/>
+
+    <button class="scan-field-btn"
+            id="cb_case"
+            onclick="openScanner('case')"
+            title="Scan Case QR">📷</button>
+
+    <input type="file"
+           id="galleryInputCase"
+           accept="image/*"
+           onchange="onGalleryPick(event,'case')"/>
+
+    <button class="gallery-field-btn"
+            id="gb_case"
+            onclick="document.getElementById('galleryInputCase').click()"
+            title="Pick from gallery">🖼️</button>
+  </div>
+</div>
 
     <!-- LOCATION -->
     <div class="field" id="locationField">
@@ -460,9 +418,6 @@ window.onload = () => {
   document.getElementById("s_case").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); doSearch();}});
   document.getElementById("s_item").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); doSearch();}});
 
-  // Step tracking
-  ["f_case","f_place","f_user"].forEach(id =>
-    document.getElementById(id).addEventListener("input", updateSteps));
 };
 
 function tick(){ document.getElementById("hTime").textContent = new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"}); }
@@ -489,7 +444,7 @@ function setRemark(r){
     .className = "tog";
 
   document.getElementById("togMove")
-    .className = "tog";
+      .className = "tog move-on";
 
   document.getElementById("togOut")
     .className = "tog";
@@ -533,15 +488,6 @@ document.getElementById("f_place").value = "";
 }
 
 // ─── STEPS ────────────────────────────────────────────────
-function updateSteps(){
-  const c=gv("f_case"), p=gv("f_place"), u=gv("f_user");
-  ["s1","s2","s3","s4"].forEach(id=>setSC(id,"waiting"));
-  if(!c)       setSC("s1","current");
-  else if(!p){ setSC("s1","done"); setSC("s2","current"); }
-  else if(!u){ setSC("s1","done"); setSC("s2","done"); setSC("s3","current"); }
-  else       { setSC("s1","done"); setSC("s2","done"); setSC("s3","done"); setSC("s4","current"); }
-}
-function setSC(id,cls){ document.getElementById(id).className="how-step "+cls; }
 function gv(id){ return document.getElementById(id).value.trim(); }
 
 // ─── BANNER ───────────────────────────────────────────────
@@ -562,19 +508,16 @@ function fillCaseQR(text){
   );
 
   toast(
-    "✅ Case: " + text,
+    "✅ Case scanned. Now scan Location.",
     "success"
   );
 
-  updateSteps();
-
-  setTimeout(() => openScanner("place"), 400);
+  document.getElementById("f_place").focus();
 }
 
 function fillLocationQR(text){
   setField("f_place","h_place","cb_place","gb_place", text, "✅ Location: "+text);
   toast("✅ Location: "+text, "success");
-  updateSteps();
   document.getElementById("f_user").focus();
 }
 
@@ -923,7 +866,6 @@ function resetForm(){
   });
   ["cb_case","cb_place"].forEach(id=>{const b=document.getElementById(id);if(b){b.textContent="📷";b.classList.remove("done","scanning");}});
   ["gb_case","gb_place"].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.remove("done");});
-  updateSteps();
 }
 
 // ─── SEARCH ───────────────────────────────────────────────
@@ -1005,37 +947,48 @@ async function doSearch(){
     return;
   }
 
-  const r = res.results[0];
+stat.innerHTML =
+  `<span class="clr-in">
+    ${res.results.length} item(s) found
+  </span>`;
 
-  const isIn = r.status === "IN";
+det.innerHTML = res.results.map(r => `
 
-  stat.innerHTML = isIn
-    ? '<span class="clr-in">✅ Currently IN Warehouse</span>'
-    : '<span class="clr-out">🔴 Currently Checked OUT</span>';
+<div style="
+margin-bottom:12px;
+padding:12px;
+border:1px solid #2a2e3d;
+border-radius:10px;
+background:#20242f;
+">
 
-  det.innerHTML = `
-    <div class="r-row">
-      <div class="r-lbl">CASE ID</div>
-      <div class="r-val">${r.caseId || "-"}</div>
-    </div>
+<div class="r-row">
+<div class="r-lbl">CASE ID</div>
+<div class="r-val">${r.caseId || "-"}</div>
+</div>
 
-    <div class="r-row">
-      <div class="r-lbl">LOCATION</div>
-      <div class="r-val">${r.location || "-"}</div>
-    </div>
+<div class="r-row">
+<div class="r-lbl">STATUS</div>
+<div class="r-val">
+${r.status === "IN"
+  ? "✅ IN STOCK"
+  : "📤 CHECKED OUT"}
+</div>
+</div>
 
-    <hr class="r-divider">
+<div class="r-row">
+<div class="r-lbl">LOCATION</div>
+<div class="r-val">${r.location || "-"}</div>
+</div>
 
-    <div class="r-row">
-      <div class="r-lbl">DATE</div>
-      <div class="r-val">${r.dateIn || "-"}</div>
-    </div>
+<div class="r-row">
+<div class="r-lbl">USER</div>
+<div class="r-val">${r.userIn || "-"}</div>
+</div>
 
-    <div class="r-row">
-      <div class="r-lbl">USER</div>
-      <div class="r-val">${r.userIn || "-"}</div>
-    </div>
-  `;
+</div>
+
+`).join("");
 }
 
 // ─── LOG ──────────────────────────────────────────────────
