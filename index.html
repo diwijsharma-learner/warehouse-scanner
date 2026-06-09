@@ -90,6 +90,7 @@
     font-size:14px;font-weight:700;letter-spacing:.05em;cursor:pointer;transition:all .2s;}
   #submitBtn.in{background:linear-gradient(135deg,#00e676,#00c85a);color:#071a0e;}
   #submitBtn.out{background:linear-gradient(135deg,#ff5252,#e04040);color:#1a0505;}
+  #submitBtn.move{background:linear-gradient(135deg,#ff9800,#f57c00);color:#111;}
   #submitBtn:disabled{opacity:.5;cursor:not-allowed;} #submitBtn:active{transform:scale(.98);}
 
   /* SEARCH TAB */
@@ -464,10 +465,10 @@ function setRemark(r){
   else if(r==="MOVE"){
 
     document.getElementById("togMove")
-      .className = "tog in-on";
+      .className = "tog move-on";
   document.getElementById("locationField").style.display = "";
 
-    btn.className = "in";
+    btn.className = "move";
     btn.textContent =
       "🔄 UPDATE LOCATION";
 
