@@ -72,13 +72,19 @@
   .field-hint{font-size:10px;color:#8890a4;margin-top:4px;} .field-hint.ok{color:#00e676;}
 
   /* Scan / Gallery buttons beside field */
-  .scan-field-btn{width:48px;height:48px;flex-shrink:0;background:#20242f;border:1.5px solid #2a2e3d;
+  .scan-field-btn{
+  width:64px;
+  height:64px;
+  font-size:26px;flex-shrink:0;background:#20242f;border:1.5px solid #2a2e3d;
     border-radius:10px;color:#e8eaf0;font-size:20px;cursor:pointer;
     display:flex;align-items:center;justify-content:center;transition:all .2s;}
   .scan-field-btn:hover{border-color:#6c63ff;background:rgba(108,99,255,.1);}
   .scan-field-btn.scanning{border-color:#00e676;background:rgba(0,230,118,.1);animation:pulse 1.5s infinite;}
   .scan-field-btn.done{border-color:#00e676;background:rgba(0,230,118,.08);color:#00e676;}
-  .gallery-field-btn{width:48px;height:48px;flex-shrink:0;background:#20242f;border:1.5px solid #2a2e3d;
+  .gallery-field-btn{
+  width:64px;
+  height:64px;
+  font-size:24px;;flex-shrink:0;background:#20242f;border:1.5px solid #2a2e3d;
     border-radius:10px;color:#8890a4;font-size:18px;cursor:pointer;
     display:flex;align-items:center;justify-content:center;transition:all .2s;}
   .gallery-field-btn:hover{border-color:#6c63ff;color:#e8eaf0;}
@@ -326,10 +332,13 @@
       <button class="scan-field-btn" onclick="openScanner('search')" title="Scan to search" style="height:48px;">📷</button>
     </div>
     <div class="search-row" style="margin-bottom:8px;">
-      <input type="text" id="s_item" placeholder="Item No. (optional)" autocomplete="off"/>
-      <button class="search-go" onclick="doSearch()">FIND</button>
-    </div>
-    <div class="search-note">Enter Case No. only · OR Item No. only · OR both together to narrow search.</div>
+  <button class="search-go" onclick="doSearch()" style="width:100%;">
+    FIND
+  </button>
+</div>
+    <div class="search-note">
+  Enter full or partial Case ID to search.
+</div>
   </div>
   <div class="result-card" id="resultCard">
     <div class="result-status" id="resultStatus"></div>
@@ -407,17 +416,12 @@ window.onload = () => {
   document.getElementById("f_user").value = localStorage.getItem("kd_user") || "";
   if(getScriptUrl()) document.getElementById("configBanner").classList.remove("show");
 
-  // Make item field editable on click (it's readonly by default)
-  document.getElementById("f_item").addEventListener("focus", function(){ this.removeAttribute("readonly"); });
-
   // Enter key navigation
   document.getElementById("f_case").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); document.getElementById("f_place").focus();}});
-  document.getElementById("f_item").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); document.getElementById("f_place").focus();}});
   document.getElementById("f_place").addEventListener("keydown", e=>{ if(e.key==="Enter"){e.preventDefault(); document.getElementById("f_user").focus();}});
   document.getElementById("f_user").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); doSubmit();}});
   document.getElementById("manualInput").addEventListener("keydown", e=>{ if(e.key==="Enter"){e.preventDefault(); useManual();}});
   document.getElementById("s_case").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); doSearch();}});
-  document.getElementById("s_item").addEventListener("keydown",  e=>{ if(e.key==="Enter"){e.preventDefault(); doSearch();}});
 
 };
 
@@ -462,17 +466,16 @@ function setRemark(r){
 
   }
 
-  else if(r==="MOVE"){
+else if(r==="MOVE"){
 
-    document.getElementById("togMove")
-      .className = "tog move-on";
+  document.getElementById("togMove")
+    .className = "tog move-on";
+
   document.getElementById("locationField").style.display = "";
 
-    btn.className = "move";
-    btn.textContent =
-      "🔄 UPDATE LOCATION";
-
-  }
+  btn.className = "move";
+  btn.textContent = "🔄 UPDATE LOCATION";
+}
 
   else{
 
@@ -875,8 +878,7 @@ async function doSearch(){
   const caseNo =
     document.getElementById("s_case").value.trim();
 
-  const itemNo =
-    document.getElementById("s_item").value.trim();
+  const itemNo = "";
 
   if(!caseNo && !itemNo){
     return toast("⚠️ Enter Case ID to search","error");
