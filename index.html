@@ -843,6 +843,7 @@ try{
 
   addLog(data,false);
   resetForm();
+ await loadStats();
 
 }
 catch(err){
@@ -999,11 +1000,6 @@ function addLog(data,isAlert){
   sessionLog.unshift({...data, time:new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}), isAlert});
   if(sessionLog.length>30)sessionLog.pop();
   renderLog();
-  const i=sessionLog.filter(r=>r.remark==="IN"&&!r.isAlert).length;
-  const o=sessionLog.filter(r=>r.remark==="OUT"&&!r.isAlert).length;
-  document.getElementById("statIn").textContent=i;
-  document.getElementById("statOut").textContent=o;
-  document.getElementById("statNet").textContent=i-o;
 }
 
 function renderLog(){
