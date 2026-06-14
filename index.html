@@ -376,7 +376,7 @@
       <input type="text" id="manualInput" placeholder="Or type code manually..."/>
       <button class="scan-manual-btn" onclick="useManual()">USE</button>
     </div>
-    <div class="scan-tip"><strong>Tips:</strong> Hold 10–20 cm from QR · Full QR inside the box · Good lighting</div>
+    <div class="scan-tip"><strong>Tips:</strong> Works with QR codes AND barcodes · Hold 10–20 cm away · Full code inside the box · Good lighting</div>
   </div>
 </div>
 
@@ -384,7 +384,7 @@
 <div class="gallery-overlay" id="galleryOverlay">
   <div class="gallery-box">
     <div class="gallery-hdr">
-      <div><div class="t1">🖼️ GALLERY SCAN</div><div class="t2" id="galleryLabel">Scanning image for QR...</div></div>
+      <div><div class="t1">🖼️ GALLERY SCAN</div><div class="t2" id="galleryLabel">Scanning image for QR or barcode...</div></div>
       <button class="gallery-close" onclick="closeGallery()">✕</button>
     </div>
     <div class="gallery-img-wrap">
@@ -549,9 +549,9 @@ let scanning=false, decodeInterval=null, useFrontCam=false;
 let lastScan="", lastScanTime=0;
 
 const SCAN_LABELS = {
-  case:   "📦 Scanning: Case QR (CASE-ITEM format)",
-  place:  "📍 Scanning: Location / Shelf QR",
-  search: "🔍 Scan QR to search"
+  case:   "📦 Scanning: Case QR or Barcode",
+  place:  "📍 Scanning: Location QR or Barcode",
+  search: "🔍 Scan QR or Barcode to search"
 };
 
 function setStatus(msg,state){
@@ -602,14 +602,42 @@ function stopCamera(){
   document.getElementById("torchBtn").style.display="none";
 }
 
-function startDecoding(video){
+async function startDecoding(video){
   if("BarcodeDetector" in window){
-    const det=new BarcodeDetector({formats:["qr_code"]});
-    decodeInterval=setInterval(async()=>{
-      if(!scanning||video.readyState<2)return;
-      try{ const r=await det.detect(video); if(r.length>0) onCodeDetected(r[0].rawValue); }catch(e){}
-    },150);
-  } else { loadZXing(video); }
+    try{
+      // Ask the browser FIRST which formats it actually supports
+      const supported = await BarcodeDetector.getSupportedFormats();
+
+      // Only keep formats the browser confirmed — never pass unsupported ones
+      const wishlist = [
+        "qr_code",
+        "code_128","code_39","code_93",
+        "ean_13","ean_8","upc_a","upc_e",
+        "itf","codabar","data_matrix","aztec","pdf417"
+      ];
+      const formats = wishlist.filter(f => supported.includes(f));
+
+      // Nothing matched — this browser can't do it, fall back to ZXing
+      if(formats.length === 0){ loadZXing(video); return; }
+
+      // Safe to construct — only confirmed formats used
+      const det = new BarcodeDetector({ formats });
+
+      decodeInterval = setInterval(async()=>{
+        if(!scanning || video.readyState < 2) return;
+        try{
+          const r = await det.detect(video);
+          if(r.length > 0) onCodeDetected(r[0].rawValue);
+        }catch(e){} // single frame error — safe to ignore
+      }, 150);
+
+    }catch(e){
+      // getSupportedFormats() itself failed — fall back gracefully
+      loadZXing(video);
+    }
+  } else {
+    loadZXing(video);
+  }
 }
 
 function loadZXing(video){
@@ -629,9 +657,10 @@ function loadZXing(video){
 }
 
 function startZXing(video){
-  setStatus("🔍 Point at QR code","s");
+  setStatus("🔍 Point at QR or barcode","s");
   try{
-    const reader=new ZXingBrowser.BrowserQRCodeReader();
+    // BrowserMultiFormatReader handles both QR codes and all barcode formats
+    const reader=new ZXingBrowser.BrowserMultiFormatReader();
     decodeInterval=setInterval(()=>{
       if(!scanning)return;
       reader.decodeFromVideoElement(video).then(r=>{if(r&&scanning)onCodeDetected(r.getText());}).catch(()=>{});
@@ -685,7 +714,7 @@ function onGalleryPick(event,target){
   event.target.value=""; galleryTarget=target;
   document.getElementById("galleryLabel").textContent =
     target==="case" ? "📦 Scanning Case QR from image..." : "📍 Scanning Location QR from image...";
-  setGalStatus("🔍 Scanning image for QR code...","s");
+  setGalStatus("🔍 Scanning image for QR or barcode...","s");
   document.getElementById("galScanOverlay").classList.add("show");
   document.getElementById("galleryOverlay").classList.add("open");
   const reader=new FileReader();
@@ -713,28 +742,40 @@ async function scanGalleryImage(canvas,origImg){
   let found=false;
   if("BarcodeDetector" in window){
     try{
-      const det=new BarcodeDetector({formats:["qr_code"]});
-      const results=await det.detect(origImg);
-      if(results.length>0){
-        found=true;
-        drawBoxes(canvas,results,origImg);
-        document.getElementById("galScanOverlay").classList.remove("show");
-        handleGalleryResult(results[0].rawValue); return;
+      // Same safe pattern — check what the browser supports before constructing
+      const supported = await BarcodeDetector.getSupportedFormats();
+      const wishlist = [
+        "qr_code",
+        "code_128","code_39","code_93",
+        "ean_13","ean_8","upc_a","upc_e",
+        "itf","codabar","data_matrix","aztec","pdf417"
+      ];
+      const formats = wishlist.filter(f => supported.includes(f));
+      if(formats.length > 0){
+        const det = new BarcodeDetector({ formats });
+        const results = await det.detect(origImg);
+        if(results.length > 0){
+          found=true;
+          drawBoxes(canvas,results,origImg);
+          document.getElementById("galScanOverlay").classList.remove("show");
+          handleGalleryResult(results[0].rawValue); return;
+        }
       }
-    }catch(e){}
+    }catch(e){} // detector failed — fall through to ZXing
   }
   if(!found){
     if(!window._zxReady){setGalStatus("🔄 Loading library...","s"); await loadZXingPromise();}
     try{
-      const reader=new ZXingBrowser.BrowserQRCodeReader();
+      // MultiFormat handles both QR and barcodes
+      const reader=new ZXingBrowser.BrowserMultiFormatReader();
       const result=await reader.decodeFromImageUrl(canvas.toDataURL("image/png"));
       if(result){ found=true; document.getElementById("galScanOverlay").classList.remove("show"); handleGalleryResult(result.getText()); return; }
     }catch(e){}
   }
   if(!found){
     document.getElementById("galScanOverlay").classList.remove("show");
-    setGalStatus("❌ No QR code found. Try a clearer photo with the full QR visible.","er");
-    toast("❌ No QR code found in image","error");
+    setGalStatus("❌ No QR or barcode found. Try a clearer photo.","er");
+    toast("❌ No QR or barcode found in image","error");
   }
 }
 
