@@ -636,13 +636,14 @@ if(tr){
 
     document.getElementById("zoomWrap")
       .style.display = "block";
-
+}
   }
 
-}
-    setStatus("🔍 Point at QR code","s");
-    scanning=true; startDecoding(video);
-  } catch(err){
+  setStatus("🔍 Point at QR code","s");
+  scanning=true;
+  startDecoding(video);
+
+}catch(err){
     if(err.name==="NotAllowedError") setStatus("❌ Camera denied. Tap 🔒 in address bar → Allow Camera","er");
     else if(err.name==="NotFoundError") setStatus("❌ No camera found","er");
     else setStatus("❌ "+err.name+": "+err.message,"er");
