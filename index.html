@@ -372,6 +372,31 @@
       <button class="scc" id="torchBtn" onclick="toggleTorch()">🔦 Torch</button>
       <button class="scc" onclick="closeScanner()" style="color:#ff5252;">⏹ Close</button>
     </div>
+   <div style="padding:10px 12px;border-top:1px solid #2a2e3d;">
+
+  <div id="zoomWrap" style="display:none;">
+    <label style="
+    display:block;
+    margin-bottom:6px;
+    font-size:12px;
+    color:#8890a4;
+  ">
+    🔍 Zoom:
+    <span id="zoomValue">1x</span>
+  </label>
+
+  <input
+    type="range"
+    id="zoomSlider"
+    min="1"
+    max="5"
+    step="0.1"
+    value="1"
+    style="width:100%;"
+    oninput="setZoom(this.value)"
+  />
+
+</div>
     <div class="scan-manual">
       <input type="text" id="manualInput" placeholder="Or type code manually..."/>
       <button class="scan-manual-btn" onclick="useManual()">USE</button>
@@ -579,10 +604,42 @@ async function startCamera(){
     });
     video.srcObject=videoStream; await video.play();
     if(!useFrontCam){
-      const tr=videoStream.getVideoTracks()[0];
-      if(tr){ torchTrack=tr; const c=tr.getCapabilities?tr.getCapabilities():{};
-        if(c.torch) document.getElementById("torchBtn").style.display=""; }
-    }
+const tr=videoStream.getVideoTracks()[0];
+
+if(tr){
+
+  torchTrack = tr;
+
+  const c = tr.getCapabilities
+    ? tr.getCapabilities()
+    : {};
+
+  if(c.torch)
+    document.getElementById("torchBtn").style.display="";
+
+  if(c.zoom){
+
+    const slider =
+      document.getElementById("zoomSlider");
+
+    slider.min =
+      c.zoom.min;
+
+    slider.max =
+      c.zoom.max;
+
+    slider.step =
+      c.zoom.step || 0.1;
+
+    slider.value =
+      c.zoom.min;
+
+    document.getElementById("zoomWrap")
+      .style.display = "block";
+
+  }
+
+}
     setStatus("🔍 Point at QR code","s");
     scanning=true; startDecoding(video);
   } catch(err){
@@ -600,6 +657,15 @@ function stopCamera(){
   torchTrack=null; torchOn=false;
   document.getElementById("torchBtn").className="scc";
   document.getElementById("torchBtn").style.display="none";
+ document.getElementById("zoomWrap").style.display="none";
+
+const zoomSlider =
+  document.getElementById("zoomSlider");
+
+if(zoomSlider)
+  zoomSlider.value = 1;
+
+document.getElementById("zoomValue").textContent = "1x";
 }
 
 async function startDecoding(video){
@@ -692,6 +758,23 @@ async function toggleTorch(){
     document.getElementById("torchBtn").className="scc"+(torchOn?" on":""); }catch(e){}
 }
 
+ async function setZoom(value){
+  try{
+    if(!torchTrack) return;
+
+    await torchTrack.applyConstraints({
+      advanced:[{
+        zoom: Number(value)
+      }]
+    });
+
+    document.getElementById("zoomValue").textContent =
+      Math.round(value * 10) / 10 + "x";
+
+  }catch(err){
+    console.log("Zoom not supported", err);
+  }
+}
 function useManual(){
   const text=document.getElementById("manualInput").value.trim();
   if(!text){toast("⚠️ Please type a code first","error");return;}
