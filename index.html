@@ -634,12 +634,15 @@ if(tr){
     slider.value =
       c.zoom.min;
 
-    document.getElementById("zoomWrap")
-      .style.display = "block";
-}
-  }
+      document.getElementById("zoomWrap")
+        .style.display = "block";
+    }   // closes if(c.zoom)
 
-  setStatus("🔍 Point at QR code","s");
+  }     // closes if(tr)
+
+}       // closes if(!useFrontCam)
+
+setStatus("🔍 Point at QR code","s");
   scanning=true;
   startDecoding(video);
 
